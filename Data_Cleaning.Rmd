@@ -1,0 +1,24 @@
+---
+title: "DataCleaning1"
+output: html_document
+date: "2025-12-03"
+---
+## Basic setups
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+library(dplyr)
+library(tidyverse)
+library(foreign)
+library(lavaan)
+library(lme4)
+library("dagitty")
+library("semPower")
+library("semPlot")
+```
+
+## Reading file
+```{r}
+EMA_excluded <- read_csv("DEETs_2_EMA_excluded.csv")
+```
+
