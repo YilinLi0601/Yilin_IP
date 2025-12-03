@@ -22,3 +22,8 @@ library("semPlot")
 EMA_excluded <- read_csv("DEETs_2_EMA_excluded.csv")
 ```
 
+```{r}
+EMA_select <- EMA_excluded %>%
+  select(Survey.Submitted.Time, Survey.Submitted.Date, current_affect, thought_time, thought_time_text, passiveideation1, passiveideation2, sui_imagery, wish_to_die, activeideation2, temporal_specificity, stressor, stressor_time, stressor_impact, posevent, posevent_time, posevent_impact, ID, Group)
+```
+
