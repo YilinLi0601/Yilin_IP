@@ -187,6 +187,13 @@ EMA_SIonly %>%
 EMA_SIonly %>%
   group_by(post_pos_affect) %>%
   count()
+#Count sample sizes for each aim
+EMA_SIonly %>%
+  group_by(post_stress_affect) %>%
+  summarise(n = n_distinct(ID)) #Aim1 n = 56
+EMA_SIonly %>%
+  group_by(post_pos_affect) %>%
+  summarise(n = n_distinct(ID)) #Aim2 n = 57
 ```
 
 ## Making a new tibble for all the variables to be used in analysis
