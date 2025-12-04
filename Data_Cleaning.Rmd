@@ -15,6 +15,8 @@ library(lme4)
 library("dagitty")
 library("semPower")
 library("semPlot")
+library(lubridate)
+library(hms)
 ```
 
 ## Reading file
@@ -75,19 +77,19 @@ EMA_SIonly <- EMA_SIonly %>%
     passiveSI = case_when(
       passiveideation1 > 1 | passiveideation2 > 1 ~ 1L,
       passiveideation1 == 1 & passiveideation2 == 1 ~ 0L
-    ),
+    ),                         #passiveSI dichotomised
     activeSI = case_when(
       activeideation2 > 1 | wish_to_die > 1 ~ 1L,
       activeideation2 == 1 & wish_to_die == 1 ~ 0L
-    ),
+    ),                         #activeSI dichotomised
     SMI = case_when(
       sui_imagery %in% c("Yes") ~ 1L,
       sui_imagery %in% c("No") ~ 0L
-    ),
+    ),                        #mental imagery dichotomised
     SI_any = case_when(
       SI_endorse == TRUE ~ 1L,
       SI_endorse == FALSE ~ 0L
-    )
+    )#this is for Aim 1 and 2
   )
 ```
 
@@ -99,23 +101,99 @@ EMA_SIonly <- EMA_SIonly %>%
     stress_any = case_when(
       stressor == "no stressful event" ~ 0L,
       !is.na(stressor) ~ 1L
-    ),
+    ),          #Stress occurence
     stress_int = case_when(
       stressor == "no stressful event" ~ 0L,
       !is.na(stressor_impact) & stressor_impact <= 4 ~ 1L,
       !is.na(stressor_impact) & stressor_impact > 4 ~ 2L
-    )
+    )         #Separately coded as low and high impact
   ) %>%
   mutate(
     pos_any = case_when(
       posevent == "no positive event" ~ 0L,
       !is.na(posevent) ~ 1L
-    ),
+    ),        #Positive occurence
     pos_int = case_when(
       posevent == "no positive event" ~ 0L,
       !is.na(posevent_impact) & posevent_impact <= 4 ~ 1L,
       !is.na(posevent_impact) & posevent_impact > 4 ~ 2L
-    )
+    )         #Coded as low and high impact
   )
+```
+
+## Coding post-event affect base on the timestamps
+```{r}
+#Extract timestamps that were available for events
+EMA_SIonly <- EMA_SIonly %>%
+  mutate(
+    survey_date = dmy(Survey.Submitted.Date),
+    survey_dtime = as_datetime(survey_date) + as_hms(Survey.Submitted.Time)
+  ) %>%        #Coding date and time together.
+  mutate(
+    stressor_stamp = if_else(
+      !is.na(stressor_time),
+      as_datetime(survey_date) + as_hms(stressor_time),
+      as_datetime(NA_real_)
+    ),        #Coding time stamps for stressful events
+    pos_stamp = if_else(
+      !is.na(posevent_time),
+      as_datetime(survey_date) + as_hms(posevent_time),
+      as_datetime(NA_real_)
+    )        #Coding time stamps for positive events
+  )
+
+#Now pulling out the timestamp for affect. Note: exact timestamp was only triggered when the response is "more than 60min ago", meaning that we need to extract the affect time using the approximate time lagged selected by participant.
+EMA_SIonly <- EMA_SIonly %>%
+  mutate(
+    affect_lag = case_when(
+      thought_time == "0-15 min ago" ~ 15,
+      thought_time == "15-30 min ago" ~ 30,
+      thought_time == "30-45 min ago" ~ 45,
+      thought_time == "45 min-1 hour ago" ~ 60,
+      thought_time == "More than 1 hour ago" ~ 90
+    ),          #coding the lagged time selected by ppts
+    affect_time_bin = if_else(
+      !is.na(affect_lag),
+      survey_dtime - dminutes(affect_lag),
+      as_datetime(NA_real_)
+    ),         #coding the default bin where the affect time would come from.
+    affect_time_exact = if_else(
+      !is.na(thought_time_text),
+      as_datetime(survey_date) + as_hms(thought_time_text),
+      as_datetime(NA_real_)
+    ),        #extracting the exact timestamps noted when ppts selected "more than 1h ago".
+    affect_time = coalesce(affect_time_exact, affect_time_bin
+  ))         #timestamp would come from the bin if there isn't an exact timestamp in the first place.
+
+#Marking post-event affects for different event types.
+EMA_SIonly <- EMA_SIonly %>%
+  mutate(
+    post_stress_affect = case_when(
+      is.na(stressor_stamp) | is.na(affect_time) ~ NA_integer_,
+      affect_time > stressor_stamp ~ 1L,
+      affect_time <= stressor_stamp ~ 0L
+    ),        #Marked post- stressful event affect as 1
+    post_pos_affect = case_when(
+      is.na(pos_stamp) | is.na(affect_time) ~ NA_integer_,
+      affect_time > pos_stamp ~ 1L,
+      affect_time <= pos_stamp ~ 0L
+    )        #Marked post- positive event affect as 1
+  )
+#Count exact scenarios for stressful event-related affect.
+EMA_SIonly %>%
+  group_by(post_stress_affect) %>%
+  count()
+#Count exact scenarios for positive event-related affect.
+EMA_SIonly %>%
+  group_by(post_pos_affect) %>%
+  count()
+```
+
+## Making a new tibble for all the variables to be used in analysis
+```{r}
+glimpse(EMA_SIonly)
+
+EMA_final <- EMA_SIonly %>%
+  select(ID, Group, survey_dtime, current_affect, passiveSI, activeSI, SMI, SI_any, stress_any, stress_int, pos_any, pos_int, stressor_stamp, pos_stamp, affect_time_exact, post_stress_affect, post_pos_affect)
 ```
 
