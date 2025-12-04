@@ -27,7 +27,7 @@ EMA_select <- EMA_excluded %>%
   select(Survey.Submitted.Time, Survey.Submitted.Date, current_affect, thought_time, thought_time_text, passiveideation1, passiveideation2, sui_imagery, wish_to_die, activeideation2, stressor, stressor_time, stressor_impact, posevent, posevent_time, posevent_impact, ID, Group)
 glimpse(EMA_select)
 ```
-
+## Filtering ppts who endorsed SI throughout EMA
 ```{r}
 #Marking ppts who ever endorsed SI
 EMA_SI <- EMA_select %>%
@@ -65,5 +65,57 @@ Membership <- EMA_SIonly %>%
   summarise(n = n_distinct(ID)) %>%
   pull(n)
 
+```
+
+## Dichotomising SI items for analysis.
+```{r}
+# Mutating passive, active and SMI into new variables for model.
+EMA_SIonly <- EMA_SIonly %>%
+  mutate(
+    passiveSI = case_when(
+      passiveideation1 > 1 | passiveideation2 > 1 ~ 1L,
+      passiveideation1 == 1 & passiveideation2 == 1 ~ 0L
+    ),
+    activeSI = case_when(
+      activeideation2 > 1 | wish_to_die > 1 ~ 1L,
+      activeideation2 == 1 & wish_to_die == 1 ~ 0L
+    ),
+    SMI = case_when(
+      sui_imagery %in% c("Yes") ~ 1L,
+      sui_imagery %in% c("No") ~ 0L
+    ),
+    SI_any = case_when(
+      SI_endorse == TRUE ~ 1L,
+      SI_endorse == FALSE ~ 0L
+    )
+  )
+```
+
+## Coding events into new variables for analysis.
+```{r}
+# Coding the events, first into occurence (1=yes, 0=no), then into impact (0=no, 1=low impact, 2=high impact).
+EMA_SIonly <- EMA_SIonly %>%
+  mutate(
+    stress_any = case_when(
+      stressor == "no stressful event" ~ 0L,
+      !is.na(stressor) ~ 1L
+    ),
+    stress_int = case_when(
+      stressor == "no stressful event" ~ 0L,
+      !is.na(stressor_impact) & stressor_impact <= 4 ~ 1L,
+      !is.na(stressor_impact) & stressor_impact > 4 ~ 2L
+    )
+  ) %>%
+  mutate(
+    pos_any = case_when(
+      posevent == "no positive event" ~ 0L,
+      !is.na(posevent) ~ 1L
+    ),
+    pos_int = case_when(
+      posevent == "no positive event" ~ 0L,
+      !is.na(posevent_impact) & posevent_impact <= 4 ~ 1L,
+      !is.na(posevent_impact) & posevent_impact > 4 ~ 2L
+    )
+  )
 ```
 
