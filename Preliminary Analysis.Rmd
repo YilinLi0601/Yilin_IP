@@ -1,0 +1,23 @@
+---
+title: "Preliminary Analysis"
+output: html_document
+date: "2025-12-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+library(dplyr)
+library(tidyverse)
+library(foreign)
+library(lavaan)
+library(lme4)
+library("dagitty")
+library("semPower")
+library("semPlot")
+library(lubridate)
+library(hms)
+
+```
+
+
