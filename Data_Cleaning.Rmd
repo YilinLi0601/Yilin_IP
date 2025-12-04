@@ -25,5 +25,45 @@ EMA_excluded <- read_csv("DEETs_2_EMA_excluded.csv")
 ```{r}
 EMA_select <- EMA_excluded %>%
   select(Survey.Submitted.Time, Survey.Submitted.Date, current_affect, thought_time, thought_time_text, passiveideation1, passiveideation2, sui_imagery, wish_to_die, activeideation2, stressor, stressor_time, stressor_impact, posevent, posevent_time, posevent_impact, ID, Group)
+glimpse(EMA_select)
+```
+
+```{r}
+#Marking ppts who ever endorsed SI
+EMA_SI <- EMA_select %>%
+  mutate(
+    SI_endorse = 
+      (passiveideation1 > 1) |
+      (passiveideation2 > 1) |
+      (wish_to_die > 1) |
+      (activeideation2 > 1) |
+      (sui_imagery %in% c("Yes"))
+  )
+#Breakdown & descriptives of participants who endorsed SI
+ID_SI <- EMA_SI %>%
+  group_by(ID) %>%
+  summarise(
+    any_SI = any(SI_endorse, na.rm = TRUE),
+    N_SI = sum(SI_endorse, na.rm = TRUE),
+    SI_proportion = mean(SI_endorse, na.rm = TRUE),
+    N_promt = n()
+  )
+#ID of ppts who endorsed SI
+SI_ppt <- ID_SI %>%
+  filter(any_SI) %>%
+  pull(ID)
+#Filtering out ppts who didn't endorse SI during EMA
+EMA_SIonly <- EMA_SI %>%
+  filter(ID %in% SI_ppt)
+#Counting final sample size
+N <- EMA_SIonly %>%
+  summarise(n = n_distinct(ID)) %>%
+  pull(n)
+#Breakdown of group membership
+Membership <- EMA_SIonly %>%
+  group_by(Group) %>%
+  summarise(n = n_distinct(ID)) %>%
+  pull(n)
+
 ```
 
