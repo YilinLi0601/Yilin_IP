@@ -18,22 +18,21 @@ library("semPower")
 library("semPlot")
 library(lubridate)
 library(hms)
+EMA_final <- readRDS("EMA_final.rds")
 glimpse(EMA_final)
 ```
 
 ## Sample size and specific sample sizes.
 ```{r}
 #Counting final sample size
-N <- EMA_final %>%
-  summarise(n = n_distinct(ID)) %>%
-  pull(n)
+EMA_final %>%
+  summarise(n = n_distinct(ID)) 
 #Breakdown of group membership
-Membership <- EMA_final %>%
+EMA_final %>%
   group_by(Group) %>%
-  summarise(n = n_distinct(ID)) %>%
-  pull(n)
+  summarise(n = n_distinct(ID))
 #Prompts completed by each ppt
-prompts_ppt <- EMA_final %>%
+EMA_final %>%
   group_by(ID) %>%
   summarise(n_prompts = n()) %>%
   ungroup()
@@ -63,5 +62,44 @@ EMA_final %>%
     prop_posint1 = mean(pos_int == 1, na.rm = TRUE),
     prop_posint2 = mean(pos_int == 2, na.rm = TRUE)
   )
+```
+
+## Descriptives of affect
+```{r}
+#glimpse at affect
+summary(EMA_final$current_affect)
+#affect breakdown by SI
+EMA_final %>%
+  group_by(SI_any) %>%
+  summarise(
+    mean_affect = mean(current_affect, na.rm = TRUE),
+    sd_affect = sd(current_affect, na.rm = TRUE)
+  )
+#Okay, ppts had a general negative mood when SI
+#Affects in stress - negative event-related affect
+EMA_final %>%
+  group_by(stress_int) %>%
+  summarise(
+    nNA = n(),
+    mean_NA = mean(current_affect, na.rm = TRUE),
+    sd_NA = sd(current_affect, na.rm = TRUE)
+  ) %>%
+  ungroup()
+#Affect in pleasantness - positive event-related affect
+EMA_final %>%
+  group_by(pos_int) %>%
+  summarise(
+    nPA = n(),
+    mean_PA = mean(current_affect, na.rm = TRUE),
+    sd_PA = sd(current_affect, na.rm = TRUE)
+  ) %>%
+  ungroup()
+#Hmmm...even though we have collinearity, but ppts still seem more happy in positive events and less happy in negative events.
+```
+
+```{r}
+
+sapply(EMA_final, function(x) mean(is.na(x)))
+
 ```
 
