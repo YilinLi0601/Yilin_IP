@@ -57,15 +57,7 @@ SI_ppt <- ID_SI %>%
 #Filtering out ppts who didn't endorse SI during EMA
 EMA_SIonly <- EMA_SI %>%
   filter(ID %in% SI_ppt)
-#Counting final sample size
-N <- EMA_SIonly %>%
-  summarise(n = n_distinct(ID)) %>%
-  pull(n)
-#Breakdown of group membership
-Membership <- EMA_SIonly %>%
-  group_by(Group) %>%
-  summarise(n = n_distinct(ID)) %>%
-  pull(n)
+
 
 ```
 
