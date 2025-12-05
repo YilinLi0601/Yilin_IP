@@ -193,6 +193,7 @@ EMA_SIonly %>%
 glimpse(EMA_SIonly)
 
 EMA_final <- EMA_SIonly %>%
-  select(ID, Group, survey_dtime, current_affect, passiveSI, activeSI, SMI, SI_any, stress_any, stress_int, pos_any, pos_int, stressor_stamp, pos_stamp, affect_time_exact, post_stress_affect, post_pos_affect)
+  select(ID, Group, survey_dtime, current_affect, passiveSI, activeSI, SMI, SI_any, stress_any, stress_int, pos_any, pos_int, stressor_stamp, pos_stamp, post_stress_affect, post_pos_affect)
+saveRDS(EMA_final, "EMA_final.rds")
 ```
 
