@@ -3,10 +3,11 @@ title: "Preliminary Analysis"
 output: html_document
 date: "2025-12-04"
 ---
-
+##Setups
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
+library(ggplot2)
 library(dplyr)
 library(tidyverse)
 library(foreign)
@@ -17,7 +18,50 @@ library("semPower")
 library("semPlot")
 library(lubridate)
 library(hms)
-
+glimpse(EMA_final)
 ```
 
+## Sample size and specific sample sizes.
+```{r}
+#Counting final sample size
+N <- EMA_final %>%
+  summarise(n = n_distinct(ID)) %>%
+  pull(n)
+#Breakdown of group membership
+Membership <- EMA_final %>%
+  group_by(Group) %>%
+  summarise(n = n_distinct(ID)) %>%
+  pull(n)
+#Prompts completed by each ppt
+prompts_ppt <- EMA_final %>%
+  group_by(ID) %>%
+  summarise(n_prompts = n()) %>%
+  ungroup()
+```
+
+## Descriptives of SI
+```{r}
+#Proportion of prompts containing each type of SI
+EMA_final %>%
+  summarise(
+    prop_any = mean(SI_any == 1, na.rm = TRUE),
+    prop_pass = mean(passiveSI == 1, na.rm = TRUE),
+    prop_act = mean(activeSI == 1, na.rm = TRUE),
+    prop_SMI = mean(SMI == 1, na.rm = TRUE)
+  )
+```
+
+## Descriptives of events
+```{r}
+#Proportion of prompts containing events
+EMA_final %>%
+  summarise(
+    prop_stress = mean(stress_any == 1, na.rm = TRUE),
+    prop_stressint1 = mean(stress_int == 1, na.rm = TRUE),
+    prop_stressint2 = mean(stress_int == 2, na.rm = TRUE),
+    prop_pos = mean(pos_any == 1, na.rm = TRUE),
+    prop_posint1 = mean(pos_int == 1, na.rm = TRUE),
+    prop_posint2 = mean(pos_int == 2, na.rm = TRUE)
+  )
+```
 
