@@ -96,10 +96,52 @@ EMA_final %>%
   ungroup()
 #Hmmm...even though we have collinearity, but ppts still seem more happy in positive events and less happy in negative events.
 ```
-
+##Check missingness
 ```{r}
 
 sapply(EMA_final, function(x) mean(is.na(x)))
 
+```
+
+##Computing the (T-1) variables, disabling overnight lag.
+```{r}
+#Mark every first prompt of a day
+EMA_mplus <- EMA_final %>%
+  arrange(ID, survey_dtime) %>%
+  group_by(ID) %>%
+  mutate(
+    day = as.Date(survey_dtime),
+    new_d = is.na(lag(day)) | day != lag(day)
+  )
+#Create a new variable for affect(T-1) and SI(T-1), which will be input into Mplus as predictors. Disabling every first prompt of the day shall avoid overnight lag.
+EMA_mplus <- EMA_mplus %>%
+  mutate(
+    affect_T_1 = if_else(new_d, NA_real_, lag(current_affect)),
+    SI_T_1 = if_else(new_d, NA_real_, lag(SI_any))
+  )
+```
+
+##Computing post-event affect(T).
+```{r}
+#Filtering out post-event affect. These will be outcome variables for each event type.
+EMA_mplus <- EMA_mplus %>%
+  mutate(
+    affect_post_stress = if_else(post_stress_affect == 1L,
+                                 current_affect,
+                                 NA_real_),
+    affect_post_pos = if_else(post_pos_affect == 1L,
+                              current_affect,
+                              NA_real_)
+  )
+glimpse(EMA_mplus)
+
+```
+
+##Making a tibble ready to be put into Mplus for analysis of Aim 1 and 2.
+```{r}
+#Selecting variables I want to carry.
+EMA_mplus_aim12 <- EMA_mplus %>%
+  ungroup() %>%
+  select(ID, Group, survey_dtime, current_affect, passiveSI, activeSI, SMI, SI_any, stress_int, pos_any, stress_int, pos_int, affect_T_1, SI_T_1, affect_post_stress, affect_post_pos)
 ```
 
