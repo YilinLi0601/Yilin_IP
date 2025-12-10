@@ -62,6 +62,25 @@ EMA_final %>%
     prop_posint1 = mean(pos_int == 1, na.rm = TRUE),
     prop_posint2 = mean(pos_int == 2, na.rm = TRUE)
   )
+#Measuring collinearity of stress and positivity
+#First making a table with the two events
+tab_events <- with(EMA_final, table(stress_any, pos_any))
+tab_events
+prop.table(tab_events)           # proportions of all prompts
+prop.table(tab_events, 1)        
+prop.table(tab_events, 2)        
+#Now using the table to measure how % stress so-occurred with pos and vice versa
+n_both   <- tab_events["1", "1"]
+n_total  <- sum(tab_events)
+both <- n_both / n_total 
+
+n_stress <- sum(tab_events["1", ])
+stress_with_pos <- n_both / n_stress
+
+n_pos    <- sum(tab_events[ , "1"])
+pos_with_stress <- n_both / n_pos
+
+
 ```
 
 ## Descriptives of affect
@@ -112,7 +131,8 @@ EMA_mplus <- EMA_final %>%
   mutate(
     day = as.Date(survey_dtime),
     new_d = is.na(lag(day)) | day != lag(day)
-  )
+  ) %>%
+  ungroup()
 #Create a new variable for affect(T-1) and SI(T-1), which will be input into Mplus as predictors. Disabling every first prompt of the day shall avoid overnight lag.
 EMA_mplus <- EMA_mplus %>%
   mutate(
@@ -134,14 +154,35 @@ EMA_mplus <- EMA_mplus %>%
                               NA_real_)
   )
 glimpse(EMA_mplus)
+```
+
+##Counting valid post-event affects we have - valid pairs for DSEM per ppt
+```{r}
+#Counting valid post-stress prompts
+EMA_mplus %>%
+  group_by(ID) %>%
+  count(!is.na(post_stress_affect))
+#counting valid post-positive prompts
+EMA_mplus %>%
+  group_by(ID) %>%
+  count(!is.na(post_pos_affect))
 
 ```
+
 
 ##Making a tibble ready to be put into Mplus for analysis of Aim 1 and 2.
 ```{r}
 #Selecting variables I want to carry.
 EMA_mplus_aim12 <- EMA_mplus %>%
   ungroup() %>%
-  select(ID, Group, survey_dtime, current_affect, passiveSI, activeSI, SMI, SI_any, stress_int, pos_any, stress_int, pos_int, affect_T_1, SI_T_1, affect_post_stress, affect_post_pos)
+  select(ID, current_affect, passiveSI, activeSI, SMI, SI_any, stress_int, pos_any, stress_any, pos_int, affect_T_1, SI_T_1, affect_post_stress, affect_post_pos)
+glimpse(EMA_mplus_aim12)
+#
+write.table(
+  EMA_mplus_aim12,
+  "EMA_mplus12.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999")
 ```
 
