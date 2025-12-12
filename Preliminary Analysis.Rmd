@@ -160,9 +160,17 @@ glimpse(EMA_mplus)
 ```{r}
 #Counting valid post-stress prompts
 EMA_mplus %>%
+  summarise(
+  n_post_stress = sum(!is.na(post_stress_affect)))
+EMA_mplus %>%
   group_by(ID) %>%
   count(!is.na(post_stress_affect))
+
 #counting valid post-positive prompts
+EMA_mplus %>%
+  summarise(
+    n_post_pos = sum(!is.na(post_pos_affect))
+  )
 EMA_mplus %>%
   group_by(ID) %>%
   count(!is.na(post_pos_affect))
