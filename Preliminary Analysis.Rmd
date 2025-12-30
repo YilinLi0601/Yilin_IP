@@ -185,12 +185,63 @@ EMA_mplus_aim12 <- EMA_mplus %>%
   ungroup() %>%
   select(ID, current_affect, passiveSI, activeSI, SMI, SI_any, stress_int, pos_any, stress_any, pos_int, affect_T_1, SI_T_1, affect_post_stress, affect_post_pos)
 glimpse(EMA_mplus_aim12)
-#
+```
+
+
+```{r}
+#Calculating the interaction between SI and stress
+EMA_mplus_aim1 <- EMA_mplus_aim12 %>%
+  #making dummy variables
+  mutate(stress_low = as.integer(stress_int == 1L),
+         stress_high = as.integer(stress_int == 2L)) %>% 
+  mutate(LS_SI_int = stress_low * SI_T_1,
+         HS_SI_int = stress_high * SI_T_1) %>%
+  select(ID, affect_post_stress, affect_T_1, SI_T_1, stress_low, stress_high, LS_SI_int, HS_SI_int)
+
 write.table(
-  EMA_mplus_aim12,
-  "EMA_mplus12.dat",
+  EMA_mplus_aim1,
+  "EMA_aim1.dat",
   row.names = FALSE,
   col.names = FALSE,
-  na = "-9999")
+  na = "-9999",
+  quote = FALSE
+)
+```
+
+```{r}
+EMA_DSEM1 <- EMA_mplus %>%
+  arrange(ID, survey_dtime) %>%
+  mutate(
+    # Time in hours since first prompt for each ID
+    time_hr = as.numeric(
+      difftime(survey_dtime, first(survey_dtime), units = "hours"),
+      units = "hours"
+    ),
+    .by = ID
+  ) %>%
+  mutate(slo = as.integer(stress_int == 1L),
+         shi = as.integer(stress_int == 2L)) %>% 
+  mutate(sloSI = slo * SI_T_1,
+         shiSI = shi * SI_T_1) %>%
+  select(
+    ID,
+    affect = current_affect,
+    si = SI_any, slo, shi, sloSI, shiSI, time = time_hr)
+
+EMA_DSEM1 <- EMA_DSEM1 %>%
+  mutate(
+    sloSI = slo * si,
+    shiSI = shi * si
+  )
+
+write.table(
+  EMA_DSEM1,
+  "EMA_DSEM1.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+glimpse(EMA_DSEM1)
 ```
 
