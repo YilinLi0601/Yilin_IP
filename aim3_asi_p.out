@@ -1,0 +1,1392 @@
+Mplus VERSION 9
+MUTHEN & MUTHEN
+01/26/2026   9:44 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  Aim3_2_2: DSEM with lagged affect, active SI, low/high pleasant events;
+
+  DATA:
+  FILE IS EMA_DSEM3_ap.dat;
+
+  VARIABLE:
+  NAMES = ID affect asi plo phi ploaSI phiaSI time asi_b plo_b phi_b ploaSI_b phiaSI_b;
+  USEVARIABLES = affect asi plo phi ploaSI phiaSI asi_b plo_b phi_b ploaSI_b phiaSI_b;
+  CLUSTER = ID;
+  MISSING = ALL(-9999);
+  LAGGED = affect(1) asi(1);
+  TINTERVAL = time (2 tbin);
+  WITHIN = asi, plo, phi, ploaSI, phiaSI;
+  BETWEEN = asi_b, plo_b, phi_b, ploaSI_b, phiaSI_b;
+
+  ANALYSIS:
+  TYPE = TWOLEVEL;
+  ESTIMATOR = BAYES;
+  CHAINS = 4;
+  THIN = 50;
+  BITERATIONS = (1000);
+
+  PLOT:
+  TYPE = PLOT3;
+
+  MODEL:
+  %WITHIN%
+  asi;
+  plo;
+  phi;
+  ploaSI;
+  phiaSI;
+
+  affect ON
+  affect&1 (phi_aff)
+  asi&1 (b_asilag)
+  plo (b_plo)
+  phi (b_phi)
+  ploaSI (b_plaoSI)
+  phiaSI (b_phiaSI);
+
+  asi ON asi&1;
+
+  %BETWEEN%
+  affect;
+  affect ON
+  asi_b
+  plo_b
+  phi_b
+  ploaSI_b
+  phiaSI_b;
+
+  OUTPUT:
+  TECH1 TECH8;
+  CINTERVAL;
+  STANDARDIZED;
+
+
+
+*** WARNING
+  One or more individual-level variables have no variation within a
+  cluster for the following clusters.
+
+     Variable   Cluster IDs with no within-cluster variation
+
+      ASI         1090 1032 1089 1114 1074 1006 1072 1024 1019 1065 1107 1075 1125 1104 1105
+      PLO         1099 1114 1074 1132 1016 1082 1097 1029 1075 1010 1134 1039 1043
+      PHI         1010 1043
+      PLOASI      1090 1099 1032 1089 1114 1080 1074 1006 1102 1132 1028 1095 1096 1016 1036 1058
+                  1072 1023 1024 1082 1087 1019 1097 1065 1029 1107 1075 1010 1053 1054 1134 1039
+                  1043 1125 1104 1105 1106 1133 1003
+      PHIASI      1090 1032 1089 1114 1080 1124 1074 1130 1006 1102 1026 1095 1016 1072 1023 1024
+                  1082 1087 1019 1065 1029 1107 1075 1053 1054 1134 1043 1125 1104 1105 1106
+      ASI&1       1090 1032 1089 1114 1074 1006 1072 1024 1019 1065 1107 1075 1125 1104 1105
+
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Aim3_2_2: DSEM with lagged affect, active SI, low/high pleasant events;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        9370
+
+Number of dependent variables                                    2
+Number of independent variables                                 11
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   AFFECT      ASI
+
+Observed independent variables
+   PLO         PHI         PLOASI      PHIASI      ASI_B       PLO_B
+   PHI_B       PLOASI_B    PHIASI_B    AFFECT&1    ASI&1
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   ASI         PLO         PHI         PLOASI      PHIASI      AFFECT&1
+   ASI&1
+
+  Between variables
+   ASI_B       PLO_B       PHI_B       PLOASI_B    PHIASI_B
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               4
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               50000
+  K-th iteration used for thinning                              50
+
+Input data file(s)
+  EMA_DSEM3_ap.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of clusters                         59
+
+       Size (s)    Cluster ID with Size s
+
+         91        1090
+        110        1099
+        115        1032
+        139        1127
+        150        1089
+        152        1114
+        158        1080
+        159        1124
+        160        1074 1117 1128 1130
+        161        1006 1102 1132
+        162        1026 1028 1095 1096 1016 1033 1036 1058 1072 1126 1023
+                   1024 1082 1087
+        163        1019 1097 1065 1029 1107 1013 1115 1075 1010 1035 1018
+                   1045 1053 1054 1134
+        164        1039 1043 1118 1122 1123 1077 1125 1104 1105 1106 1004
+                   1131 1109 1133 1003
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+     Number of missing data patterns            13
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         0.344
+ ASI            0.344         0.346
+ PLO            0.344         0.346         0.346
+ PHI            0.344         0.346         0.346         0.346
+ PLOASI         0.338         0.340         0.340         0.340         0.340
+ PHIASI         0.338         0.340         0.340         0.340         0.340
+ ASI_B          0.344         0.346         0.346         0.346         0.340
+ PLO_B          0.344         0.346         0.346         0.346         0.340
+ PHI_B          0.344         0.346         0.346         0.346         0.340
+ PLOASI_B       0.344         0.346         0.346         0.346         0.340
+ PHIASI_B       0.344         0.346         0.346         0.346         0.340
+
+
+           Covariance Coverage
+              PHIASI        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ PHIASI         0.340
+ ASI_B          0.340         1.000
+ PLO_B          0.340         1.000         1.000
+ PHI_B          0.340         1.000         1.000         1.000
+ PLOASI_B       0.340         1.000         1.000         1.000         1.000
+ PHIASI_B       0.340         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              PHIASI_B
+              ________
+ PHIASI_B       1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     AFFECT                0.368      -0.147      -3.000    5.21%      -1.000      0.000      0.000
+            3226.000       2.360      -0.272       3.000   10.79%       1.000      2.000
+     ASI                   0.220       1.353       0.000   78.02%       0.000      0.000      0.000
+            3244.000       0.171      -0.169       1.000   21.98%       0.000      1.000
+     PLO                   0.086       2.945       0.000   91.36%       0.000      0.000      0.000
+            3242.000       0.079       6.673       1.000    8.64%       0.000      0.000
+     PHI                   0.378       0.504       0.000   62.21%       0.000      0.000      0.000
+            3242.000       0.235      -1.746       1.000   37.79%       0.000      1.000
+     PLOASI                0.023       6.420       0.000   97.74%       0.000      0.000      0.000
+            3182.000       0.022      39.218       1.000    2.26%       0.000      0.000
+     PHIASI                0.084       3.002       0.000   91.61%       0.000      0.000      0.000
+            3182.000       0.077       7.009       1.000    8.39%       0.000      0.000
+     ASI_B                 0.216       1.264       0.000   25.42%       0.000      0.029      0.036
+              59.000       0.080       0.380       0.966    1.69%       0.130      0.433
+     PLO_B                 0.087       1.628       0.000   22.03%       0.000      0.044      0.061
+              59.000       0.010       2.151       0.446    1.69%       0.074      0.115
+     PHI_B                 0.369       0.652       0.000    1.69%       0.156      0.288      0.333
+              59.000       0.052      -0.028       1.000    1.69%       0.383      0.561
+     PLOASI_B              0.023       3.376       0.000   66.10%       0.000      0.000      0.000
+              59.000       0.002      14.112       0.288    1.69%       0.000      0.035
+     PHIASI_B              0.079       1.744       0.000   52.54%       0.000      0.000      0.000
+              59.000       0.016       2.370       0.544    1.69%       0.016      0.163
+
+
+     VIF (VARIANCE INFLATION FACTOR) FOR EXPLORING MULTICOLLINEARITY OF INDEPENDENT VARIABLES
+
+     Variable        VIF       Variable        VIF       Variable        VIF
+
+     ASI_B          9.575      PLO_B          1.605      PHI_B          1.500
+     PLOASI_B       3.629      PHIASI_B       6.909
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              32
+
+Information Criteria
+
+          Deviance (DIC)                        76382.687
+          Estimated Number of Parameters (pD)   36879.547
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.192       0.025      0.000       0.144       0.243      *
+    ASI&1             -0.487       0.099      0.000      -0.687      -0.301      *
+    PLO                0.295       0.104      0.001       0.091       0.505      *
+    PHI                0.857       0.064      0.000       0.727       0.978      *
+    PLOASI            -0.116       0.198      0.277      -0.500       0.272
+    PHIASI            -0.051       0.120      0.338      -0.291       0.173
+
+ ASI        ON
+    ASI&1              0.726       0.011      0.000       0.704       0.748      *
+
+ ASI      WITH
+    AFFECT            -0.075       0.009      0.000      -0.091      -0.057      *
+
+ PHI      WITH
+    PLO               -0.033       0.002      0.000      -0.038      -0.028      *
+
+ PLOASI   WITH
+    PLO                0.021       0.001      0.000       0.020       0.023      *
+    PHI               -0.009       0.001      0.000      -0.011      -0.006      *
+
+ PHIASI   WITH
+    PLO               -0.007       0.001      0.000      -0.010      -0.005      *
+    PHI                0.053       0.003      0.000       0.048       0.058      *
+    PLOASI            -0.002       0.001      0.004      -0.003      -0.001      *
+
+ Means
+    PLO                0.086       0.005      0.000       0.077       0.096      *
+    PHI                0.377       0.008      0.000       0.361       0.394      *
+    PLOASI             0.023       0.003      0.000       0.018       0.028      *
+    PHIASI             0.084       0.005      0.000       0.075       0.093      *
+
+ Intercepts
+    ASI                0.062       0.004      0.000       0.054       0.071      *
+
+ Variances
+    PLO                0.079       0.002      0.000       0.075       0.083      *
+    PHI                0.235       0.006      0.000       0.224       0.248      *
+    PLOASI             0.022       0.001      0.000       0.021       0.023      *
+    PHIASI             0.077       0.002      0.000       0.074       0.081      *
+
+ Residual Variances
+    AFFECT             1.700       0.044      0.000       1.614       1.789      *
+    ASI                0.088       0.002      0.000       0.083       0.093      *
+
+Between Level
+
+ AFFECT     ON
+    ASI_B              0.045       0.969      0.479      -1.817       1.910
+    PLO_B             -1.596       1.170      0.083      -3.948       0.686
+    PHI_B             -0.047       0.490      0.460      -0.997       0.920
+    PLOASI_B           1.920       3.606      0.291      -5.043       8.933
+    PHIASI_B           0.078       1.835      0.484      -3.534       3.534
+
+ Intercepts
+    AFFECT             0.138       0.224      0.288      -0.309       0.555
+
+ Residual Variances
+    AFFECT             0.411       0.094      0.000       0.275       0.641      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.192       0.025      0.000       0.144       0.243      *
+    ASI&1             -0.148       0.030      0.000      -0.209      -0.092      *
+    PLO                0.059       0.021      0.001       0.018       0.100      *
+    PHI                0.293       0.021      0.000       0.251       0.334      *
+    PLOASI            -0.012       0.021      0.277      -0.053       0.029
+    PHIASI            -0.010       0.023      0.338      -0.057       0.034
+
+ ASI        ON
+    ASI&1              0.726       0.011      0.000       0.704       0.748      *
+
+ ASI      WITH
+    AFFECT            -0.193       0.021      0.000      -0.233      -0.151      *
+
+ PHI      WITH
+    PLO               -0.239       0.016      0.000      -0.271      -0.208      *
+
+ PLOASI   WITH
+    PLO                0.506       0.014      0.000       0.478       0.532      *
+    PHI               -0.121       0.017      0.000      -0.156      -0.086      *
+
+ PHIASI   WITH
+    PLO               -0.093       0.018      0.000      -0.128      -0.060      *
+    PHI                0.390       0.015      0.000       0.362       0.418      *
+    PLOASI            -0.048       0.018      0.004      -0.083      -0.012      *
+
+ Means
+    PLO                0.308       0.018      0.000       0.272       0.341      *
+    PHI                0.778       0.020      0.000       0.738       0.818      *
+    PLOASI             0.156       0.017      0.000       0.123       0.190      *
+    PHIASI             0.303       0.017      0.000       0.269       0.336      *
+
+ Intercepts
+    ASI                0.144       0.011      0.000       0.124       0.166      *
+
+ Variances
+    PLO                1.000       0.000      0.000       1.000       1.000
+    PHI                1.000       0.000      0.000       1.000       1.000
+    PLOASI             1.000       0.000      0.000       1.000       1.000
+    PHIASI             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.845       0.016      0.000       0.809       0.875      *
+    ASI                0.473       0.016      0.000       0.441       0.504      *
+
+Between Level
+
+ AFFECT     ON
+    ASI_B              0.019       0.391      0.479      -0.718       0.777
+    PLO_B             -0.236       0.163      0.083      -0.535       0.098
+    PHI_B             -0.016       0.159      0.460      -0.316       0.293
+    PLOASI_B           0.136       0.244      0.291      -0.357       0.599
+    PHIASI_B           0.014       0.331      0.484      -0.632       0.638
+
+ Intercepts
+    AFFECT             0.205       0.319      0.288      -0.449       0.783
+
+ Residual Variances
+    AFFECT             0.883       0.064      0.000       0.734       0.972      *
+
+
+STDY Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.135       0.018      0.000       0.101       0.170      *
+    ASI&1             -0.342       0.068      0.000      -0.481      -0.213      *
+    PLO                0.059       0.021      0.001       0.018       0.100      *
+    PHI                0.293       0.021      0.000       0.251       0.334      *
+    PLOASI            -0.012       0.021      0.277      -0.053       0.029
+    PHIASI            -0.010       0.023      0.338      -0.057       0.034
+
+ ASI        ON
+    ASI&1              1.683       0.022      0.000       1.638       1.727      *
+
+ ASI      WITH
+    AFFECT            -0.193       0.021      0.000      -0.233      -0.151      *
+
+ PHI      WITH
+    PLO               -0.239       0.016      0.000      -0.271      -0.208      *
+
+ PLOASI   WITH
+    PLO                0.506       0.014      0.000       0.478       0.532      *
+    PHI               -0.121       0.017      0.000      -0.156      -0.086      *
+
+ PHIASI   WITH
+    PLO               -0.093       0.018      0.000      -0.128      -0.060      *
+    PHI                0.390       0.015      0.000       0.362       0.418      *
+    PLOASI            -0.048       0.018      0.004      -0.083      -0.012      *
+
+ Means
+    PLO                0.308       0.018      0.000       0.272       0.341      *
+    PHI                0.778       0.020      0.000       0.738       0.818      *
+    PLOASI             0.156       0.017      0.000       0.123       0.190      *
+    PHIASI             0.303       0.017      0.000       0.269       0.336      *
+
+ Intercepts
+    ASI                0.144       0.011      0.000       0.124       0.166      *
+
+ Variances
+    PLO                1.000       0.000      0.000       1.000       1.000
+    PHI                1.000       0.000      0.000       1.000       1.000
+    PLOASI             1.000       0.000      0.000       1.000       1.000
+    PHIASI             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.845       0.016      0.000       0.809       0.875      *
+    ASI                0.473       0.016      0.000       0.441       0.504      *
+
+Between Level
+
+ AFFECT     ON
+    ASI_B              0.066       1.378      0.479      -2.534       2.741
+    PLO_B             -2.343       1.618      0.083      -5.319       0.971
+    PHI_B             -0.070       0.694      0.460      -1.384       1.281
+    PLOASI_B           2.850       5.094      0.291      -7.465      12.507
+    PHIASI_B           0.109       2.606      0.484      -4.970       5.016
+
+ Intercepts
+    AFFECT             0.205       0.319      0.288      -0.449       0.783
+
+ Residual Variances
+    AFFECT             0.883       0.064      0.000       0.734       0.972      *
+
+
+STD Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.192       0.025      0.000       0.144       0.243      *
+    ASI&1             -0.487       0.099      0.000      -0.687      -0.301      *
+    PLO                0.295       0.104      0.001       0.091       0.505      *
+    PHI                0.857       0.064      0.000       0.727       0.978      *
+    PLOASI            -0.116       0.198      0.277      -0.500       0.272
+    PHIASI            -0.051       0.120      0.338      -0.291       0.173
+
+ ASI        ON
+    ASI&1              0.726       0.011      0.000       0.704       0.748      *
+
+ ASI      WITH
+    AFFECT            -0.075       0.009      0.000      -0.091      -0.057      *
+
+ PHI      WITH
+    PLO               -0.033       0.002      0.000      -0.038      -0.028      *
+
+ PLOASI   WITH
+    PLO                0.021       0.001      0.000       0.020       0.023      *
+    PHI               -0.009       0.001      0.000      -0.011      -0.006      *
+
+ PHIASI   WITH
+    PLO               -0.007       0.001      0.000      -0.010      -0.005      *
+    PHI                0.053       0.003      0.000       0.048       0.058      *
+    PLOASI            -0.002       0.001      0.004      -0.003      -0.001      *
+
+ Means
+    PLO                0.086       0.005      0.000       0.077       0.096      *
+    PHI                0.377       0.008      0.000       0.361       0.394      *
+    PLOASI             0.023       0.003      0.000       0.018       0.028      *
+    PHIASI             0.084       0.005      0.000       0.075       0.093      *
+
+ Intercepts
+    ASI                0.062       0.004      0.000       0.054       0.071      *
+
+ Variances
+    PLO                0.079       0.002      0.000       0.075       0.083      *
+    PHI                0.235       0.006      0.000       0.224       0.248      *
+    PLOASI             0.022       0.001      0.000       0.021       0.023      *
+    PHIASI             0.077       0.002      0.000       0.074       0.081      *
+
+ Residual Variances
+    AFFECT             1.700       0.044      0.000       1.614       1.789      *
+    ASI                0.088       0.002      0.000       0.083       0.093      *
+
+Between Level
+
+ AFFECT     ON
+    ASI_B              0.045       0.969      0.479      -1.817       1.910
+    PLO_B             -1.596       1.170      0.083      -3.948       0.686
+    PHI_B             -0.047       0.490      0.460      -0.997       0.920
+    PLOASI_B           1.920       3.606      0.291      -5.043       8.933
+    PHIASI_B           0.078       1.835      0.484      -3.534       3.534
+
+ Intercepts
+    AFFECT             0.138       0.224      0.288      -0.309       0.555
+
+ Residual Variances
+    AFFECT             0.411       0.094      0.000       0.275       0.641      *
+
+
+R-SQUARE
+
+Within Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT             0.155       0.016      0.000       0.125       0.191
+    ASI                0.527       0.016      0.000       0.496       0.559
+
+Between Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT             0.117       0.064      0.000       0.027       0.265
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.126       0.144       0.150       0.192       0.234       0.243       0.259
+    ASI&1           -0.745      -0.687      -0.654      -0.487      -0.327      -0.301      -0.240
+    PLO              0.039       0.091       0.122       0.295       0.467       0.505       0.568
+    PHI              0.684       0.727       0.751       0.857       0.963       0.978       1.022
+    PLOASI          -0.613      -0.500      -0.441      -0.116       0.212       0.272       0.413
+    PHIASI          -0.370      -0.291      -0.251      -0.051       0.137       0.173       0.242
+
+ ASI      ON
+    ASI&1            0.696       0.704       0.708       0.726       0.744       0.748       0.753
+
+ ASI      WITH
+    AFFECT          -0.097      -0.091      -0.089      -0.075      -0.061      -0.057      -0.052
+
+ PHI      WITH
+    PLO             -0.039      -0.038      -0.037      -0.033      -0.029      -0.028      -0.026
+
+ PLOASI   WITH
+    PLO              0.019       0.020       0.020       0.021       0.023       0.023       0.023
+    PHI             -0.012      -0.011      -0.011      -0.009      -0.007      -0.006      -0.005
+
+ PHIASI   WITH
+    PLO             -0.011      -0.010      -0.010      -0.007      -0.005      -0.005      -0.004
+    PHI              0.047       0.048       0.049       0.053       0.057       0.058       0.059
+    PLOASI          -0.004      -0.003      -0.003      -0.002      -0.001      -0.001       0.000
+
+ Means
+    PLO              0.073       0.077       0.078       0.086       0.094       0.096       0.099
+    PHI              0.355       0.361       0.363       0.377       0.391       0.394       0.399
+    PLOASI           0.017       0.018       0.019       0.023       0.027       0.028       0.030
+    PHIASI           0.072       0.075       0.077       0.084       0.092       0.093       0.097
+
+ Intercepts
+    ASI              0.052       0.054       0.055       0.062       0.069       0.071       0.073
+
+ Variances
+    PLO              0.074       0.075       0.076       0.079       0.082       0.083       0.085
+    PHI              0.220       0.224       0.226       0.235       0.246       0.248       0.251
+    PLOASI           0.021       0.021       0.021       0.022       0.023       0.023       0.024
+    PHIASI           0.072       0.074       0.074       0.077       0.080       0.081       0.082
+
+ Residual Variances
+    AFFECT           1.590       1.614       1.629       1.700       1.773       1.789       1.825
+    ASI              0.082       0.083       0.084       0.088       0.092       0.093       0.095
+
+Between Level
+
+ AFFECT   ON
+    ASI_B           -2.408      -1.817      -1.518       0.045       1.633       1.910       2.629
+    PLO_B           -4.577      -3.948      -3.570      -1.596       0.252       0.686       1.536
+    PHI_B           -1.285      -0.997      -0.832      -0.047       0.775       0.920       1.273
+    PLOASI_B        -7.026      -5.043      -4.001       1.920       7.816       8.933      11.204
+    PHIASI_B        -4.640      -3.534      -2.949       0.078       3.038       3.534       4.841
+
+ Intercepts
+    AFFECT          -0.442      -0.309      -0.235       0.138       0.492       0.555       0.696
+
+ Residual Variances
+    AFFECT           0.246       0.275       0.289       0.411       0.591       0.641       0.742
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.126       0.144       0.150       0.192       0.234       0.243       0.259
+    ASI&1           -0.224      -0.209      -0.197      -0.148      -0.100      -0.092      -0.073
+    PLO              0.008       0.018       0.024       0.059       0.092       0.100       0.112
+    PHI              0.235       0.251       0.257       0.293       0.329       0.334       0.350
+    PLOASI          -0.063      -0.053      -0.046      -0.012       0.022       0.029       0.043
+    PHIASI          -0.072      -0.057      -0.049      -0.010       0.027       0.034       0.047
+
+ ASI      ON
+    ASI&1            0.696       0.704       0.708       0.726       0.744       0.748       0.753
+
+ ASI      WITH
+    AFFECT          -0.246      -0.233      -0.227      -0.193      -0.158      -0.151      -0.137
+
+ PHI      WITH
+    PLO             -0.280      -0.271      -0.266      -0.239      -0.214      -0.208      -0.196
+
+ PLOASI   WITH
+    PLO              0.468       0.478       0.483       0.506       0.528       0.532       0.540
+    PHI             -0.168      -0.156      -0.149      -0.121      -0.092      -0.086      -0.076
+
+ PHIASI   WITH
+    PLO             -0.140      -0.128      -0.123      -0.093      -0.065      -0.060      -0.052
+    PHI              0.353       0.362       0.365       0.390       0.413       0.418       0.429
+    PLOASI          -0.094      -0.083      -0.078      -0.048      -0.017      -0.012      -0.002
+
+ Means
+    PLO              0.261       0.272       0.277       0.308       0.336       0.341       0.355
+    PHI              0.723       0.738       0.744       0.778       0.811       0.818       0.827
+    PLOASI           0.111       0.123       0.127       0.156       0.184       0.190       0.202
+    PHIASI           0.258       0.269       0.275       0.303       0.332       0.336       0.349
+
+ Intercepts
+    ASI              0.117       0.124       0.127       0.144       0.163       0.166       0.172
+
+ Variances
+    PLO              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHI              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PLOASI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHIASI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.799       0.809       0.814       0.845       0.870       0.875       0.883
+    ASI              0.431       0.441       0.447       0.473       0.499       0.504       0.515
+
+Between Level
+
+ AFFECT   ON
+    ASI_B           -0.931      -0.718      -0.608       0.019       0.667       0.777       0.980
+    PLO_B           -0.606      -0.535      -0.493      -0.236       0.035       0.098       0.217
+    PHI_B           -0.405      -0.316      -0.269      -0.016       0.255       0.293       0.389
+    PLOASI_B        -0.462      -0.357      -0.271       0.136       0.532       0.599       0.697
+    PHIASI_B        -0.797      -0.632      -0.526       0.014       0.544       0.638       0.835
+
+ Intercepts
+    AFFECT          -0.604      -0.449      -0.335       0.205       0.703       0.783       0.914
+
+ Residual Variances
+    AFFECT           0.681       0.734       0.755       0.883       0.963       0.972       0.985
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.088       0.101       0.107       0.135       0.164       0.170       0.183
+    ASI&1           -0.522      -0.481      -0.459      -0.342      -0.231      -0.213      -0.169
+    PLO              0.008       0.018       0.024       0.059       0.092       0.100       0.112
+    PHI              0.235       0.251       0.257       0.293       0.329       0.334       0.350
+    PLOASI          -0.063      -0.053      -0.046      -0.012       0.022       0.029       0.043
+    PHIASI          -0.072      -0.057      -0.049      -0.010       0.027       0.034       0.047
+
+ ASI      ON
+    ASI&1            1.621       1.638       1.646       1.683       1.720       1.727       1.740
+
+ ASI      WITH
+    AFFECT          -0.246      -0.233      -0.227      -0.193      -0.158      -0.151      -0.137
+
+ PHI      WITH
+    PLO             -0.280      -0.271      -0.266      -0.239      -0.214      -0.208      -0.196
+
+ PLOASI   WITH
+    PLO              0.468       0.478       0.483       0.506       0.528       0.532       0.540
+    PHI             -0.168      -0.156      -0.149      -0.121      -0.092      -0.086      -0.076
+
+ PHIASI   WITH
+    PLO             -0.140      -0.128      -0.123      -0.093      -0.065      -0.060      -0.052
+    PHI              0.353       0.362       0.365       0.390       0.413       0.418       0.429
+    PLOASI          -0.094      -0.083      -0.078      -0.048      -0.017      -0.012      -0.002
+
+ Means
+    PLO              0.261       0.272       0.277       0.308       0.336       0.341       0.355
+    PHI              0.723       0.738       0.744       0.778       0.811       0.818       0.827
+    PLOASI           0.111       0.123       0.127       0.156       0.184       0.190       0.202
+    PHIASI           0.258       0.269       0.275       0.303       0.332       0.336       0.349
+
+ Intercepts
+    ASI              0.117       0.124       0.127       0.144       0.163       0.166       0.172
+
+ Variances
+    PLO              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHI              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PLOASI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHIASI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.799       0.809       0.814       0.845       0.870       0.875       0.883
+    ASI              0.431       0.441       0.447       0.473       0.499       0.504       0.515
+
+Between Level
+
+ AFFECT   ON
+    ASI_B           -3.283      -2.534      -2.145       0.066       2.353       2.741       3.457
+    PLO_B           -6.024      -5.319      -4.899      -2.343       0.348       0.971       2.162
+    PHI_B           -1.773      -1.384      -1.176      -0.070       1.116       1.281       1.704
+    PLOASI_B        -9.657      -7.465      -5.656       2.850      11.101      12.507      14.560
+    PHIASI_B        -6.271      -4.970      -4.139       0.109       4.278       5.016       6.567
+
+ Intercepts
+    AFFECT          -0.604      -0.449      -0.335       0.205       0.703       0.783       0.914
+
+ Residual Variances
+    AFFECT           0.681       0.734       0.755       0.883       0.963       0.972       0.985
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.126       0.144       0.150       0.192       0.234       0.243       0.259
+    ASI&1           -0.745      -0.687      -0.654      -0.487      -0.327      -0.301      -0.240
+    PLO              0.039       0.091       0.122       0.295       0.467       0.505       0.568
+    PHI              0.684       0.727       0.751       0.857       0.963       0.978       1.022
+    PLOASI          -0.613      -0.500      -0.441      -0.116       0.212       0.272       0.413
+    PHIASI          -0.370      -0.291      -0.251      -0.051       0.137       0.173       0.242
+
+ ASI      ON
+    ASI&1            0.696       0.704       0.708       0.726       0.744       0.748       0.753
+
+ ASI      WITH
+    AFFECT          -0.097      -0.091      -0.089      -0.075      -0.061      -0.057      -0.052
+
+ PHI      WITH
+    PLO             -0.039      -0.038      -0.037      -0.033      -0.029      -0.028      -0.026
+
+ PLOASI   WITH
+    PLO              0.019       0.020       0.020       0.021       0.023       0.023       0.023
+    PHI             -0.012      -0.011      -0.011      -0.009      -0.007      -0.006      -0.005
+
+ PHIASI   WITH
+    PLO             -0.011      -0.010      -0.010      -0.007      -0.005      -0.005      -0.004
+    PHI              0.047       0.048       0.049       0.053       0.057       0.058       0.059
+    PLOASI          -0.004      -0.003      -0.003      -0.002      -0.001      -0.001       0.000
+
+ Means
+    PLO              0.073       0.077       0.078       0.086       0.094       0.096       0.099
+    PHI              0.355       0.361       0.363       0.377       0.391       0.394       0.399
+    PLOASI           0.017       0.018       0.019       0.023       0.027       0.028       0.030
+    PHIASI           0.072       0.075       0.077       0.084       0.092       0.093       0.097
+
+ Intercepts
+    ASI              0.052       0.054       0.055       0.062       0.069       0.071       0.073
+
+ Variances
+    PLO              0.074       0.075       0.076       0.079       0.082       0.083       0.085
+    PHI              0.220       0.224       0.226       0.235       0.246       0.248       0.251
+    PLOASI           0.021       0.021       0.021       0.022       0.023       0.023       0.024
+    PHIASI           0.072       0.074       0.074       0.077       0.080       0.081       0.082
+
+ Residual Variances
+    AFFECT           1.590       1.614       1.629       1.700       1.773       1.789       1.825
+    ASI              0.082       0.083       0.084       0.088       0.092       0.093       0.095
+
+Between Level
+
+ AFFECT   ON
+    ASI_B           -2.408      -1.817      -1.518       0.045       1.633       1.910       2.629
+    PLO_B           -4.577      -3.948      -3.570      -1.596       0.252       0.686       1.536
+    PHI_B           -1.285      -0.997      -0.832      -0.047       0.775       0.920       1.273
+    PLOASI_B        -7.026      -5.043      -4.001       1.920       7.816       8.933      11.204
+    PHIASI_B        -4.640      -3.534      -2.949       0.078       3.038       3.534       4.841
+
+ Intercepts
+    AFFECT          -0.442      -0.309      -0.235       0.138       0.492       0.555       0.696
+
+ Residual Variances
+    AFFECT           0.246       0.275       0.289       0.411       0.591       0.641       0.742
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             0             0             0
+ ASI                0             0             0             0             0
+ PLO                0             0             0             0             0
+ PHI                0             0             0             0             0
+ PLOASI             0             0             0             0             0
+ PHIASI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ ASI&1              0             0             0             0             0
+
+
+           LAMBDA
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ AFFECT             0             0             0
+ ASI                0             0             0
+ PLO                0             0             0
+ PHI                0             0             0
+ PLOASI             0             0             0
+ PHIASI             0             0             0
+ AFFECT&1           0             0             0
+ ASI&1              0             0             0
+
+
+           THETA
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT             0
+ ASI                0             0
+ PLO                0             0             0
+ PHI                0             0             0             0
+ PLOASI             0             0             0             0             0
+ PHIASI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ ASI&1              0             0             0             0             0
+
+
+           THETA
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ PHIASI             0
+ AFFECT&1           0             0
+ ASI&1              0             0             0
+
+
+           ALPHA
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+                    0             1             2             3             4
+
+
+           ALPHA
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+                    5             0             0
+
+
+           BETA
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             6             7             8
+ ASI                0             0             0             0             0
+ PLO                0             0             0             0             0
+ PHI                0             0             0             0             0
+ PLOASI             0             0             0             0             0
+ PHIASI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ ASI&1              0             0             0             0             0
+
+
+           BETA
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ AFFECT             9            10            11
+ ASI                0             0            12
+ PLO                0             0             0
+ PHI                0             0             0
+ PLOASI             0             0             0
+ PHIASI             0             0             0
+ AFFECT&1           0             0             0
+ ASI&1              0             0             0
+
+
+           PSI
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT            13
+ ASI               14            15
+ PLO                0             0            16
+ PHI                0             0            17            18
+ PLOASI             0             0            19            20            21
+ PHIASI             0             0            22            23            24
+ AFFECT&1           0             0             0             0             0
+ ASI&1              0             0             0             0             0
+
+
+           PSI
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ PHIASI            25
+ AFFECT&1           0             0
+ ASI&1              0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              PHIASI_B
+              ________
+                    0
+
+
+           LAMBDA
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             0             0             0
+ ASI_B              0             0             0             0             0
+ PLO_B              0             0             0             0             0
+ PHI_B              0             0             0             0             0
+ PLOASI_B           0             0             0             0             0
+ PHIASI_B           0             0             0             0             0
+
+
+           LAMBDA
+              PHIASI_B
+              ________
+ AFFECT             0
+ ASI_B              0
+ PLO_B              0
+ PHI_B              0
+ PLOASI_B           0
+ PHIASI_B           0
+
+
+           THETA
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0
+ ASI_B              0             0
+ PLO_B              0             0             0
+ PHI_B              0             0             0             0
+ PLOASI_B           0             0             0             0             0
+ PHIASI_B           0             0             0             0             0
+
+
+           THETA
+              PHIASI_B
+              ________
+ PHIASI_B           0
+
+
+           ALPHA
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+                   26             0             0             0             0
+
+
+           ALPHA
+              PHIASI_B
+              ________
+                    0
+
+
+           BETA
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0            27            28            29            30
+ ASI_B              0             0             0             0             0
+ PLO_B              0             0             0             0             0
+ PHI_B              0             0             0             0             0
+ PLOASI_B           0             0             0             0             0
+ PHIASI_B           0             0             0             0             0
+
+
+           BETA
+              PHIASI_B
+              ________
+ AFFECT            31
+ ASI_B              0
+ PLO_B              0
+ PHI_B              0
+ PLOASI_B           0
+ PHIASI_B           0
+
+
+           PSI
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT            32
+ ASI_B              0             0
+ PLO_B              0             0             0
+ PHI_B              0             0             0             0
+ PLOASI_B           0             0             0             0             0
+ PHIASI_B           0             0             0             0             0
+
+
+           PSI
+              PHIASI_B
+              ________
+ PHIASI_B           0
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         1.000         0.000         0.000         0.000         0.000
+ ASI            0.000         1.000         0.000         0.000         0.000
+ PLO            0.000         0.000         1.000         0.000         0.000
+ PHI            0.000         0.000         0.000         1.000         0.000
+ PLOASI         0.000         0.000         0.000         0.000         1.000
+ PHIASI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ AFFECT         0.000         0.000         0.000
+ ASI            0.000         0.000         0.000
+ PLO            0.000         0.000         0.000
+ PHI            0.000         0.000         0.000
+ PLOASI         0.000         0.000         0.000
+ PHIASI         1.000         0.000         0.000
+ AFFECT&1       0.000         1.000         0.000
+ ASI&1          0.000         0.000         1.000
+
+
+           THETA
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         0.000
+ ASI            0.000         0.000
+ PLO            0.000         0.000         0.000
+ PHI            0.000         0.000         0.000         0.000
+ PLOASI         0.000         0.000         0.000         0.000         0.000
+ PHIASI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ PHIASI         0.000
+ AFFECT&1       0.000         0.000
+ ASI&1          0.000         0.000         0.000
+
+
+           ALPHA
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+                0.000         0.220         0.086         0.378         0.023
+
+
+           ALPHA
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+                0.084         0.000         0.000
+
+
+           BETA
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+ ASI            0.000         0.000         0.000         0.000         0.000
+ PLO            0.000         0.000         0.000         0.000         0.000
+ PHI            0.000         0.000         0.000         0.000         0.000
+ PLOASI         0.000         0.000         0.000         0.000         0.000
+ PHIASI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ AFFECT         0.000         0.000         0.000
+ ASI            0.000         0.000         0.000
+ PLO            0.000         0.000         0.000
+ PHI            0.000         0.000         0.000
+ PLOASI         0.000         0.000         0.000
+ PHIASI         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000
+
+
+           PSI
+              AFFECT        ASI           PLO           PHI           PLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         1.180
+ ASI            0.000         0.086
+ PLO            0.000         0.000         0.039
+ PHI            0.000         0.000         0.000         0.118
+ PLOASI         0.000         0.000         0.000         0.000         0.011
+ PHIASI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ PHIASI         0.038
+ AFFECT&1       0.000         1.177
+ ASI&1          0.000         0.000         0.086
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              PHIASI_B
+              ________
+                0.000
+
+
+           LAMBDA
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT         1.000         0.000         0.000         0.000         0.000
+ ASI_B          0.000         1.000         0.000         0.000         0.000
+ PLO_B          0.000         0.000         1.000         0.000         0.000
+ PHI_B          0.000         0.000         0.000         1.000         0.000
+ PLOASI_B       0.000         0.000         0.000         0.000         1.000
+ PHIASI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PHIASI_B
+              ________
+ AFFECT         0.000
+ ASI_B          0.000
+ PLO_B          0.000
+ PHI_B          0.000
+ PLOASI_B       0.000
+ PHIASI_B       1.000
+
+
+           THETA
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT         0.000
+ ASI_B          0.000         0.000
+ PLO_B          0.000         0.000         0.000
+ PHI_B          0.000         0.000         0.000         0.000
+ PLOASI_B       0.000         0.000         0.000         0.000         0.000
+ PHIASI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              PHIASI_B
+              ________
+ PHIASI_B       0.000
+
+
+           ALPHA
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+                0.368         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              PHIASI_B
+              ________
+                0.000
+
+
+           BETA
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+ ASI_B          0.000         0.000         0.000         0.000         0.000
+ PLO_B          0.000         0.000         0.000         0.000         0.000
+ PHI_B          0.000         0.000         0.000         0.000         0.000
+ PLOASI_B       0.000         0.000         0.000         0.000         0.000
+ PHIASI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PHIASI_B
+              ________
+ AFFECT         0.000
+ ASI_B          0.000
+ PLO_B          0.000
+ PHI_B          0.000
+ PLOASI_B       0.000
+ PHIASI_B       0.000
+
+
+           PSI
+              AFFECT        ASI_B         PLO_B         PHI_B         PLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT         1.180
+ ASI_B          0.000         0.041
+ PLO_B          0.000         0.000         0.005
+ PHI_B          0.000         0.000         0.000         0.027
+ PLOASI_B       0.000         0.000         0.000         0.000         0.001
+ PHIASI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PHIASI_B
+              ________
+ PHIASI_B       0.008
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 2~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 3~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 4~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 5~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 10~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 11~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 12~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 13~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 14~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 15~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 16~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 17~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 18~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 19~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 20~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 21~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 22~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 23~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 24~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 25~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 26~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 27~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 28~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 29~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 30~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 31~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 32~IG(-1.000,0.000)         infinity            infinity            infinity
+
+
+TECHNICAL 8 OUTPUT
+
+
+   TECHNICAL 8 OUTPUT FOR BAYES ESTIMATION
+
+     CHAIN    BSEED
+     1        0
+     2        285380
+     3        253358
+     4        93468
+
+                     POTENTIAL       PARAMETER WITH
+     ITERATION    SCALE REDUCTION      HIGHEST PSR
+     100              1.006               12
+     200              1.002               10
+     300              1.001               28
+     400              1.004               11
+     500              1.000               1
+     600              1.001               6
+     700              1.001               6
+     800              1.000               31
+     900              1.001               12
+     1000             1.001               13
+
+
+     MCMC EFFECTIVE SAMPLE SIZE (ESS) IN ASCENDING ORDER
+        LOWEST 10 PARAMETERS
+        PARAMETER    ESS
+            11      1723
+            22      1768
+            20      1818
+            19      1931
+            10      1938
+             7      1942
+            29      1954
+             2      1960
+             1      2000
+             3      2000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Between-level histograms (sample values, sample means/variances)
+  Between-level scatterplots (sample values, sample means/variances)
+  Time series plots (sample values, ACF, PACF)
+  Histogram of subjects per time point
+  Time interval plots
+  Bayesian posterior parameter distributions
+  Bayesian posterior parameter trace plots
+  Bayesian autocorrelation plots
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  21:44:32
+        Ending Time:  22:01:24
+       Elapsed Time:  00:16:52
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2025 Muthen & Muthen

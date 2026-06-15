@@ -1,0 +1,1391 @@
+Mplus VERSION 9
+MUTHEN & MUTHEN
+01/26/2026   8:12 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  Aim3-1-1: post-hoc DSEM with lagged affect, passive SI and stressful events;
+
+  DATA:
+  FILE IS EMA_DSEM3_ps.dat;
+
+  VARIABLE:
+  NAMES = ID affect psi slo shi slopSI shipSI time psi_b slo_b shi_b slopSI_b shipSI_b;
+  USEVARIABLES = affect psi slo shi slopSI shipSI psi_b slo_b shi_b slopSI_b shipSI_b;
+  CLUSTER = ID;
+  MISSING = ALL(-9999);
+  LAGGED = affect(1) psi(1);
+  TINTERVAL = time (2 tbin);
+  WITHIN = psi, slo, shi, slopSI, shipSI;
+  BETWEEN = psi_b, slo_b, shi_b, slopSI_b, shipSI_b;
+
+  ANALYSIS:
+  TYPE = TWOLEVEL;
+  ESTIMATOR = BAYES;
+  CHAINS = 4;
+  THIN = 50;
+  BITERATIONS = (1000);
+
+  PLOT:
+  TYPE = PLOT3;
+
+  MODEL:
+  %WITHIN%
+  psi;
+  slo;
+  shi;
+  slopSI;
+  shipSI;
+
+  affect ON
+  affect&1 (phi_aff)
+  psi&1 (b_psila)
+  shi (b_shi)
+  slo (b_slo)
+  slopSI (b_slopSI)
+  shipSI (b_shipSI);
+
+  psi ON psi&1;
+
+  %BETWEEN%
+  affect;
+  affect ON
+  psi_b
+  slo_b
+  shi_b
+  slopSI_b
+  shipSI_b;
+
+  OUTPUT:
+  TECH1 TECH8;
+  CINTERVAL;
+  STANDARDIZED;
+
+
+
+*** WARNING
+  One or more individual-level variables have no variation within a
+  cluster for the following clusters.
+
+     Variable   Cluster IDs with no within-cluster variation
+
+      PSI         1115 1077 1131
+      SLO         1090 1074 1132 1082 1097 1029 1075 1010
+      SHI         1029 1010
+      SLOPSI      1090 1099 1032 1080 1124 1074 1132 1028 1095 1096 1016 1072 1082 1019 1097 1029
+                  1107 1075 1010 1053 1054 1043 1125 1104 1105
+      SHIPSI      1090 1032 1089 1080 1124 1074 1102 1132 1026 1095 1096 1016 1036 1023 1024 1082
+                  1087 1029 1107 1010 1053 1134 1043 1125 1105 1106 1003
+      PSI&1       1115 1077 1131
+
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Aim3-1-1: post-hoc DSEM with lagged affect, passive SI and stressful events;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        9370
+
+Number of dependent variables                                    2
+Number of independent variables                                 11
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   AFFECT      PSI
+
+Observed independent variables
+   SLO         SHI         SLOPSI      SHIPSI      PSI_B       SLO_B
+   SHI_B       SLOPSI_B    SHIPSI_B    AFFECT&1    PSI&1
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   PSI         SLO         SHI         SLOPSI      SHIPSI      AFFECT&1
+   PSI&1
+
+  Between variables
+   PSI_B       SLO_B       SHI_B       SLOPSI_B    SHIPSI_B
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               4
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               50000
+  K-th iteration used for thinning                              50
+
+Input data file(s)
+  EMA_DSEM3_ps.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of clusters                         59
+
+       Size (s)    Cluster ID with Size s
+
+         91        1090
+        110        1099
+        115        1032
+        139        1127
+        150        1089
+        152        1114
+        158        1080
+        159        1124
+        160        1074 1117 1128 1130
+        161        1006 1102 1132
+        162        1026 1028 1095 1096 1016 1033 1036 1058 1072 1126 1023
+                   1024 1082 1087
+        163        1019 1097 1065 1029 1107 1013 1115 1075 1010 1035 1018
+                   1045 1053 1054 1134
+        164        1039 1043 1118 1122 1123 1077 1125 1104 1105 1106 1004
+                   1131 1109 1133 1003
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+     Number of missing data patterns            13
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT         0.344
+ PSI            0.344         0.346
+ SLO            0.344         0.346         0.346
+ SHI            0.344         0.346         0.346         0.346
+ SLOPSI         0.338         0.339         0.340         0.340         0.340
+ SHIPSI         0.338         0.339         0.340         0.340         0.340
+ PSI_B          0.344         0.346         0.346         0.346         0.340
+ SLO_B          0.344         0.346         0.346         0.346         0.340
+ SHI_B          0.344         0.346         0.346         0.346         0.340
+ SLOPSI_B       0.344         0.346         0.346         0.346         0.340
+ SHIPSI_B       0.344         0.346         0.346         0.346         0.340
+
+
+           Covariance Coverage
+              SHIPSI        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ SHIPSI         0.340
+ PSI_B          0.340         1.000
+ SLO_B          0.340         1.000         1.000
+ SHI_B          0.340         1.000         1.000         1.000
+ SLOPSI_B       0.340         1.000         1.000         1.000         1.000
+ SHIPSI_B       0.340         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              SHIPSI_B
+              ________
+ SHIPSI_B       1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     AFFECT                0.368      -0.147      -3.000    5.21%      -1.000      0.000      0.000
+            3226.000       2.360      -0.272       3.000   10.79%       1.000      2.000
+     PSI                   0.293       0.908       0.000   70.67%       0.000      0.000      0.000
+            3242.000       0.207      -1.176       1.000   29.33%       0.000      1.000
+     SLO                   0.095       2.764       0.000   90.51%       0.000      0.000      0.000
+            3244.000       0.086       5.637       1.000    9.49%       0.000      0.000
+     SHI                   0.163       1.821       0.000   83.66%       0.000      0.000      0.000
+            3244.000       0.137       1.316       1.000   16.34%       0.000      0.000
+     SLOPSI                0.033       5.256       0.000   96.73%       0.000      0.000      0.000
+            3182.000       0.032      25.630       1.000    3.27%       0.000      0.000
+     SHIPSI                0.085       2.987       0.000   91.55%       0.000      0.000      0.000
+            3182.000       0.077       6.921       1.000    8.45%       0.000      0.000
+     PSI_B                 0.291       0.987       0.015    3.39%       0.027      0.091      0.109
+              59.000       0.099      -0.393       1.000    5.08%       0.215      0.569
+     SLO_B                 0.097       1.188       0.000   13.56%       0.016      0.051      0.073
+              59.000       0.008       0.836       0.355    1.69%       0.091      0.150
+     SHI_B                 0.167       1.600       0.000    3.39%       0.034      0.090      0.132
+              59.000       0.024       2.747       0.741    1.69%       0.173      0.222
+     SLOPSI_B              0.034       2.227       0.000   42.37%       0.000      0.000      0.016
+              59.000       0.003       5.772       0.267    1.69%       0.018      0.052
+     SHIPSI_B              0.083       2.014       0.000   45.76%       0.000      0.000      0.018
+              59.000       0.018       3.263       0.574    1.69%       0.031      0.111
+
+
+     VIF (VARIANCE INFLATION FACTOR) FOR EXPLORING MULTICOLLINEARITY OF INDEPENDENT VARIABLES
+
+     Variable        VIF       Variable        VIF       Variable        VIF
+
+     PSI_B          4.595      SLO_B          2.575      SHI_B          5.207
+     SLOPSI_B       3.459      SHIPSI_B       9.987
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              32
+
+Information Criteria
+
+          Deviance (DIC)                        72244.259
+          Estimated Number of Parameters (pD)   36927.488
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.186       0.025      0.000       0.134       0.237      *
+    PSI&1             -0.430       0.085      0.000      -0.595      -0.278      *
+    SHI               -0.963       0.093      0.000      -1.146      -0.775      *
+    SLO               -0.340       0.101      0.001      -0.531      -0.137      *
+    SLOPSI             0.147       0.169      0.194      -0.186       0.473
+    SHIPSI             0.016       0.129      0.451      -0.244       0.262
+
+ PSI        ON
+    PSI&1              0.725       0.011      0.000       0.703       0.747      *
+
+ PSI      WITH
+    AFFECT            -0.090       0.009      0.000      -0.108      -0.073      *
+
+ SHI      WITH
+    SLO               -0.016       0.002      0.000      -0.019      -0.012      *
+
+ SLOPSI   WITH
+    SLO                0.030       0.001      0.000       0.028       0.032      *
+    SHI               -0.005       0.001      0.000      -0.008      -0.003      *
+
+ SHIPSI   WITH
+    SLO               -0.008       0.001      0.000      -0.011      -0.005      *
+    SHI                0.071       0.002      0.000       0.067       0.075      *
+    SLOPSI            -0.003       0.001      0.001      -0.005      -0.001      *
+
+ Means
+    SLO                0.095       0.005      0.000       0.085       0.106      *
+    SHI                0.164       0.006      0.000       0.151       0.176      *
+    SLOPSI             0.033       0.003      0.000       0.027       0.039      *
+    SHIPSI             0.085       0.005      0.000       0.075       0.095      *
+
+ Intercepts
+    PSI                0.081       0.005      0.000       0.072       0.091      *
+
+ Variances
+    SLO                0.086       0.002      0.000       0.082       0.091      *
+    SHI                0.137       0.003      0.000       0.131       0.143      *
+    SLOPSI             0.032       0.001      0.000       0.030       0.033      *
+    SHIPSI             0.078       0.002      0.000       0.074       0.082      *
+
+ Residual Variances
+    AFFECT             1.718       0.045      0.000       1.631       1.810      *
+    PSI                0.106       0.003      0.000       0.100       0.112      *
+
+Between Level
+
+ AFFECT     ON
+    PSI_B             -0.057       0.584      0.464      -1.175       1.058
+    SLO_B             -3.135       1.461      0.014      -6.125      -0.385      *
+    SHI_B             -1.340       1.241      0.145      -3.812       1.205
+    SLOPSI_B           4.258       2.995      0.080      -1.604       9.930
+    SHIPSI_B           1.878       1.968      0.169      -2.051       5.749
+
+ Intercepts
+    AFFECT             0.957       0.202      0.000       0.558       1.329      *
+
+ Residual Variances
+    AFFECT             0.362       0.084      0.000       0.240       0.570      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.186       0.025      0.000       0.134       0.237      *
+    PSI&1             -0.144       0.028      0.000      -0.198      -0.093      *
+    SHI               -0.253       0.024      0.000      -0.301      -0.203      *
+    SLO               -0.071       0.021      0.001      -0.110      -0.029      *
+    SLOPSI             0.019       0.021      0.194      -0.024       0.060
+    SHIPSI             0.003       0.025      0.451      -0.048       0.052
+
+ PSI        ON
+    PSI&1              0.725       0.011      0.000       0.703       0.747      *
+
+ PSI      WITH
+    AFFECT            -0.212       0.019      0.000      -0.250      -0.173      *
+
+ SHI      WITH
+    SLO               -0.143       0.017      0.000      -0.177      -0.110      *
+
+ SLOPSI   WITH
+    SLO                0.576       0.012      0.000       0.552       0.599      *
+    SHI               -0.082       0.017      0.000      -0.115      -0.049      *
+
+ SHIPSI   WITH
+    SLO               -0.098       0.018      0.000      -0.133      -0.065      *
+    SHI                0.689       0.009      0.000       0.670       0.706      *
+    SLOPSI            -0.056       0.018      0.001      -0.090      -0.021      *
+
+ Means
+    SLO                0.324       0.018      0.000       0.289       0.361      *
+    SHI                0.442       0.018      0.000       0.407       0.479      *
+    SLOPSI             0.187       0.018      0.000       0.151       0.220      *
+    SHIPSI             0.304       0.018      0.000       0.269       0.340      *
+
+ Intercepts
+    PSI                0.173       0.012      0.000       0.150       0.197      *
+
+ Variances
+    SLO                1.000       0.000      0.000       1.000       1.000
+    SHI                1.000       0.000      0.000       1.000       1.000
+    SLOPSI             1.000       0.000      0.000       1.000       1.000
+    SHIPSI             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.865       0.015      0.000       0.833       0.893      *
+    PSI                0.474       0.016      0.000       0.443       0.506      *
+
+Between Level
+
+ AFFECT     ON
+    PSI_B             -0.026       0.262      0.464      -0.529       0.474
+    SLO_B             -0.415       0.182      0.014      -0.756      -0.050      *
+    SHI_B             -0.301       0.269      0.145      -0.800       0.259
+    SLOPSI_B           0.316       0.216      0.080      -0.117       0.715
+    SHIPSI_B           0.375       0.374      0.169      -0.396       1.065
+
+ Intercepts
+    AFFECT             1.390       0.306      0.000       0.765       1.947      *
+
+ Residual Variances
+    AFFECT             0.776       0.084      0.000       0.601       0.925      *
+
+
+STDY Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.132       0.018      0.000       0.095       0.167      *
+    PSI&1             -0.305       0.059      0.000      -0.420      -0.198      *
+    SHI               -0.253       0.024      0.000      -0.301      -0.203      *
+    SLO               -0.071       0.021      0.001      -0.110      -0.029      *
+    SLOPSI             0.019       0.021      0.194      -0.024       0.060
+    SHIPSI             0.003       0.025      0.451      -0.048       0.052
+
+ PSI        ON
+    PSI&1              1.536       0.020      0.000       1.496       1.575      *
+
+ PSI      WITH
+    AFFECT            -0.212       0.019      0.000      -0.250      -0.173      *
+
+ SHI      WITH
+    SLO               -0.143       0.017      0.000      -0.177      -0.110      *
+
+ SLOPSI   WITH
+    SLO                0.576       0.012      0.000       0.552       0.599      *
+    SHI               -0.082       0.017      0.000      -0.115      -0.049      *
+
+ SHIPSI   WITH
+    SLO               -0.098       0.018      0.000      -0.133      -0.065      *
+    SHI                0.689       0.009      0.000       0.670       0.706      *
+    SLOPSI            -0.056       0.018      0.001      -0.090      -0.021      *
+
+ Means
+    SLO                0.324       0.018      0.000       0.289       0.361      *
+    SHI                0.442       0.018      0.000       0.407       0.479      *
+    SLOPSI             0.187       0.018      0.000       0.151       0.220      *
+    SHIPSI             0.304       0.018      0.000       0.269       0.340      *
+
+ Intercepts
+    PSI                0.173       0.012      0.000       0.150       0.197      *
+
+ Variances
+    SLO                1.000       0.000      0.000       1.000       1.000
+    SHI                1.000       0.000      0.000       1.000       1.000
+    SLOPSI             1.000       0.000      0.000       1.000       1.000
+    SHIPSI             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.865       0.015      0.000       0.833       0.893      *
+    PSI                0.474       0.016      0.000       0.443       0.506      *
+
+Between Level
+
+ AFFECT     ON
+    PSI_B             -0.084       0.834      0.464      -1.679       1.505
+    SLO_B             -4.594       2.012      0.014      -8.366      -0.558      *
+    SHI_B             -1.960       1.750      0.145      -5.200       1.685
+    SLOPSI_B           6.177       4.227      0.080      -2.289      13.996
+    SHIPSI_B           2.779       2.769      0.169      -2.929       7.882
+
+ Intercepts
+    AFFECT             1.390       0.306      0.000       0.765       1.947      *
+
+ Residual Variances
+    AFFECT             0.776       0.084      0.000       0.601       0.925      *
+
+
+STD Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.186       0.025      0.000       0.134       0.237      *
+    PSI&1             -0.430       0.085      0.000      -0.595      -0.278      *
+    SHI               -0.963       0.093      0.000      -1.146      -0.775      *
+    SLO               -0.340       0.101      0.001      -0.531      -0.137      *
+    SLOPSI             0.147       0.169      0.194      -0.186       0.473
+    SHIPSI             0.016       0.129      0.451      -0.244       0.262
+
+ PSI        ON
+    PSI&1              0.725       0.011      0.000       0.703       0.747      *
+
+ PSI      WITH
+    AFFECT            -0.090       0.009      0.000      -0.108      -0.073      *
+
+ SHI      WITH
+    SLO               -0.016       0.002      0.000      -0.019      -0.012      *
+
+ SLOPSI   WITH
+    SLO                0.030       0.001      0.000       0.028       0.032      *
+    SHI               -0.005       0.001      0.000      -0.008      -0.003      *
+
+ SHIPSI   WITH
+    SLO               -0.008       0.001      0.000      -0.011      -0.005      *
+    SHI                0.071       0.002      0.000       0.067       0.075      *
+    SLOPSI            -0.003       0.001      0.001      -0.005      -0.001      *
+
+ Means
+    SLO                0.095       0.005      0.000       0.085       0.106      *
+    SHI                0.164       0.006      0.000       0.151       0.176      *
+    SLOPSI             0.033       0.003      0.000       0.027       0.039      *
+    SHIPSI             0.085       0.005      0.000       0.075       0.095      *
+
+ Intercepts
+    PSI                0.081       0.005      0.000       0.072       0.091      *
+
+ Variances
+    SLO                0.086       0.002      0.000       0.082       0.091      *
+    SHI                0.137       0.003      0.000       0.131       0.143      *
+    SLOPSI             0.032       0.001      0.000       0.030       0.033      *
+    SHIPSI             0.078       0.002      0.000       0.074       0.082      *
+
+ Residual Variances
+    AFFECT             1.718       0.045      0.000       1.631       1.810      *
+    PSI                0.106       0.003      0.000       0.100       0.112      *
+
+Between Level
+
+ AFFECT     ON
+    PSI_B             -0.057       0.584      0.464      -1.175       1.058
+    SLO_B             -3.135       1.461      0.014      -6.125      -0.385      *
+    SHI_B             -1.340       1.241      0.145      -3.812       1.205
+    SLOPSI_B           4.258       2.995      0.080      -1.604       9.930
+    SHIPSI_B           1.878       1.968      0.169      -2.051       5.749
+
+ Intercepts
+    AFFECT             0.957       0.202      0.000       0.558       1.329      *
+
+ Residual Variances
+    AFFECT             0.362       0.084      0.000       0.240       0.570      *
+
+
+R-SQUARE
+
+Within Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT             0.135       0.015      0.000       0.107       0.167
+    PSI                0.526       0.016      0.000       0.494       0.557
+
+Between Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT             0.224       0.084      0.000       0.073       0.398
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.119       0.134       0.144       0.186       0.227       0.237       0.252
+    PSI&1           -0.665      -0.595      -0.573      -0.430      -0.296      -0.278      -0.234
+    SHI             -1.201      -1.146      -1.119      -0.963      -0.804      -0.775      -0.722
+    SLO             -0.589      -0.531      -0.501      -0.340      -0.174      -0.137      -0.082
+    SLOPSI          -0.319      -0.186      -0.126       0.147       0.425       0.473       0.604
+    SHIPSI          -0.320      -0.244      -0.199       0.016       0.225       0.262       0.360
+
+ PSI      ON
+    PSI&1            0.697       0.703       0.707       0.725       0.743       0.747       0.752
+
+ PSI      WITH
+    AFFECT          -0.112      -0.108      -0.105      -0.090      -0.076      -0.073      -0.068
+
+ SHI      WITH
+    SLO             -0.021      -0.019      -0.019      -0.016      -0.012      -0.012      -0.011
+
+ SLOPSI   WITH
+    SLO              0.027       0.028       0.028       0.030       0.032       0.032       0.033
+    SHI             -0.009      -0.008      -0.007      -0.005      -0.004      -0.003      -0.003
+
+ SHIPSI   WITH
+    SLO             -0.012      -0.011      -0.011      -0.008      -0.006      -0.005      -0.004
+    SHI              0.065       0.067       0.067       0.071       0.075       0.075       0.076
+    SLOPSI          -0.005      -0.005      -0.004      -0.003      -0.001      -0.001      -0.001
+
+ Means
+    SLO              0.082       0.085       0.086       0.095       0.104       0.106       0.108
+    SHI              0.148       0.151       0.153       0.164       0.174       0.176       0.181
+    SLOPSI           0.025       0.027       0.028       0.033       0.038       0.039       0.041
+    SHIPSI           0.072       0.075       0.077       0.085       0.093       0.095       0.097
+
+ Intercepts
+    PSI              0.069       0.072       0.073       0.081       0.090       0.091       0.094
+
+ Variances
+    SLO              0.081       0.082       0.083       0.086       0.090       0.091       0.092
+    SHI              0.128       0.131       0.132       0.137       0.143       0.143       0.145
+    SLOPSI           0.030       0.030       0.031       0.032       0.033       0.033       0.034
+    SHIPSI           0.073       0.074       0.075       0.078       0.081       0.082       0.083
+
+ Residual Variances
+    AFFECT           1.605       1.631       1.647       1.718       1.796       1.810       1.835
+    PSI              0.098       0.100       0.101       0.106       0.110       0.112       0.114
+
+Between Level
+
+ AFFECT   ON
+    PSI_B           -1.597      -1.175      -0.996      -0.057       0.888       1.058       1.523
+    SLO_B           -7.150      -6.125      -5.634      -3.135      -0.862      -0.385       0.673
+    SHI_B           -4.806      -3.812      -3.413      -1.340       0.799       1.205       1.773
+    SLOPSI_B        -3.453      -1.604      -0.843       4.258       9.133       9.930      12.006
+    SHIPSI_B        -3.446      -2.051      -1.441       1.878       5.043       5.749       7.085
+
+ Intercepts
+    AFFECT           0.375       0.558       0.619       0.957       1.278       1.329       1.423
+
+ Residual Variances
+    AFFECT           0.217       0.240       0.254       0.362       0.526       0.570       0.664
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.119       0.134       0.144       0.186       0.227       0.237       0.252
+    PSI&1           -0.223      -0.198      -0.190      -0.144      -0.099      -0.093      -0.078
+    SHI             -0.316      -0.301      -0.293      -0.253      -0.212      -0.203      -0.189
+    SLO             -0.123      -0.110      -0.104      -0.071      -0.036      -0.029      -0.017
+    SLOPSI          -0.040      -0.024      -0.016       0.019       0.054       0.060       0.076
+    SHIPSI          -0.064      -0.048      -0.039       0.003       0.045       0.052       0.069
+
+ PSI      ON
+    PSI&1            0.697       0.703       0.707       0.725       0.743       0.747       0.752
+
+ PSI      WITH
+    AFFECT          -0.258      -0.250      -0.243      -0.212      -0.179      -0.173      -0.163
+
+ SHI      WITH
+    SLO             -0.187      -0.177      -0.171      -0.143      -0.116      -0.110      -0.099
+
+ SLOPSI   WITH
+    SLO              0.545       0.552       0.556       0.576       0.596       0.599       0.605
+    SHI             -0.130      -0.115      -0.110      -0.082      -0.055      -0.049      -0.041
+
+ SHIPSI   WITH
+    SLO             -0.145      -0.133      -0.127      -0.098      -0.070      -0.065      -0.054
+    SHI              0.664       0.670       0.674       0.689       0.703       0.706       0.711
+    SLOPSI          -0.100      -0.090      -0.085      -0.056      -0.026      -0.021      -0.014
+
+ Means
+    SLO              0.280       0.289       0.295       0.324       0.355       0.361       0.371
+    SHI              0.397       0.407       0.412       0.442       0.472       0.479       0.489
+    SLOPSI           0.139       0.151       0.158       0.187       0.215       0.220       0.230
+    SHIPSI           0.256       0.269       0.275       0.304       0.334       0.340       0.351
+
+ Intercepts
+    PSI              0.143       0.150       0.153       0.173       0.194       0.197       0.204
+
+ Variances
+    SLO              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SHI              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SLOPSI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SHIPSI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.821       0.833       0.839       0.865       0.889       0.893       0.901
+    PSI              0.434       0.443       0.448       0.474       0.500       0.506       0.514
+
+Between Level
+
+ AFFECT   ON
+    PSI_B           -0.694      -0.529      -0.453      -0.026       0.403       0.474       0.623
+    SLO_B           -0.851      -0.756      -0.696      -0.415      -0.117      -0.050       0.091
+    SHI_B           -0.952      -0.800      -0.740      -0.301       0.178       0.259       0.381
+    SLOPSI_B        -0.255      -0.117      -0.060       0.316       0.654       0.715       0.818
+    SHIPSI_B        -0.604      -0.396      -0.292       0.375       0.952       1.065       1.233
+
+ Intercepts
+    AFFECT           0.537       0.765       0.865       1.390       1.870       1.947       2.075
+
+ Residual Variances
+    AFFECT           0.553       0.601       0.627       0.776       0.905       0.925       0.959
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.084       0.095       0.102       0.132       0.161       0.167       0.178
+    PSI&1           -0.465      -0.420      -0.402      -0.305      -0.211      -0.198      -0.166
+    SHI             -0.316      -0.301      -0.293      -0.253      -0.212      -0.203      -0.189
+    SLO             -0.123      -0.110      -0.104      -0.071      -0.036      -0.029      -0.017
+    SLOPSI          -0.040      -0.024      -0.016       0.019       0.054       0.060       0.076
+    SHIPSI          -0.064      -0.048      -0.039       0.003       0.045       0.052       0.069
+
+ PSI      ON
+    PSI&1            1.483       1.496       1.503       1.536       1.569       1.575       1.587
+
+ PSI      WITH
+    AFFECT          -0.258      -0.250      -0.243      -0.212      -0.179      -0.173      -0.163
+
+ SHI      WITH
+    SLO             -0.187      -0.177      -0.171      -0.143      -0.116      -0.110      -0.099
+
+ SLOPSI   WITH
+    SLO              0.545       0.552       0.556       0.576       0.596       0.599       0.605
+    SHI             -0.130      -0.115      -0.110      -0.082      -0.055      -0.049      -0.041
+
+ SHIPSI   WITH
+    SLO             -0.145      -0.133      -0.127      -0.098      -0.070      -0.065      -0.054
+    SHI              0.664       0.670       0.674       0.689       0.703       0.706       0.711
+    SLOPSI          -0.100      -0.090      -0.085      -0.056      -0.026      -0.021      -0.014
+
+ Means
+    SLO              0.280       0.289       0.295       0.324       0.355       0.361       0.371
+    SHI              0.397       0.407       0.412       0.442       0.472       0.479       0.489
+    SLOPSI           0.139       0.151       0.158       0.187       0.215       0.220       0.230
+    SHIPSI           0.256       0.269       0.275       0.304       0.334       0.340       0.351
+
+ Intercepts
+    PSI              0.143       0.150       0.153       0.173       0.194       0.197       0.204
+
+ Variances
+    SLO              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SHI              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SLOPSI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SHIPSI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.821       0.833       0.839       0.865       0.889       0.893       0.901
+    PSI              0.434       0.443       0.448       0.474       0.500       0.506       0.514
+
+Between Level
+
+ AFFECT   ON
+    PSI_B           -2.205      -1.679      -1.440      -0.084       1.280       1.505       1.979
+    SLO_B           -9.409      -8.366      -7.703      -4.594      -1.298      -0.558       1.004
+    SHI_B           -6.189      -5.200      -4.808      -1.960       1.155       1.685       2.476
+    SLOPSI_B        -4.992      -2.289      -1.182       6.177      12.800      13.996      16.019
+    SHIPSI_B        -4.470      -2.929      -2.159       2.779       7.049       7.882       9.125
+
+ Intercepts
+    AFFECT           0.537       0.765       0.865       1.390       1.870       1.947       2.075
+
+ Residual Variances
+    AFFECT           0.553       0.601       0.627       0.776       0.905       0.925       0.959
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.119       0.134       0.144       0.186       0.227       0.237       0.252
+    PSI&1           -0.665      -0.595      -0.573      -0.430      -0.296      -0.278      -0.234
+    SHI             -1.201      -1.146      -1.119      -0.963      -0.804      -0.775      -0.722
+    SLO             -0.589      -0.531      -0.501      -0.340      -0.174      -0.137      -0.082
+    SLOPSI          -0.319      -0.186      -0.126       0.147       0.425       0.473       0.604
+    SHIPSI          -0.320      -0.244      -0.199       0.016       0.225       0.262       0.360
+
+ PSI      ON
+    PSI&1            0.697       0.703       0.707       0.725       0.743       0.747       0.752
+
+ PSI      WITH
+    AFFECT          -0.112      -0.108      -0.105      -0.090      -0.076      -0.073      -0.068
+
+ SHI      WITH
+    SLO             -0.021      -0.019      -0.019      -0.016      -0.012      -0.012      -0.011
+
+ SLOPSI   WITH
+    SLO              0.027       0.028       0.028       0.030       0.032       0.032       0.033
+    SHI             -0.009      -0.008      -0.007      -0.005      -0.004      -0.003      -0.003
+
+ SHIPSI   WITH
+    SLO             -0.012      -0.011      -0.011      -0.008      -0.006      -0.005      -0.004
+    SHI              0.065       0.067       0.067       0.071       0.075       0.075       0.076
+    SLOPSI          -0.005      -0.005      -0.004      -0.003      -0.001      -0.001      -0.001
+
+ Means
+    SLO              0.082       0.085       0.086       0.095       0.104       0.106       0.108
+    SHI              0.148       0.151       0.153       0.164       0.174       0.176       0.181
+    SLOPSI           0.025       0.027       0.028       0.033       0.038       0.039       0.041
+    SHIPSI           0.072       0.075       0.077       0.085       0.093       0.095       0.097
+
+ Intercepts
+    PSI              0.069       0.072       0.073       0.081       0.090       0.091       0.094
+
+ Variances
+    SLO              0.081       0.082       0.083       0.086       0.090       0.091       0.092
+    SHI              0.128       0.131       0.132       0.137       0.143       0.143       0.145
+    SLOPSI           0.030       0.030       0.031       0.032       0.033       0.033       0.034
+    SHIPSI           0.073       0.074       0.075       0.078       0.081       0.082       0.083
+
+ Residual Variances
+    AFFECT           1.605       1.631       1.647       1.718       1.796       1.810       1.835
+    PSI              0.098       0.100       0.101       0.106       0.110       0.112       0.114
+
+Between Level
+
+ AFFECT   ON
+    PSI_B           -1.597      -1.175      -0.996      -0.057       0.888       1.058       1.523
+    SLO_B           -7.150      -6.125      -5.634      -3.135      -0.862      -0.385       0.673
+    SHI_B           -4.806      -3.812      -3.413      -1.340       0.799       1.205       1.773
+    SLOPSI_B        -3.453      -1.604      -0.843       4.258       9.133       9.930      12.006
+    SHIPSI_B        -3.446      -2.051      -1.441       1.878       5.043       5.749       7.085
+
+ Intercepts
+    AFFECT           0.375       0.558       0.619       0.957       1.278       1.329       1.423
+
+ Residual Variances
+    AFFECT           0.217       0.240       0.254       0.362       0.526       0.570       0.664
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             0             0             0
+ PSI                0             0             0             0             0
+ SLO                0             0             0             0             0
+ SHI                0             0             0             0             0
+ SLOPSI             0             0             0             0             0
+ SHIPSI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ PSI&1              0             0             0             0             0
+
+
+           LAMBDA
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+ AFFECT             0             0             0
+ PSI                0             0             0
+ SLO                0             0             0
+ SHI                0             0             0
+ SLOPSI             0             0             0
+ SHIPSI             0             0             0
+ AFFECT&1           0             0             0
+ PSI&1              0             0             0
+
+
+           THETA
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT             0
+ PSI                0             0
+ SLO                0             0             0
+ SHI                0             0             0             0
+ SLOPSI             0             0             0             0             0
+ SHIPSI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ PSI&1              0             0             0             0             0
+
+
+           THETA
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+ SHIPSI             0
+ AFFECT&1           0             0
+ PSI&1              0             0             0
+
+
+           ALPHA
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+                    0             1             2             3             4
+
+
+           ALPHA
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+                    5             0             0
+
+
+           BETA
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             6             7             8
+ PSI                0             0             0             0             0
+ SLO                0             0             0             0             0
+ SHI                0             0             0             0             0
+ SLOPSI             0             0             0             0             0
+ SHIPSI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ PSI&1              0             0             0             0             0
+
+
+           BETA
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+ AFFECT             9            10            11
+ PSI                0             0            12
+ SLO                0             0             0
+ SHI                0             0             0
+ SLOPSI             0             0             0
+ SHIPSI             0             0             0
+ AFFECT&1           0             0             0
+ PSI&1              0             0             0
+
+
+           PSI
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT            13
+ PSI               14            15
+ SLO                0             0            16
+ SHI                0             0            17            18
+ SLOPSI             0             0            19            20            21
+ SHIPSI             0             0            22            23            24
+ AFFECT&1           0             0             0             0             0
+ PSI&1              0             0             0             0             0
+
+
+           PSI
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+ SHIPSI            25
+ AFFECT&1           0             0
+ PSI&1              0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SHIPSI_B
+              ________
+                    0
+
+
+           LAMBDA
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             0             0             0
+ PSI_B              0             0             0             0             0
+ SLO_B              0             0             0             0             0
+ SHI_B              0             0             0             0             0
+ SLOPSI_B           0             0             0             0             0
+ SHIPSI_B           0             0             0             0             0
+
+
+           LAMBDA
+              SHIPSI_B
+              ________
+ AFFECT             0
+ PSI_B              0
+ SLO_B              0
+ SHI_B              0
+ SLOPSI_B           0
+ SHIPSI_B           0
+
+
+           THETA
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0
+ PSI_B              0             0
+ SLO_B              0             0             0
+ SHI_B              0             0             0             0
+ SLOPSI_B           0             0             0             0             0
+ SHIPSI_B           0             0             0             0             0
+
+
+           THETA
+              SHIPSI_B
+              ________
+ SHIPSI_B           0
+
+
+           ALPHA
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+                   26             0             0             0             0
+
+
+           ALPHA
+              SHIPSI_B
+              ________
+                    0
+
+
+           BETA
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0            27            28            29            30
+ PSI_B              0             0             0             0             0
+ SLO_B              0             0             0             0             0
+ SHI_B              0             0             0             0             0
+ SLOPSI_B           0             0             0             0             0
+ SHIPSI_B           0             0             0             0             0
+
+
+           BETA
+              SHIPSI_B
+              ________
+ AFFECT            31
+ PSI_B              0
+ SLO_B              0
+ SHI_B              0
+ SLOPSI_B           0
+ SHIPSI_B           0
+
+
+           PSI
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ AFFECT            32
+ PSI_B              0             0
+ SLO_B              0             0             0
+ SHI_B              0             0             0             0
+ SLOPSI_B           0             0             0             0             0
+ SHIPSI_B           0             0             0             0             0
+
+
+           PSI
+              SHIPSI_B
+              ________
+ SHIPSI_B           0
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT         1.000         0.000         0.000         0.000         0.000
+ PSI            0.000         1.000         0.000         0.000         0.000
+ SLO            0.000         0.000         1.000         0.000         0.000
+ SHI            0.000         0.000         0.000         1.000         0.000
+ SLOPSI         0.000         0.000         0.000         0.000         1.000
+ SHIPSI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ PSI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+ AFFECT         0.000         0.000         0.000
+ PSI            0.000         0.000         0.000
+ SLO            0.000         0.000         0.000
+ SHI            0.000         0.000         0.000
+ SLOPSI         0.000         0.000         0.000
+ SHIPSI         1.000         0.000         0.000
+ AFFECT&1       0.000         1.000         0.000
+ PSI&1          0.000         0.000         1.000
+
+
+           THETA
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT         0.000
+ PSI            0.000         0.000
+ SLO            0.000         0.000         0.000
+ SHI            0.000         0.000         0.000         0.000
+ SLOPSI         0.000         0.000         0.000         0.000         0.000
+ SHIPSI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ PSI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+ SHIPSI         0.000
+ AFFECT&1       0.000         0.000
+ PSI&1          0.000         0.000         0.000
+
+
+           ALPHA
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+                0.000         0.293         0.095         0.163         0.033
+
+
+           ALPHA
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+                0.085         0.000         0.000
+
+
+           BETA
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+ PSI            0.000         0.000         0.000         0.000         0.000
+ SLO            0.000         0.000         0.000         0.000         0.000
+ SHI            0.000         0.000         0.000         0.000         0.000
+ SLOPSI         0.000         0.000         0.000         0.000         0.000
+ SHIPSI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ PSI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+ AFFECT         0.000         0.000         0.000
+ PSI            0.000         0.000         0.000
+ SLO            0.000         0.000         0.000
+ SHI            0.000         0.000         0.000
+ SLOPSI         0.000         0.000         0.000
+ SHIPSI         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000
+ PSI&1          0.000         0.000         0.000
+
+
+           PSI
+              AFFECT        PSI           SLO           SHI           SLOPSI
+              ________      ________      ________      ________      ________
+ AFFECT         1.180
+ PSI            0.000         0.104
+ SLO            0.000         0.000         0.043
+ SHI            0.000         0.000         0.000         0.068
+ SLOPSI         0.000         0.000         0.000         0.000         0.016
+ SHIPSI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ PSI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              SHIPSI        AFFECT&1      PSI&1
+              ________      ________      ________
+ SHIPSI         0.039
+ AFFECT&1       0.000         1.177
+ PSI&1          0.000         0.000         0.104
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SHIPSI_B
+              ________
+                0.000
+
+
+           LAMBDA
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ AFFECT         1.000         0.000         0.000         0.000         0.000
+ PSI_B          0.000         1.000         0.000         0.000         0.000
+ SLO_B          0.000         0.000         1.000         0.000         0.000
+ SHI_B          0.000         0.000         0.000         1.000         0.000
+ SLOPSI_B       0.000         0.000         0.000         0.000         1.000
+ SHIPSI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              SHIPSI_B
+              ________
+ AFFECT         0.000
+ PSI_B          0.000
+ SLO_B          0.000
+ SHI_B          0.000
+ SLOPSI_B       0.000
+ SHIPSI_B       1.000
+
+
+           THETA
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ AFFECT         0.000
+ PSI_B          0.000         0.000
+ SLO_B          0.000         0.000         0.000
+ SHI_B          0.000         0.000         0.000         0.000
+ SLOPSI_B       0.000         0.000         0.000         0.000         0.000
+ SHIPSI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SHIPSI_B
+              ________
+ SHIPSI_B       0.000
+
+
+           ALPHA
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+                0.368         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              SHIPSI_B
+              ________
+                0.000
+
+
+           BETA
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+ PSI_B          0.000         0.000         0.000         0.000         0.000
+ SLO_B          0.000         0.000         0.000         0.000         0.000
+ SHI_B          0.000         0.000         0.000         0.000         0.000
+ SLOPSI_B       0.000         0.000         0.000         0.000         0.000
+ SHIPSI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              SHIPSI_B
+              ________
+ AFFECT         0.000
+ PSI_B          0.000
+ SLO_B          0.000
+ SHI_B          0.000
+ SLOPSI_B       0.000
+ SHIPSI_B       0.000
+
+
+           PSI
+              AFFECT        PSI_B         SLO_B         SHI_B         SLOPSI_B
+              ________      ________      ________      ________      ________
+ AFFECT         1.180
+ PSI_B          0.000         0.050
+ SLO_B          0.000         0.000         0.004
+ SHI_B          0.000         0.000         0.000         0.012
+ SLOPSI_B       0.000         0.000         0.000         0.000         0.001
+ SHIPSI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              SHIPSI_B
+              ________
+ SHIPSI_B       0.009
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 2~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 3~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 4~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 5~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 10~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 11~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 12~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 13~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 14~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 15~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 16~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 17~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 18~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 19~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 20~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 21~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 22~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 23~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 24~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 25~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 26~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 27~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 28~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 29~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 30~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 31~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 32~IG(-1.000,0.000)         infinity            infinity            infinity
+
+
+TECHNICAL 8 OUTPUT
+
+
+   TECHNICAL 8 OUTPUT FOR BAYES ESTIMATION
+
+     CHAIN    BSEED
+     1        0
+     2        285380
+     3        253358
+     4        93468
+
+                     POTENTIAL       PARAMETER WITH
+     ITERATION    SCALE REDUCTION      HIGHEST PSR
+     100              1.004               11
+     200              1.003               12
+     300              1.002               12
+     400              1.003               26
+     500              1.005               7
+     600              1.004               13
+     700              1.003               13
+     800              1.002               13
+     900              1.001               13
+     1000             1.001               11
+
+
+     MCMC EFFECTIVE SAMPLE SIZE (ESS) IN ASCENDING ORDER
+        LOWEST 10 PARAMETERS
+        PARAMETER    ESS
+            10      1775
+            32      1822
+            11      1843
+             9      1871
+            18      1916
+            13      1924
+            23      1937
+             7      1948
+             1      2000
+             2      2000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Between-level histograms (sample values, sample means/variances)
+  Between-level scatterplots (sample values, sample means/variances)
+  Time series plots (sample values, ACF, PACF)
+  Histogram of subjects per time point
+  Time interval plots
+  Bayesian posterior parameter distributions
+  Bayesian posterior parameter trace plots
+  Bayesian autocorrelation plots
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  20:12:35
+        Ending Time:  20:29:11
+       Elapsed Time:  00:16:36
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2025 Muthen & Muthen

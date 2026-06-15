@@ -1,0 +1,1393 @@
+Mplus VERSION 9
+MUTHEN & MUTHEN
+01/26/2026   9:22 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  Aim1: DSEM with lagged affect, active SI, low/high stress;
+
+  DATA:
+  FILE IS EMA_DSEM3_as.dat;
+
+  VARIABLE:
+  NAMES = ID affect asi slo shi sloaSI shiaSI time asi_b slo_b shi_b sloaSI_b shiaSI_b;
+  USEVARIABLES = affect asi slo shi sloaSI shiaSI asi_b slo_b shi_b sloaSI_b shiaSI_b;
+  CLUSTER = ID;
+  MISSING = ALL(-9999);
+  LAGGED = affect(1) asi(1);
+  TINTERVAL = time (2 tbin);
+  WITHIN = asi slo shi sloaSI shiaSI;
+  BETWEEN = asi_b, slo_b, shi_b, sloaSI_b, shiaSI_b;
+
+  ANALYSIS:
+  TYPE = TWOLEVEL;
+  ESTIMATOR = BAYES;
+  CHAINS = 4;
+  THIN = 50;
+  BITERATIONS = (1000);
+
+  PLOT:
+  TYPE = PLOT3;
+
+  MODEL:
+  %WITHIN%
+  asi;
+  slo;
+  shi;
+  sloaSI;
+  shiaSI;
+
+  affect ON
+  affect&1 (phi_aff)
+  asi&1 (b_asilag)
+  slo (b_slo)
+  shi (b_shi)
+  sloaSI (b_sloaSI)
+  shiaSI (b_shiaSI);
+
+  asi ON asi&1;
+
+  %BETWEEN%
+  affect;
+  affect ON
+  asi_b
+  slo_b
+  shi_b
+  sloaSI_b
+  shiaSI_b;
+
+  OUTPUT:
+  TECH1 TECH8;
+  CINTERVAL;
+  STANDARDIZED;
+
+
+
+*** WARNING
+  One or more individual-level variables have no variation within a
+  cluster for the following clusters.
+
+     Variable   Cluster IDs with no within-cluster variation
+
+      ASI         1090 1032 1089 1114 1074 1006 1072 1024 1019 1065 1107 1075 1125 1104 1105
+      SLO         1090 1074 1132 1082 1097 1029 1075 1010
+      SHI         1029 1010
+      SLOASI      1090 1099 1032 1089 1114 1080 1124 1074 1006 1102 1132 1028 1095 1096 1016 1036
+                  1072 1023 1024 1082 1087 1019 1097 1065 1029 1107 1075 1010 1053 1054 1043 1125
+                  1104 1105 1003
+      SHIASI      1090 1099 1032 1089 1114 1080 1124 1074 1006 1102 1132 1026 1095 1016 1036 1072
+                  1023 1024 1082 1087 1019 1065 1029 1107 1075 1010 1053 1054 1134 1043 1125 1104
+                  1105 1106 1003
+      ASI&1       1090 1032 1089 1114 1074 1006 1072 1024 1019 1065 1107 1075 1125 1104 1105
+
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Aim1: DSEM with lagged affect, active SI, low/high stress;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        9370
+
+Number of dependent variables                                    2
+Number of independent variables                                 11
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   AFFECT      ASI
+
+Observed independent variables
+   SLO         SHI         SLOASI      SHIASI      ASI_B       SLO_B
+   SHI_B       SLOASI_B    SHIASI_B    AFFECT&1    ASI&1
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   ASI         SLO         SHI         SLOASI      SHIASI      AFFECT&1
+   ASI&1
+
+  Between variables
+   ASI_B       SLO_B       SHI_B       SLOASI_B    SHIASI_B
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               4
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               50000
+  K-th iteration used for thinning                              50
+
+Input data file(s)
+  EMA_DSEM3_as.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of clusters                         59
+
+       Size (s)    Cluster ID with Size s
+
+         91        1090
+        110        1099
+        115        1032
+        139        1127
+        150        1089
+        152        1114
+        158        1080
+        159        1124
+        160        1074 1117 1128 1130
+        161        1006 1102 1132
+        162        1026 1028 1095 1096 1016 1033 1036 1058 1072 1126 1023
+                   1024 1082 1087
+        163        1019 1097 1065 1029 1107 1013 1115 1075 1010 1035 1018
+                   1045 1053 1054 1134
+        164        1039 1043 1118 1122 1123 1077 1125 1104 1105 1106 1004
+                   1131 1109 1133 1003
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+     Number of missing data patterns            11
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         0.344
+ ASI            0.344         0.346
+ SLO            0.344         0.346         0.346
+ SHI            0.344         0.346         0.346         0.346
+ SLOASI         0.338         0.340         0.340         0.340         0.340
+ SHIASI         0.338         0.340         0.340         0.340         0.340
+ ASI_B          0.344         0.346         0.346         0.346         0.340
+ SLO_B          0.344         0.346         0.346         0.346         0.340
+ SHI_B          0.344         0.346         0.346         0.346         0.340
+ SLOASI_B       0.344         0.346         0.346         0.346         0.340
+ SHIASI_B       0.344         0.346         0.346         0.346         0.340
+
+
+           Covariance Coverage
+              SHIASI        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ SHIASI         0.340
+ ASI_B          0.340         1.000
+ SLO_B          0.340         1.000         1.000
+ SHI_B          0.340         1.000         1.000         1.000
+ SLOASI_B       0.340         1.000         1.000         1.000         1.000
+ SHIASI_B       0.340         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              SHIASI_B
+              ________
+ SHIASI_B       1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     AFFECT                0.368      -0.147      -3.000    5.21%      -1.000      0.000      0.000
+            3226.000       2.360      -0.272       3.000   10.79%       1.000      2.000
+     ASI                   0.220       1.353       0.000   78.02%       0.000      0.000      0.000
+            3244.000       0.171      -0.169       1.000   21.98%       0.000      1.000
+     SLO                   0.095       2.764       0.000   90.51%       0.000      0.000      0.000
+            3244.000       0.086       5.637       1.000    9.49%       0.000      0.000
+     SHI                   0.163       1.821       0.000   83.66%       0.000      0.000      0.000
+            3244.000       0.137       1.316       1.000   16.34%       0.000      0.000
+     SLOASI                0.022       6.520       0.000   97.80%       0.000      0.000      0.000
+            3184.000       0.022      40.508       1.000    2.20%       0.000      0.000
+     SHIASI                0.065       3.539       0.000   93.53%       0.000      0.000      0.000
+            3184.000       0.061      10.525       1.000    6.47%       0.000      0.000
+     ASI_B                 0.216       1.264       0.000   25.42%       0.000      0.029      0.036
+              59.000       0.080       0.380       0.966    1.69%       0.130      0.433
+     SLO_B                 0.097       1.188       0.000   13.56%       0.016      0.051      0.073
+              59.000       0.008       0.836       0.355    1.69%       0.091      0.150
+     SHI_B                 0.167       1.600       0.000    3.39%       0.034      0.090      0.132
+              59.000       0.024       2.747       0.741    1.69%       0.173      0.222
+     SLOASI_B              0.022       1.806       0.000   59.32%       0.000      0.000      0.000
+              59.000       0.001       2.364       0.135    1.69%       0.000      0.037
+     SHIASI_B              0.063       2.216       0.000   59.32%       0.000      0.000      0.000
+              59.000       0.013       4.705       0.519    1.69%       0.000      0.093
+
+
+     VIF (VARIANCE INFLATION FACTOR) FOR EXPLORING MULTICOLLINEARITY OF INDEPENDENT VARIABLES
+
+     Variable        VIF       Variable        VIF       Variable        VIF
+
+     ASI_B          5.265      SLO_B          1.694      SHI_B          2.932
+     SLOASI_B       3.142      SHIASI_B       7.139
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              32
+
+Information Criteria
+
+          Deviance (DIC)                        68111.119
+          Estimated Number of Parameters (pD)   36946.655
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.184       0.025      0.000       0.133       0.230      *
+    ASI&1             -0.462       0.093      0.000      -0.640      -0.282      *
+    SLO               -0.321       0.094      0.000      -0.503      -0.136      *
+    SHI               -0.973       0.085      0.000      -1.141      -0.811      *
+    SLOASI             0.012       0.193      0.475      -0.381       0.387
+    SHIASI             0.037       0.133      0.396      -0.216       0.296
+
+ ASI        ON
+    ASI&1              0.726       0.011      0.000       0.704       0.748      *
+
+ ASI      WITH
+    AFFECT            -0.064       0.008      0.000      -0.082      -0.048      *
+
+ SHI      WITH
+    SLO               -0.015       0.002      0.000      -0.019      -0.012      *
+
+ SLOASI   WITH
+    SLO                0.020       0.001      0.000       0.019       0.022      *
+    SHI               -0.004       0.001      0.000      -0.006      -0.002      *
+
+ SHIASI   WITH
+    SLO               -0.006       0.001      0.000      -0.009      -0.004      *
+    SHI                0.054       0.002      0.000       0.051       0.058      *
+    SLOASI            -0.001       0.001      0.009      -0.003       0.000      *
+
+ Means
+    SLO                0.095       0.005      0.000       0.084       0.105      *
+    SHI                0.164       0.007      0.000       0.151       0.177      *
+    SLOASI             0.022       0.003      0.000       0.017       0.027      *
+    SHIASI             0.065       0.004      0.000       0.056       0.074      *
+
+ Intercepts
+    ASI                0.062       0.004      0.000       0.054       0.070      *
+
+ Variances
+    SLO                0.086       0.002      0.000       0.082       0.090      *
+    SHI                0.137       0.003      0.000       0.131       0.144      *
+    SLOASI             0.022       0.001      0.000       0.021       0.023      *
+    SHIASI             0.061       0.002      0.000       0.058       0.064      *
+
+ Residual Variances
+    AFFECT             1.714       0.044      0.000       1.632       1.803      *
+    ASI                0.088       0.002      0.000       0.083       0.093      *
+
+Between Level
+
+ AFFECT     ON
+    ASI_B             -0.592       0.669      0.176      -1.898       0.746
+    SLO_B             -3.103       1.186      0.006      -5.327      -0.663      *
+    SHI_B             -1.227       0.890      0.085      -3.019       0.553
+    SLOASI_B           7.442       4.015      0.035      -0.681      15.091
+    SHIASI_B           2.557       1.891      0.088      -1.257       6.343
+
+ Intercepts
+    AFFECT             0.990       0.173      0.000       0.654       1.339      *
+
+ Residual Variances
+    AFFECT             0.340       0.082      0.000       0.224       0.544      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.184       0.025      0.000       0.133       0.230      *
+    ASI&1             -0.142       0.028      0.000      -0.196      -0.087      *
+    SLO               -0.067       0.020      0.000      -0.104      -0.029      *
+    SHI               -0.256       0.022      0.000      -0.299      -0.213      *
+    SLOASI             0.001       0.020      0.475      -0.040       0.041
+    SHIASI             0.006       0.023      0.396      -0.038       0.051
+
+ ASI        ON
+    ASI&1              0.726       0.011      0.000       0.704       0.748      *
+
+ ASI      WITH
+    AFFECT            -0.166       0.021      0.000      -0.208      -0.126      *
+
+ SHI      WITH
+    SLO               -0.143       0.017      0.000      -0.177      -0.109      *
+
+ SLOASI   WITH
+    SLO                0.470       0.014      0.000       0.443       0.497      *
+    SHI               -0.067       0.018      0.000      -0.103      -0.033      *
+
+ SHIASI   WITH
+    SLO               -0.086       0.017      0.000      -0.119      -0.051      *
+    SHI                0.596       0.011      0.000       0.574       0.618      *
+    SLOASI            -0.040       0.018      0.009      -0.076      -0.007      *
+
+ Means
+    SLO                0.323       0.018      0.000       0.288       0.360      *
+    SHI                0.444       0.018      0.000       0.406       0.478      *
+    SLOASI             0.152       0.018      0.000       0.118       0.187      *
+    SHIASI             0.264       0.018      0.000       0.228       0.300      *
+
+ Intercepts
+    ASI                0.144       0.011      0.000       0.123       0.166      *
+
+ Variances
+    SLO                1.000       0.000      0.000       1.000       1.000
+    SHI                1.000       0.000      0.000       1.000       1.000
+    SLOASI             1.000       0.000      0.000       1.000       1.000
+    SHIASI             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.868       0.015      0.000       0.838       0.895      *
+    ASI                0.473       0.016      0.000       0.440       0.504      *
+
+Between Level
+
+ AFFECT     ON
+    ASI_B             -0.255       0.269      0.176      -0.763       0.293
+    SLO_B             -0.415       0.147      0.006      -0.666      -0.091      *
+    SHI_B             -0.275       0.193      0.085      -0.642       0.130
+    SLOASI_B           0.389       0.199      0.035      -0.037       0.745
+    SHIASI_B           0.431       0.302      0.088      -0.190       0.985
+
+ Intercepts
+    AFFECT             1.468       0.262      0.000       0.935       1.941      *
+
+ Residual Variances
+    AFFECT             0.749       0.088      0.000       0.567       0.905      *
+
+
+STDY Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.131       0.017      0.000       0.095       0.163      *
+    ASI&1             -0.329       0.064      0.000      -0.452      -0.203      *
+    SLO               -0.067       0.020      0.000      -0.104      -0.029      *
+    SHI               -0.256       0.022      0.000      -0.299      -0.213      *
+    SLOASI             0.001       0.020      0.475      -0.040       0.041
+    SHIASI             0.006       0.023      0.396      -0.038       0.051
+
+ ASI        ON
+    ASI&1              1.683       0.022      0.000       1.639       1.725      *
+
+ ASI      WITH
+    AFFECT            -0.166       0.021      0.000      -0.208      -0.126      *
+
+ SHI      WITH
+    SLO               -0.143       0.017      0.000      -0.177      -0.109      *
+
+ SLOASI   WITH
+    SLO                0.470       0.014      0.000       0.443       0.497      *
+    SHI               -0.067       0.018      0.000      -0.103      -0.033      *
+
+ SHIASI   WITH
+    SLO               -0.086       0.017      0.000      -0.119      -0.051      *
+    SHI                0.596       0.011      0.000       0.574       0.618      *
+    SLOASI            -0.040       0.018      0.009      -0.076      -0.007      *
+
+ Means
+    SLO                0.323       0.018      0.000       0.288       0.360      *
+    SHI                0.444       0.018      0.000       0.406       0.478      *
+    SLOASI             0.152       0.018      0.000       0.118       0.187      *
+    SHIASI             0.264       0.018      0.000       0.228       0.300      *
+
+ Intercepts
+    ASI                0.144       0.011      0.000       0.123       0.166      *
+
+ Variances
+    SLO                1.000       0.000      0.000       1.000       1.000
+    SHI                1.000       0.000      0.000       1.000       1.000
+    SLOASI             1.000       0.000      0.000       1.000       1.000
+    SHIASI             1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.868       0.015      0.000       0.838       0.895      *
+    ASI                0.473       0.016      0.000       0.440       0.504      *
+
+Between Level
+
+ AFFECT     ON
+    ASI_B             -0.898       0.949      0.176      -2.692       1.034
+    SLO_B             -4.592       1.624      0.006      -7.364      -1.009      *
+    SHI_B             -1.787       1.256      0.085      -4.176       0.847
+    SLOASI_B          10.942       5.611      0.035      -1.030      20.984
+    SHIASI_B           3.835       2.681      0.088      -1.691       8.755
+
+ Intercepts
+    AFFECT             1.468       0.262      0.000       0.935       1.941      *
+
+ Residual Variances
+    AFFECT             0.749       0.088      0.000       0.567       0.905      *
+
+
+STD Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.184       0.025      0.000       0.133       0.230      *
+    ASI&1             -0.462       0.093      0.000      -0.640      -0.282      *
+    SLO               -0.321       0.094      0.000      -0.503      -0.136      *
+    SHI               -0.973       0.085      0.000      -1.141      -0.811      *
+    SLOASI             0.012       0.193      0.475      -0.381       0.387
+    SHIASI             0.037       0.133      0.396      -0.216       0.296
+
+ ASI        ON
+    ASI&1              0.726       0.011      0.000       0.704       0.748      *
+
+ ASI      WITH
+    AFFECT            -0.064       0.008      0.000      -0.082      -0.048      *
+
+ SHI      WITH
+    SLO               -0.015       0.002      0.000      -0.019      -0.012      *
+
+ SLOASI   WITH
+    SLO                0.020       0.001      0.000       0.019       0.022      *
+    SHI               -0.004       0.001      0.000      -0.006      -0.002      *
+
+ SHIASI   WITH
+    SLO               -0.006       0.001      0.000      -0.009      -0.004      *
+    SHI                0.054       0.002      0.000       0.051       0.058      *
+    SLOASI            -0.001       0.001      0.009      -0.003       0.000      *
+
+ Means
+    SLO                0.095       0.005      0.000       0.084       0.105      *
+    SHI                0.164       0.007      0.000       0.151       0.177      *
+    SLOASI             0.022       0.003      0.000       0.017       0.027      *
+    SHIASI             0.065       0.004      0.000       0.056       0.074      *
+
+ Intercepts
+    ASI                0.062       0.004      0.000       0.054       0.070      *
+
+ Variances
+    SLO                0.086       0.002      0.000       0.082       0.090      *
+    SHI                0.137       0.003      0.000       0.131       0.144      *
+    SLOASI             0.022       0.001      0.000       0.021       0.023      *
+    SHIASI             0.061       0.002      0.000       0.058       0.064      *
+
+ Residual Variances
+    AFFECT             1.714       0.044      0.000       1.632       1.803      *
+    ASI                0.088       0.002      0.000       0.083       0.093      *
+
+Between Level
+
+ AFFECT     ON
+    ASI_B             -0.592       0.669      0.176      -1.898       0.746
+    SLO_B             -3.103       1.186      0.006      -5.327      -0.663      *
+    SHI_B             -1.227       0.890      0.085      -3.019       0.553
+    SLOASI_B           7.442       4.015      0.035      -0.681      15.091
+    SHIASI_B           2.557       1.891      0.088      -1.257       6.343
+
+ Intercepts
+    AFFECT             0.990       0.173      0.000       0.654       1.339      *
+
+ Residual Variances
+    AFFECT             0.340       0.082      0.000       0.224       0.544      *
+
+
+R-SQUARE
+
+Within Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT             0.132       0.015      0.000       0.105       0.162
+    ASI                0.527       0.016      0.000       0.495       0.560
+
+Between Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT             0.251       0.088      0.000       0.094       0.432
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.117       0.133       0.142       0.184       0.225       0.230       0.243
+    ASI&1           -0.702      -0.640      -0.611      -0.462      -0.306      -0.282      -0.216
+    SLO             -0.563      -0.503      -0.476      -0.321      -0.166      -0.136      -0.082
+    SHI             -1.180      -1.141      -1.118      -0.973      -0.831      -0.811      -0.769
+    SLOASI          -0.504      -0.381      -0.310       0.012       0.322       0.387       0.511
+    SHIASI          -0.307      -0.216      -0.181       0.037       0.258       0.296       0.367
+
+ ASI      ON
+    ASI&1            0.695       0.704       0.708       0.726       0.744       0.748       0.755
+
+ ASI      WITH
+    AFFECT          -0.086      -0.082      -0.079      -0.064      -0.051      -0.048      -0.044
+
+ SHI      WITH
+    SLO             -0.020      -0.019      -0.019      -0.015      -0.012      -0.012      -0.011
+
+ SLOASI   WITH
+    SLO              0.018       0.019       0.019       0.020       0.022       0.022       0.023
+    SHI             -0.006      -0.006      -0.005      -0.004      -0.002      -0.002      -0.001
+
+ SHIASI   WITH
+    SLO             -0.009      -0.009      -0.008      -0.006      -0.004      -0.004      -0.003
+    SHI              0.050       0.051       0.051       0.054       0.057       0.058       0.059
+    SLOASI          -0.003      -0.003      -0.003      -0.001       0.000       0.000       0.000
+
+ Means
+    SLO              0.081       0.084       0.086       0.095       0.104       0.105       0.108
+    SHI              0.148       0.151       0.153       0.164       0.175       0.177       0.181
+    SLOASI           0.016       0.017       0.018       0.022       0.027       0.027       0.029
+    SHIASI           0.053       0.056       0.058       0.065       0.072       0.074       0.076
+
+ Intercepts
+    ASI              0.052       0.054       0.055       0.062       0.069       0.070       0.074
+
+ Variances
+    SLO              0.081       0.082       0.083       0.086       0.090       0.090       0.092
+    SHI              0.129       0.131       0.132       0.137       0.142       0.144       0.146
+    SLOASI           0.020       0.021       0.021       0.022       0.023       0.023       0.023
+    SHIASI           0.057       0.058       0.058       0.061       0.063       0.064       0.065
+
+ Residual Variances
+    AFFECT           1.609       1.632       1.641       1.714       1.790       1.803       1.835
+    ASI              0.082       0.083       0.084       0.088       0.092       0.093       0.095
+
+Between Level
+
+ AFFECT   ON
+    ASI_B           -2.441      -1.898      -1.700      -0.592       0.491       0.746       1.048
+    SLO_B           -6.130      -5.327      -4.934      -3.103      -1.064      -0.663       0.082
+    SHI_B           -3.706      -3.019      -2.697      -1.227       0.270       0.553       0.928
+    SLOASI_B        -3.526      -0.681       0.748       7.442      13.937      15.091      18.050
+    SHIASI_B        -2.404      -1.257      -0.543       2.557       5.663       6.343       7.932
+
+ Intercepts
+    AFFECT           0.549       0.654       0.702       0.990       1.276       1.339       1.426
+
+ Residual Variances
+    AFFECT           0.197       0.224       0.240       0.340       0.502       0.544       0.627
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.117       0.133       0.142       0.184       0.225       0.230       0.243
+    ASI&1           -0.211      -0.196      -0.187      -0.142      -0.095      -0.087      -0.068
+    SLO             -0.117      -0.104      -0.099      -0.067      -0.035      -0.029      -0.017
+    SHI             -0.309      -0.299      -0.293      -0.256      -0.220      -0.213      -0.202
+    SLOASI          -0.053      -0.040      -0.033       0.001       0.034       0.041       0.055
+    SHIASI          -0.055      -0.038      -0.031       0.006       0.045       0.051       0.064
+
+ ASI      ON
+    ASI&1            0.695       0.704       0.708       0.726       0.744       0.748       0.755
+
+ ASI      WITH
+    AFFECT          -0.220      -0.208      -0.202      -0.166      -0.132      -0.126      -0.114
+
+ SHI      WITH
+    SLO             -0.186      -0.177      -0.172      -0.143      -0.115      -0.109      -0.100
+
+ SLOASI   WITH
+    SLO              0.432       0.443       0.447       0.470       0.492       0.497       0.506
+    SHI             -0.114      -0.103      -0.097      -0.067      -0.038      -0.033      -0.023
+
+ SHIASI   WITH
+    SLO             -0.128      -0.119      -0.114      -0.086      -0.056      -0.051      -0.043
+    SHI              0.566       0.574       0.577       0.596       0.615       0.618       0.625
+    SLOASI          -0.088      -0.076      -0.069      -0.040      -0.011      -0.007       0.002
+
+ Means
+    SLO              0.277       0.288       0.293       0.323       0.353       0.360       0.370
+    SHI              0.395       0.406       0.413       0.444       0.473       0.478       0.490
+    SLOASI           0.106       0.118       0.122       0.152       0.181       0.187       0.199
+    SHIASI           0.216       0.228       0.233       0.264       0.293       0.300       0.312
+
+ Intercepts
+    ASI              0.116       0.123       0.127       0.144       0.163       0.166       0.175
+
+ Variances
+    SLO              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SHI              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SLOASI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SHIASI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.830       0.838       0.843       0.868       0.891       0.895       0.904
+    ASI              0.430       0.440       0.446       0.473       0.499       0.504       0.516
+
+Between Level
+
+ AFFECT   ON
+    ASI_B           -0.921      -0.763      -0.683      -0.255       0.205       0.293       0.423
+    SLO_B           -0.733      -0.666      -0.629      -0.415      -0.149      -0.091       0.011
+    SHI_B           -0.754      -0.642      -0.583      -0.275       0.060       0.130       0.220
+    SLOASI_B        -0.180      -0.037       0.040       0.389       0.691       0.745       0.832
+    SHIASI_B        -0.374      -0.190      -0.093       0.431       0.891       0.985       1.160
+
+ Intercepts
+    AFFECT           0.731       0.935       1.019       1.468       1.875       1.941       2.097
+
+ Residual Variances
+    AFFECT           0.517       0.567       0.594       0.749       0.886       0.905       0.942
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.083       0.095       0.102       0.131       0.159       0.163       0.172
+    ASI&1           -0.489      -0.452      -0.433      -0.329      -0.220      -0.203      -0.157
+    SLO             -0.117      -0.104      -0.099      -0.067      -0.035      -0.029      -0.017
+    SHI             -0.309      -0.299      -0.293      -0.256      -0.220      -0.213      -0.202
+    SLOASI          -0.053      -0.040      -0.033       0.001       0.034       0.041       0.055
+    SHIASI          -0.055      -0.038      -0.031       0.006       0.045       0.051       0.064
+
+ ASI      ON
+    ASI&1            1.623       1.639       1.647       1.683       1.719       1.725       1.740
+
+ ASI      WITH
+    AFFECT          -0.220      -0.208      -0.202      -0.166      -0.132      -0.126      -0.114
+
+ SHI      WITH
+    SLO             -0.186      -0.177      -0.172      -0.143      -0.115      -0.109      -0.100
+
+ SLOASI   WITH
+    SLO              0.432       0.443       0.447       0.470       0.492       0.497       0.506
+    SHI             -0.114      -0.103      -0.097      -0.067      -0.038      -0.033      -0.023
+
+ SHIASI   WITH
+    SLO             -0.128      -0.119      -0.114      -0.086      -0.056      -0.051      -0.043
+    SHI              0.566       0.574       0.577       0.596       0.615       0.618       0.625
+    SLOASI          -0.088      -0.076      -0.069      -0.040      -0.011      -0.007       0.002
+
+ Means
+    SLO              0.277       0.288       0.293       0.323       0.353       0.360       0.370
+    SHI              0.395       0.406       0.413       0.444       0.473       0.478       0.490
+    SLOASI           0.106       0.118       0.122       0.152       0.181       0.187       0.199
+    SHIASI           0.216       0.228       0.233       0.264       0.293       0.300       0.312
+
+ Intercepts
+    ASI              0.116       0.123       0.127       0.144       0.163       0.166       0.175
+
+ Variances
+    SLO              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SHI              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SLOASI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SHIASI           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.830       0.838       0.843       0.868       0.891       0.895       0.904
+    ASI              0.430       0.440       0.446       0.473       0.499       0.504       0.516
+
+Between Level
+
+ AFFECT   ON
+    ASI_B           -3.250      -2.692      -2.409      -0.898       0.725       1.034       1.493
+    SLO_B           -8.114      -7.364      -6.962      -4.592      -1.643      -1.009       0.124
+    SHI_B           -4.900      -4.176      -3.789      -1.787       0.387       0.847       1.433
+    SLOASI_B        -5.073      -1.030       1.117      10.942      19.450      20.984      23.434
+    SHIASI_B        -3.326      -1.691      -0.826       3.835       7.920       8.755      10.317
+
+ Intercepts
+    AFFECT           0.731       0.935       1.019       1.468       1.875       1.941       2.097
+
+ Residual Variances
+    AFFECT           0.517       0.567       0.594       0.749       0.886       0.905       0.942
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.117       0.133       0.142       0.184       0.225       0.230       0.243
+    ASI&1           -0.702      -0.640      -0.611      -0.462      -0.306      -0.282      -0.216
+    SLO             -0.563      -0.503      -0.476      -0.321      -0.166      -0.136      -0.082
+    SHI             -1.180      -1.141      -1.118      -0.973      -0.831      -0.811      -0.769
+    SLOASI          -0.504      -0.381      -0.310       0.012       0.322       0.387       0.511
+    SHIASI          -0.307      -0.216      -0.181       0.037       0.258       0.296       0.367
+
+ ASI      ON
+    ASI&1            0.695       0.704       0.708       0.726       0.744       0.748       0.755
+
+ ASI      WITH
+    AFFECT          -0.086      -0.082      -0.079      -0.064      -0.051      -0.048      -0.044
+
+ SHI      WITH
+    SLO             -0.020      -0.019      -0.019      -0.015      -0.012      -0.012      -0.011
+
+ SLOASI   WITH
+    SLO              0.018       0.019       0.019       0.020       0.022       0.022       0.023
+    SHI             -0.006      -0.006      -0.005      -0.004      -0.002      -0.002      -0.001
+
+ SHIASI   WITH
+    SLO             -0.009      -0.009      -0.008      -0.006      -0.004      -0.004      -0.003
+    SHI              0.050       0.051       0.051       0.054       0.057       0.058       0.059
+    SLOASI          -0.003      -0.003      -0.003      -0.001       0.000       0.000       0.000
+
+ Means
+    SLO              0.081       0.084       0.086       0.095       0.104       0.105       0.108
+    SHI              0.148       0.151       0.153       0.164       0.175       0.177       0.181
+    SLOASI           0.016       0.017       0.018       0.022       0.027       0.027       0.029
+    SHIASI           0.053       0.056       0.058       0.065       0.072       0.074       0.076
+
+ Intercepts
+    ASI              0.052       0.054       0.055       0.062       0.069       0.070       0.074
+
+ Variances
+    SLO              0.081       0.082       0.083       0.086       0.090       0.090       0.092
+    SHI              0.129       0.131       0.132       0.137       0.142       0.144       0.146
+    SLOASI           0.020       0.021       0.021       0.022       0.023       0.023       0.023
+    SHIASI           0.057       0.058       0.058       0.061       0.063       0.064       0.065
+
+ Residual Variances
+    AFFECT           1.609       1.632       1.641       1.714       1.790       1.803       1.835
+    ASI              0.082       0.083       0.084       0.088       0.092       0.093       0.095
+
+Between Level
+
+ AFFECT   ON
+    ASI_B           -2.441      -1.898      -1.700      -0.592       0.491       0.746       1.048
+    SLO_B           -6.130      -5.327      -4.934      -3.103      -1.064      -0.663       0.082
+    SHI_B           -3.706      -3.019      -2.697      -1.227       0.270       0.553       0.928
+    SLOASI_B        -3.526      -0.681       0.748       7.442      13.937      15.091      18.050
+    SHIASI_B        -2.404      -1.257      -0.543       2.557       5.663       6.343       7.932
+
+ Intercepts
+    AFFECT           0.549       0.654       0.702       0.990       1.276       1.339       1.426
+
+ Residual Variances
+    AFFECT           0.197       0.224       0.240       0.340       0.502       0.544       0.627
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             0             0             0
+ ASI                0             0             0             0             0
+ SLO                0             0             0             0             0
+ SHI                0             0             0             0             0
+ SLOASI             0             0             0             0             0
+ SHIASI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ ASI&1              0             0             0             0             0
+
+
+           LAMBDA
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ AFFECT             0             0             0
+ ASI                0             0             0
+ SLO                0             0             0
+ SHI                0             0             0
+ SLOASI             0             0             0
+ SHIASI             0             0             0
+ AFFECT&1           0             0             0
+ ASI&1              0             0             0
+
+
+           THETA
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT             0
+ ASI                0             0
+ SLO                0             0             0
+ SHI                0             0             0             0
+ SLOASI             0             0             0             0             0
+ SHIASI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ ASI&1              0             0             0             0             0
+
+
+           THETA
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ SHIASI             0
+ AFFECT&1           0             0
+ ASI&1              0             0             0
+
+
+           ALPHA
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+                    0             1             2             3             4
+
+
+           ALPHA
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+                    5             0             0
+
+
+           BETA
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             6             7             8
+ ASI                0             0             0             0             0
+ SLO                0             0             0             0             0
+ SHI                0             0             0             0             0
+ SLOASI             0             0             0             0             0
+ SHIASI             0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ ASI&1              0             0             0             0             0
+
+
+           BETA
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ AFFECT             9            10            11
+ ASI                0             0            12
+ SLO                0             0             0
+ SHI                0             0             0
+ SLOASI             0             0             0
+ SHIASI             0             0             0
+ AFFECT&1           0             0             0
+ ASI&1              0             0             0
+
+
+           PSI
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT            13
+ ASI               14            15
+ SLO                0             0            16
+ SHI                0             0            17            18
+ SLOASI             0             0            19            20            21
+ SHIASI             0             0            22            23            24
+ AFFECT&1           0             0             0             0             0
+ ASI&1              0             0             0             0             0
+
+
+           PSI
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ SHIASI            25
+ AFFECT&1           0             0
+ ASI&1              0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SHIASI_B
+              ________
+                    0
+
+
+           LAMBDA
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             0             0             0
+ ASI_B              0             0             0             0             0
+ SLO_B              0             0             0             0             0
+ SHI_B              0             0             0             0             0
+ SLOASI_B           0             0             0             0             0
+ SHIASI_B           0             0             0             0             0
+
+
+           LAMBDA
+              SHIASI_B
+              ________
+ AFFECT             0
+ ASI_B              0
+ SLO_B              0
+ SHI_B              0
+ SLOASI_B           0
+ SHIASI_B           0
+
+
+           THETA
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0
+ ASI_B              0             0
+ SLO_B              0             0             0
+ SHI_B              0             0             0             0
+ SLOASI_B           0             0             0             0             0
+ SHIASI_B           0             0             0             0             0
+
+
+           THETA
+              SHIASI_B
+              ________
+ SHIASI_B           0
+
+
+           ALPHA
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+                   26             0             0             0             0
+
+
+           ALPHA
+              SHIASI_B
+              ________
+                    0
+
+
+           BETA
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT             0            27            28            29            30
+ ASI_B              0             0             0             0             0
+ SLO_B              0             0             0             0             0
+ SHI_B              0             0             0             0             0
+ SLOASI_B           0             0             0             0             0
+ SHIASI_B           0             0             0             0             0
+
+
+           BETA
+              SHIASI_B
+              ________
+ AFFECT            31
+ ASI_B              0
+ SLO_B              0
+ SHI_B              0
+ SLOASI_B           0
+ SHIASI_B           0
+
+
+           PSI
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT            32
+ ASI_B              0             0
+ SLO_B              0             0             0
+ SHI_B              0             0             0             0
+ SLOASI_B           0             0             0             0             0
+ SHIASI_B           0             0             0             0             0
+
+
+           PSI
+              SHIASI_B
+              ________
+ SHIASI_B           0
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         1.000         0.000         0.000         0.000         0.000
+ ASI            0.000         1.000         0.000         0.000         0.000
+ SLO            0.000         0.000         1.000         0.000         0.000
+ SHI            0.000         0.000         0.000         1.000         0.000
+ SLOASI         0.000         0.000         0.000         0.000         1.000
+ SHIASI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ AFFECT         0.000         0.000         0.000
+ ASI            0.000         0.000         0.000
+ SLO            0.000         0.000         0.000
+ SHI            0.000         0.000         0.000
+ SLOASI         0.000         0.000         0.000
+ SHIASI         1.000         0.000         0.000
+ AFFECT&1       0.000         1.000         0.000
+ ASI&1          0.000         0.000         1.000
+
+
+           THETA
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         0.000
+ ASI            0.000         0.000
+ SLO            0.000         0.000         0.000
+ SHI            0.000         0.000         0.000         0.000
+ SLOASI         0.000         0.000         0.000         0.000         0.000
+ SHIASI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ SHIASI         0.000
+ AFFECT&1       0.000         0.000
+ ASI&1          0.000         0.000         0.000
+
+
+           ALPHA
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+                0.000         0.220         0.095         0.163         0.022
+
+
+           ALPHA
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+                0.065         0.000         0.000
+
+
+           BETA
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+ ASI            0.000         0.000         0.000         0.000         0.000
+ SLO            0.000         0.000         0.000         0.000         0.000
+ SHI            0.000         0.000         0.000         0.000         0.000
+ SLOASI         0.000         0.000         0.000         0.000         0.000
+ SHIASI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ AFFECT         0.000         0.000         0.000
+ ASI            0.000         0.000         0.000
+ SLO            0.000         0.000         0.000
+ SHI            0.000         0.000         0.000
+ SLOASI         0.000         0.000         0.000
+ SHIASI         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000
+
+
+           PSI
+              AFFECT        ASI           SLO           SHI           SLOASI
+              ________      ________      ________      ________      ________
+ AFFECT         1.180
+ ASI            0.000         0.086
+ SLO            0.000         0.000         0.043
+ SHI            0.000         0.000         0.000         0.068
+ SLOASI         0.000         0.000         0.000         0.000         0.011
+ SHIASI         0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ ASI&1          0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              SHIASI        AFFECT&1      ASI&1
+              ________      ________      ________
+ SHIASI         0.030
+ AFFECT&1       0.000         1.177
+ ASI&1          0.000         0.000         0.086
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SHIASI_B
+              ________
+                0.000
+
+
+           LAMBDA
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT         1.000         0.000         0.000         0.000         0.000
+ ASI_B          0.000         1.000         0.000         0.000         0.000
+ SLO_B          0.000         0.000         1.000         0.000         0.000
+ SHI_B          0.000         0.000         0.000         1.000         0.000
+ SLOASI_B       0.000         0.000         0.000         0.000         1.000
+ SHIASI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              SHIASI_B
+              ________
+ AFFECT         0.000
+ ASI_B          0.000
+ SLO_B          0.000
+ SHI_B          0.000
+ SLOASI_B       0.000
+ SHIASI_B       1.000
+
+
+           THETA
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT         0.000
+ ASI_B          0.000         0.000
+ SLO_B          0.000         0.000         0.000
+ SHI_B          0.000         0.000         0.000         0.000
+ SLOASI_B       0.000         0.000         0.000         0.000         0.000
+ SHIASI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SHIASI_B
+              ________
+ SHIASI_B       0.000
+
+
+           ALPHA
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+                0.368         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              SHIASI_B
+              ________
+                0.000
+
+
+           BETA
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+ ASI_B          0.000         0.000         0.000         0.000         0.000
+ SLO_B          0.000         0.000         0.000         0.000         0.000
+ SHI_B          0.000         0.000         0.000         0.000         0.000
+ SLOASI_B       0.000         0.000         0.000         0.000         0.000
+ SHIASI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              SHIASI_B
+              ________
+ AFFECT         0.000
+ ASI_B          0.000
+ SLO_B          0.000
+ SHI_B          0.000
+ SLOASI_B       0.000
+ SHIASI_B       0.000
+
+
+           PSI
+              AFFECT        ASI_B         SLO_B         SHI_B         SLOASI_B
+              ________      ________      ________      ________      ________
+ AFFECT         1.180
+ ASI_B          0.000         0.041
+ SLO_B          0.000         0.000         0.004
+ SHI_B          0.000         0.000         0.000         0.012
+ SLOASI_B       0.000         0.000         0.000         0.000         0.001
+ SHIASI_B       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              SHIASI_B
+              ________
+ SHIASI_B       0.006
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 2~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 3~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 4~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 5~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 10~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 11~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 12~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 13~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 14~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 15~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 16~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 17~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 18~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 19~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 20~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 21~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 22~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 23~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 24~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 25~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 26~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 27~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 28~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 29~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 30~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 31~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 32~IG(-1.000,0.000)         infinity            infinity            infinity
+
+
+TECHNICAL 8 OUTPUT
+
+
+   TECHNICAL 8 OUTPUT FOR BAYES ESTIMATION
+
+     CHAIN    BSEED
+     1        0
+     2        285380
+     3        253358
+     4        93468
+
+                     POTENTIAL       PARAMETER WITH
+     ITERATION    SCALE REDUCTION      HIGHEST PSR
+     100              1.001               13
+     200              1.007               13
+     300              1.001               12
+     400              1.007               10
+     500              1.004               10
+     600              1.006               26
+     700              1.002               26
+     800              1.000               28
+     900              1.001               13
+     1000             1.002               13
+
+
+     MCMC EFFECTIVE SAMPLE SIZE (ESS) IN ASCENDING ORDER
+        LOWEST 10 PARAMETERS
+        PARAMETER    ESS
+             6      1792
+            26      1808
+            29      1813
+            31      1831
+            27      1892
+            16      1898
+             8      1908
+             4      1926
+             5      1947
+             1      2000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Between-level histograms (sample values, sample means/variances)
+  Between-level scatterplots (sample values, sample means/variances)
+  Time series plots (sample values, ACF, PACF)
+  Histogram of subjects per time point
+  Time interval plots
+  Bayesian posterior parameter distributions
+  Bayesian posterior parameter trace plots
+  Bayesian autocorrelation plots
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  21:22:56
+        Ending Time:  21:38:36
+       Elapsed Time:  00:15:40
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2025 Muthen & Muthen
