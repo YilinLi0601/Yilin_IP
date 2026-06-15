@@ -1,0 +1,1000 @@
+Mplus VERSION 9
+MUTHEN & MUTHEN
+12/12/2025   5:09 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  Aim 1: The negative contrast avoidance effect of SI;
+
+  DATA:
+  FILE IS EMA_aim1.dat;
+
+  VARIABLE:
+  NAMES ARE
+  ID
+  affect_post_stress
+  affect_T_1
+  SI_T_1
+  stress_low
+  stress_high
+  LS_SI_int
+  HS_SI_int;
+
+  USEVARIABLES =
+  ID
+  affect_post_stress
+  affect_T_1
+  SI_T_1
+  stress_low
+  stress_high
+  LS_SI_int
+  HS_SI_int;
+
+
+  CLUSTER = ID;
+  MISSING = ALL(-9999);
+
+  WITHIN =
+  AFFECT_T_1
+  SI_T_1
+  STRESS_LOW
+  STRESS_HIGH
+  LS_SI_INT
+  HS_SI_INT;
+
+  BETWEEN = ;
+
+  ANALYSIS:
+  TYPE = TWOLEVEL;
+  ESTIMATOR = BAYES;
+  CHAINS = 4;
+  BITERATIONS = (10000);
+
+  MODEL:
+
+  %WITHIN%
+
+  affect_post_stress ON
+  affect_T_1 (b_afflag)
+  stress_low (b_elow)
+  stress_high (b_high)
+  SI_T_1 (b_SI)
+  LS_SI_int (b_Lint)
+  HS_SI_int (b_Hint);
+
+  %BETWEEN%
+
+  affect_post_stress;
+
+  OUTPUT:
+  TECH1 TECH8;
+  CINTERVAL;
+  STANDARDIZED
+
+
+
+
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** WARNING
+  One or more individual-level variables have no variation within a
+  cluster for the following clusters.
+
+     Variable   Cluster IDs with no within-cluster variation
+
+      AFFECT_P    1124 1080
+      AFFECT_T    1124 1039
+      SI_T_1      1124 1080 1107 1054 1074 1053 1095 1036 1125 1097 1090 1127 1032 1106 1089 1045
+                  1115 1126 1077 1105 1131
+      STRESS_L    1074 1097 1090 1028 1075 1117
+      STRESS_H    1074 1097 1090 1028 1075 1117
+      LS_SI_IN    1124 1080 1107 1054 1074 1053 1114 1095 1036 1125 1097 1090 1032 1019 1106 1028
+                  1075 1089 1117 1104 1072 1004 1096 1105
+      HS_SI_IN    1124 1080 1107 1054 1074 1087 1023 1053 1095 1036 1125 1097 1090 1032 1134 1024
+                  1106 1026 1089 1003 1102 1109 1105
+
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  829
+*** WARNING
+  Data set contains cases with missing on all variables except
+  x-variables.  These cases were not included in the analysis.
+  Number of cases with missing on all variables except x-variables:  2003
+   4 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Aim 1: The negative contrast avoidance effect of SI;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         413
+
+Number of dependent variables                                    1
+Number of independent variables                                  6
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   AFFECT_POS
+
+Observed independent variables
+   AFFECT_T    SI_T_1      STRESS_L    STRESS_H    LS_SI_IN    HS_SI_IN
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   AFFECT_T    SI_T_1      STRESS_L    STRESS_H    LS_SI_IN    HS_SI_IN
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               4
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               50000
+  K-th iteration used for thinning                               1
+
+Input data file(s)
+  EMA_aim1.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of clusters                         54
+
+       Size (s)    Cluster ID with Size s
+
+          1        1082 1033 1016
+          2        1124 1080 1107 1054 1074 1087 1023
+          3        1053 1114
+          4        1065 1130 1095 1036
+          5        1125 1118 1097 1090 1127 1032 1039
+          6        1134 1024 1019 1106
+          7        1028 1026 1075 1089 1117 1104
+          8        1045
+          9        1072 1003 1058 1102
+         10        1004 1013
+         11        1122
+         12        1115 1126 1077 1018
+         13        1109
+         14        1096
+         15        1006 1123
+         16        1035
+         17        1105
+         18        1128 1131
+         24        1133
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+     Number of missing data patterns             1
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P       1.000
+ AFFECT_T       1.000         1.000
+ SI_T_1         1.000         1.000         1.000
+ STRESS_L       1.000         1.000         1.000         1.000
+ STRESS_H       1.000         1.000         1.000         1.000         1.000
+ LS_SI_IN       1.000         1.000         1.000         1.000         1.000
+ HS_SI_IN       1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ LS_SI_IN       1.000
+ HS_SI_IN       1.000         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     AFFECT_POST_STR      -0.220       0.073      -3.000   11.62%      -2.000     -1.000      0.000
+             413.000       2.792      -0.677       3.000    6.54%       0.000      1.000
+     AFFECT_T_1           -0.075      -0.033      -3.000    9.93%      -1.000      0.000      0.000
+             413.000       2.568      -0.435       3.000    7.02%       0.000      1.000
+     SI_T_1                0.472       0.112       0.000   52.78%       0.000      0.000      0.000
+             413.000       0.249      -1.988       1.000   47.22%       1.000      1.000
+     STRESS_LOW            0.380       0.494       0.000   61.99%       0.000      0.000      0.000
+             413.000       0.236      -1.756       1.000   38.01%       0.000      1.000
+     STRESS_HIGH           0.620      -0.494       0.000   38.01%       0.000      1.000      1.000
+             413.000       0.236      -1.756       1.000   61.99%       1.000      1.000
+     LS_SI_INT             0.143       2.041       0.000   85.71%       0.000      0.000      0.000
+             413.000       0.122       2.167       1.000   14.29%       0.000      0.000
+     HS_SI_INT             0.329       0.726       0.000   67.07%       0.000      0.000      0.000
+             413.000       0.221      -1.472       1.000   32.93%       0.000      1.000
+
+     PROBLEM OCCURRED IN THE COMPUTATION OF THE POSTERIOR PREDICTIVE P-VALUE.
+     THIS MAY BE DUE TO A SINGULAR SAMPLE VARIANCE COVARIANCE MATRIX, SUCH AS
+     WITH ZERO SAMPLE VARIANCES.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+     THE EFFECTIVE SAMPLE SIZE FOR THE POSTERIOR DISTRIBUTION OF PARAMETER 8 IS ONLY 29.
+     ESS > 200-400 IS RECOMMENDED. USE BITER=204000(102000) OR SIMPLIFY THE MODEL.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                               9
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within Level
+
+ AFFECT_POS ON
+    AFFECT_T_1         0.153       0.052      0.002       0.051       0.255      *
+    STRESS_LOW        -1.316       1.915      0.278      -4.747       2.402
+    STRESS_HIG        -1.763       1.914      0.208      -5.184       1.929
+    SI_T_1            -0.019       2.384      0.497      -4.685       4.649
+    LS_SI_INT          0.053       2.391      0.491      -4.643       4.768
+    HS_SI_INT         -0.161       2.386      0.473      -4.847       4.510
+
+ Residual Variances
+    AFFECT_POS         2.223       0.167      0.000       1.924       2.578      *
+
+Between Level
+
+ Means
+    AFFECT_POS         1.421       1.914      0.261      -2.293       4.841
+
+ Variances
+    AFFECT_POS         0.447       0.168      0.000       0.207       0.861      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT_POS ON
+    AFFECT_T_1         0.159       0.053      0.002       0.053       0.259      *
+    STRESS_LOW        -0.414       0.602      0.278      -1.495       0.756
+    STRESS_HIG        -0.553       0.601      0.208      -1.636       0.608
+    SI_T_1            -0.006       0.768      0.497      -1.517       1.498
+    LS_SI_INT          0.012       0.540      0.491      -1.053       1.078
+    HS_SI_INT         -0.049       0.724      0.473      -1.477       1.370
+
+ Residual Variances
+    AFFECT_POS         0.930       0.025      0.000       0.874       0.972      *
+
+Between Level
+
+ Means
+    AFFECT_POS         2.087       2.987      0.261      -3.602       7.783
+
+ Variances
+    AFFECT_POS         1.000       0.000      0.000       1.000       1.000
+
+
+STDY Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT_POS ON
+    AFFECT_T_1         0.099       0.033      0.002       0.033       0.161      *
+    STRESS_LOW        -0.852       1.240      0.278      -3.080       1.558
+    STRESS_HIG        -1.140       1.238      0.208      -3.371       1.253
+    SI_T_1            -0.012       1.538      0.497      -3.038       3.001
+    LS_SI_INT          0.034       1.543      0.491      -3.010       3.080
+    HS_SI_INT         -0.104       1.540      0.473      -3.143       2.916
+
+ Residual Variances
+    AFFECT_POS         0.930       0.025      0.000       0.874       0.972      *
+
+Between Level
+
+ Means
+    AFFECT_POS         2.087       2.987      0.261      -3.602       7.783
+
+ Variances
+    AFFECT_POS         1.000       0.000      0.000       1.000       1.000
+
+
+STD Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT_POS ON
+    AFFECT_T_1         0.153       0.052      0.002       0.051       0.255      *
+    STRESS_LOW        -1.316       1.915      0.278      -4.747       2.402
+    STRESS_HIG        -1.763       1.914      0.208      -5.184       1.929
+    SI_T_1            -0.019       2.384      0.497      -4.685       4.649
+    LS_SI_INT          0.053       2.391      0.491      -4.643       4.768
+    HS_SI_INT         -0.161       2.386      0.473      -4.847       4.510
+
+ Residual Variances
+    AFFECT_POS         2.223       0.167      0.000       1.924       2.578      *
+
+Between Level
+
+ Means
+    AFFECT_POS         1.421       1.914      0.261      -2.293       4.841
+
+ Variances
+    AFFECT_POS         0.447       0.168      0.000       0.207       0.861      *
+
+
+R-SQUARE
+
+Within Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT_POST_STR    0.070       0.025      0.000       0.028       0.126
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT_P ON
+    AFFECT_T_1       0.018       0.051       0.068       0.153       0.239       0.255       0.289
+    STRESS_LOW      -5.688      -4.747      -4.190      -1.316       1.852       2.402       3.795
+    STRESS_HIG      -6.142      -5.184      -4.646      -1.763       1.406       1.929       3.359
+    SI_T_1          -6.171      -4.685      -3.977      -0.019       3.893       4.649       6.210
+    LS_SI_INT       -6.210      -4.643      -3.848       0.053       4.028       4.768       6.220
+    HS_SI_INT       -6.393      -4.847      -4.057      -0.161       3.798       4.510       6.022
+
+ Residual Variances
+    AFFECT_POS       1.843       1.924       1.971       2.223       2.517       2.578       2.704
+
+Between Level
+
+ Means
+    AFFECT_POS      -3.715      -2.293      -1.743       1.421       4.281       4.841       5.805
+
+ Variances
+    AFFECT_POS       0.155       0.207       0.237       0.447       0.779       0.861       1.051
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT_P ON
+    AFFECT_T_1       0.019       0.053       0.071       0.159       0.244       0.259       0.290
+    STRESS_LOW      -1.799      -1.495      -1.319      -0.414       0.585       0.756       1.200
+    STRESS_HIG      -1.933      -1.636      -1.461      -0.553       0.443       0.608       1.063
+    SI_T_1          -1.988      -1.517      -1.278      -0.006       1.253       1.498       2.005
+    LS_SI_INT       -1.403      -1.053      -0.867       0.012       0.908       1.078       1.407
+    HS_SI_INT       -1.943      -1.477      -1.230      -0.049       1.148       1.370       1.835
+
+ Residual Variances
+    AFFECT_POS       0.855       0.874       0.884       0.930       0.967       0.972       0.981
+
+Between Level
+
+ Means
+    AFFECT_POS      -5.710      -3.602      -2.668       2.087       6.842       7.783       9.695
+
+ Variances
+    AFFECT_POS       1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT_P ON
+    AFFECT_T_1       0.012       0.033       0.044       0.099       0.152       0.161       0.181
+    STRESS_LOW      -3.705      -3.080      -2.718      -0.852       1.205       1.558       2.472
+    STRESS_HIG      -3.982      -3.371      -3.009      -1.140       0.912       1.253       2.189
+    SI_T_1          -3.983      -3.038      -2.561      -0.012       2.511       3.001       4.016
+    LS_SI_INT       -4.009      -3.010      -2.477       0.034       2.596       3.080       4.020
+    HS_SI_INT       -4.134      -3.143      -2.618      -0.104       2.442       2.916       3.905
+
+ Residual Variances
+    AFFECT_POS       0.855       0.874       0.884       0.930       0.967       0.972       0.981
+
+Between Level
+
+ Means
+    AFFECT_POS      -5.710      -3.602      -2.668       2.087       6.842       7.783       9.695
+
+ Variances
+    AFFECT_POS       1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT_P ON
+    AFFECT_T_1       0.018       0.051       0.068       0.153       0.239       0.255       0.289
+    STRESS_LOW      -5.688      -4.747      -4.190      -1.316       1.852       2.402       3.795
+    STRESS_HIG      -6.142      -5.184      -4.646      -1.763       1.406       1.929       3.359
+    SI_T_1          -6.171      -4.685      -3.977      -0.019       3.893       4.649       6.210
+    LS_SI_INT       -6.210      -4.643      -3.848       0.053       4.028       4.768       6.220
+    HS_SI_INT       -6.393      -4.847      -4.057      -0.161       3.798       4.510       6.022
+
+ Residual Variances
+    AFFECT_POS       1.843       1.924       1.971       2.223       2.517       2.578       2.704
+
+Between Level
+
+ Means
+    AFFECT_POS      -3.715      -2.293      -1.743       1.421       4.281       4.841       5.805
+
+ Variances
+    AFFECT_POS       0.155       0.207       0.237       0.447       0.779       0.861       1.051
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+                    0             0
+
+
+           LAMBDA
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P           0             0             0             0             0
+ AFFECT_T           0             0             0             0             0
+ SI_T_1             0             0             0             0             0
+ STRESS_L           0             0             0             0             0
+ STRESS_H           0             0             0             0             0
+ LS_SI_IN           0             0             0             0             0
+ HS_SI_IN           0             0             0             0             0
+
+
+           LAMBDA
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ AFFECT_P           0             0
+ AFFECT_T           0             0
+ SI_T_1             0             0
+ STRESS_L           0             0
+ STRESS_H           0             0
+ LS_SI_IN           0             0
+ HS_SI_IN           0             0
+
+
+           THETA
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P           0
+ AFFECT_T           0             0
+ SI_T_1             0             0             0
+ STRESS_L           0             0             0             0
+ STRESS_H           0             0             0             0             0
+ LS_SI_IN           0             0             0             0             0
+ HS_SI_IN           0             0             0             0             0
+
+
+           THETA
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ LS_SI_IN           0
+ HS_SI_IN           0             0
+
+
+           ALPHA
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           ALPHA
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+                    0             0
+
+
+           BETA
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P           0             1             2             3             4
+ AFFECT_T           0             0             0             0             0
+ SI_T_1             0             0             0             0             0
+ STRESS_L           0             0             0             0             0
+ STRESS_H           0             0             0             0             0
+ LS_SI_IN           0             0             0             0             0
+ HS_SI_IN           0             0             0             0             0
+
+
+           BETA
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ AFFECT_P           5             6
+ AFFECT_T           0             0
+ SI_T_1             0             0
+ STRESS_L           0             0
+ STRESS_H           0             0
+ LS_SI_IN           0             0
+ HS_SI_IN           0             0
+
+
+           PSI
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P           7
+ AFFECT_T           0             0
+ SI_T_1             0             0             0
+ STRESS_L           0             0             0             0
+ STRESS_H           0             0             0             0             0
+ LS_SI_IN           0             0             0             0             0
+ HS_SI_IN           0             0             0             0             0
+
+
+           PSI
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ LS_SI_IN           0
+ HS_SI_IN           0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              AFFECT_P
+              ________
+                    0
+
+
+           LAMBDA
+              AFFECT_P
+              ________
+ AFFECT_P           0
+
+
+           THETA
+              AFFECT_P
+              ________
+ AFFECT_P           0
+
+
+           ALPHA
+              AFFECT_P
+              ________
+                    8
+
+
+           BETA
+              AFFECT_P
+              ________
+ AFFECT_P           0
+
+
+           PSI
+              AFFECT_P
+              ________
+ AFFECT_P           9
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+                0.000         0.000
+
+
+           LAMBDA
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P       1.000         0.000         0.000         0.000         0.000
+ AFFECT_T       0.000         1.000         0.000         0.000         0.000
+ SI_T_1         0.000         0.000         1.000         0.000         0.000
+ STRESS_L       0.000         0.000         0.000         1.000         0.000
+ STRESS_H       0.000         0.000         0.000         0.000         1.000
+ LS_SI_IN       0.000         0.000         0.000         0.000         0.000
+ HS_SI_IN       0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ AFFECT_P       0.000         0.000
+ AFFECT_T       0.000         0.000
+ SI_T_1         0.000         0.000
+ STRESS_L       0.000         0.000
+ STRESS_H       0.000         0.000
+ LS_SI_IN       1.000         0.000
+ HS_SI_IN       0.000         1.000
+
+
+           THETA
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P       0.000
+ AFFECT_T       0.000         0.000
+ SI_T_1         0.000         0.000         0.000
+ STRESS_L       0.000         0.000         0.000         0.000
+ STRESS_H       0.000         0.000         0.000         0.000         0.000
+ LS_SI_IN       0.000         0.000         0.000         0.000         0.000
+ HS_SI_IN       0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ LS_SI_IN       0.000
+ HS_SI_IN       0.000         0.000
+
+
+           ALPHA
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+                0.000         0.000
+
+
+           BETA
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P       0.000         0.000         0.000         0.000         0.000
+ AFFECT_T       0.000         0.000         0.000         0.000         0.000
+ SI_T_1         0.000         0.000         0.000         0.000         0.000
+ STRESS_L       0.000         0.000         0.000         0.000         0.000
+ STRESS_H       0.000         0.000         0.000         0.000         0.000
+ LS_SI_IN       0.000         0.000         0.000         0.000         0.000
+ HS_SI_IN       0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ AFFECT_P       0.000         0.000
+ AFFECT_T       0.000         0.000
+ SI_T_1         0.000         0.000
+ STRESS_L       0.000         0.000
+ STRESS_H       0.000         0.000
+ LS_SI_IN       0.000         0.000
+ HS_SI_IN       0.000         0.000
+
+
+           PSI
+              AFFECT_P      AFFECT_T      SI_T_1        STRESS_L      STRESS_H
+              ________      ________      ________      ________      ________
+ AFFECT_P       1.396
+ AFFECT_T       0.000         1.284
+ SI_T_1         0.000         0.000         0.125
+ STRESS_L       0.000         0.000         0.000         0.118
+ STRESS_H       0.000         0.000         0.000         0.000         0.118
+ LS_SI_IN       0.000         0.000         0.000         0.000         0.000
+ HS_SI_IN       0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              LS_SI_IN      HS_SI_IN
+              ________      ________
+ LS_SI_IN       0.061
+ HS_SI_IN       0.000         0.110
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              AFFECT_P
+              ________
+                0.000
+
+
+           LAMBDA
+              AFFECT_P
+              ________
+ AFFECT_P       1.000
+
+
+           THETA
+              AFFECT_P
+              ________
+ AFFECT_P       0.000
+
+
+           ALPHA
+              AFFECT_P
+              ________
+               -0.220
+
+
+           BETA
+              AFFECT_P
+              ________
+ AFFECT_P       0.000
+
+
+           PSI
+              AFFECT_P
+              ________
+ AFFECT_P       1.396
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 2~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 3~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 4~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 5~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~IG(-1.000,0.000)          infinity            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~IG(-1.000,0.000)          infinity            infinity            infinity
+
+
+TECHNICAL 8 OUTPUT
+
+
+   TECHNICAL 8 OUTPUT FOR BAYES ESTIMATION
+
+     CHAIN    BSEED
+     1        0
+     2        285380
+     3        253358
+     4        93468
+
+                     POTENTIAL       PARAMETER WITH
+     ITERATION    SCALE REDUCTION      HIGHEST PSR
+     100              2.996               8
+     200              4.037               8
+     300              3.965               8
+     400              3.255               8
+     500              2.824               8
+     600              2.425               8
+     700              2.105               8
+     800              1.875               8
+     900              1.638               4
+     1000             1.700               8
+     1100             1.734               8
+     1200             1.737               8
+     1300             1.791               8
+     1400             1.836               8
+     1500             1.780               8
+     1600             1.616               8
+     1700             1.535               8
+     1800             1.567               8
+     1900             1.569               8
+     2000             1.597               8
+     2100             1.597               8
+     2200             1.549               8
+     2300             1.504               8
+     2400             1.387               8
+     2500             1.319               8
+     2600             1.261               8
+     2700             1.158               4
+     2800             1.123               4
+     2900             1.116               4
+     3000             1.122               4
+     3100             1.135               4
+     3200             1.156               4
+     3300             1.187               4
+     3400             1.224               4
+     3500             1.266               4
+     3600             1.302               8
+     3700             1.339               8
+     3800             1.364               8
+     3900             1.402               8
+     4000             1.465               8
+     4100             1.521               8
+     4200             1.557               8
+     4300             1.590               8
+     4400             1.625               8
+     4500             1.649               8
+     4600             1.667               8
+     4700             1.661               8
+     4800             1.642               8
+     4900             1.643               8
+     5000             1.644               8
+     5100             1.636               8
+     5200             1.621               8
+     5300             1.600               8
+     5400             1.564               8
+     5500             1.506               8
+     5600             1.456               8
+     5700             1.435               8
+     5800             1.427               8
+     5900             1.432               8
+     6000             1.430               8
+     6100             1.417               8
+     6200             1.404               8
+     6300             1.383               8
+     6400             1.357               8
+     6500             1.333               8
+     6600             1.312               8
+     6700             1.295               8
+     6800             1.286               8
+     6900             1.283               8
+     7000             1.284               8
+     7100             1.281               8
+     7200             1.283               8
+     7300             1.284               8
+     7400             1.291               8
+     7500             1.304               8
+     7600             1.317               8
+     7700             1.329               8
+     7800             1.341               8
+     7900             1.351               8
+     8000             1.365               8
+     8100             1.374               8
+     8200             1.382               8
+     8300             1.397               8
+     8400             1.411               8
+     8500             1.418               8
+     8600             1.418               8
+     8700             1.423               8
+     8800             1.427               8
+     8900             1.431               8
+     9000             1.432               8
+     9100             1.430               8
+     9200             1.435               8
+     9300             1.439               8
+     9400             1.441               8
+     9500             1.446               8
+     9600             1.441               8
+     9700             1.427               8
+     9800             1.411               8
+     9900             1.391               8
+     10000            1.370               8
+     10100            1.354               8
+     10200            1.342               8
+     10300            1.339               8
+     10400            1.334               8
+     10500            1.330               8
+     10600            1.326               8
+     10700            1.319               8
+     10800            1.311               8
+     10900            1.303               8
+     11000            1.289               8
+     11100            1.283               8
+     11200            1.278               8
+     11300            1.276               8
+     11400            1.275               8
+     11500            1.271               8
+     11600            1.263               8
+     11700            1.253               8
+     11800            1.241               8
+     11900            1.228               8
+     12000            1.210               8
+     12100            1.192               8
+     12200            1.179               8
+     12300            1.166               8
+     12400            1.155               8
+     12500            1.150               8
+     12600            1.150               8
+     12700            1.153               8
+     12800            1.158               8
+     12900            1.165               8
+     13000            1.171               8
+     13100            1.175               8
+     13200            1.178               8
+     13300            1.183               8
+     13400            1.186               8
+     13500            1.188               8
+     13600            1.187               8
+     13700            1.184               8
+     13800            1.178               8
+     13900            1.170               8
+     14000            1.161               8
+     14100            1.150               8
+     14200            1.139               8
+     14300            1.128               8
+     14400            1.117               8
+     14500            1.105               8
+     14600            1.093               8
+     14700            1.084               8
+     14800            1.074               8
+
+
+     MCMC EFFECTIVE SAMPLE SIZE (ESS) IN ASCENDING ORDER
+        PARAMETER    ESS
+             8        29
+             3        30
+             4        30
+             9      5377
+             1     15018
+             7     21913
+             2     29600
+             5     29600
+             6     29600
+
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  17:09:38
+        Ending Time:  17:09:43
+       Elapsed Time:  00:00:05
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2025 Muthen & Muthen

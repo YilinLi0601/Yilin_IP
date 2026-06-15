@@ -1,0 +1,1697 @@
+Mplus VERSION 9
+MUTHEN & MUTHEN
+02/17/2026   4:34 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  Aim2: DSEM with lagged affect, SI, low/high pleasant events;
+
+  DATA:
+  FILE IS EMA_DSEM2.dat;
+
+  VARIABLE:
+  NAMES = ID, affect, si, plo, phi, ploSI, phiSI, time, si_b, plo_b, phi_b, ploSI_b, phiSI_b
+  USEVARIABLES = affect, si, plo, phi, ploSI, phiSI, si_b, plo_b, phi_b, ploSI_b, phiSI_b;
+  CLUSTER = ID;
+  MISSING = ALL(-9999);
+  LAGGED = affect(1) SI(1);
+  TINTERVAL = time (2 tbin);
+  WITHIN = si, plo, phi, ploSI, phiSI;
+  BETWEEN = si_b, plo_b, phi_b, ploSI_b, phiSI_b;
+
+  ANALYSIS:
+  TYPE = TWOLEVEL;
+  ESTIMATOR = BAYES;
+  CHAINS = 4;
+  THIN = 50;
+  BITERATIONS = (4000);
+  PROCESSORS = 8;
+
+  PLOT:
+  TYPE = PLOT3;
+
+  MODEL:
+  %WITHIN%
+  si;
+  plo;
+  phi;
+  ploSI;
+  phiSI;
+
+  affect ON
+  affect&1 (phi_aff)
+  si&1 (b_silag)
+  plo (b_plo)
+  phi (b_phi)
+  ploSI (b_ploSI)
+  phiSI (b_phiSI);
+
+  si ON si&1;
+
+  %BETWEEN%
+  affect si_b plo_b phi_b ploSI_b phiSI_b;
+  affect ON
+  si_b
+  plo_b
+  phi_b
+  ploSI_b
+  phiSI_b;
+
+  OUTPUT:
+  TECH1 TECH8;
+  CINTERVAL;
+  STANDARDIZED;
+
+
+
+*** WARNING
+  Input line exceeded 90 characters. Some input may be truncated.
+  NAMES = ID, affect, si, plo, phi, ploSI, phiSI, time, si_b, plo_b, phi_b, ploSI_b, phiSI_b;
+*** WARNING
+  One or more individual-level variables have no variation within a
+  cluster for the following clusters.
+
+     Variable   Cluster IDs with no within-cluster variation
+
+      SI          1115 1077 1131
+      PLO         1099 1114 1074 1132 1016 1082 1097 1029 1075 1010 1134 1039 1043
+      PHI         1010 1043
+      PLOSI       1090 1099 1032 1089 1114 1080 1124 1074 1132 1028 1095 1096 1016 1036 1072 1024
+                  1082 1087 1097 1029 1075 1010 1134 1039 1043 1125 1104 1105 1106 1003
+      PHISI       1089 1080 1124 1074 1102 1132 1095 1016 1072 1024 1082 1029 1053 1134 1043 1125
+                  1106
+      SI&1        1115 1077 1131
+
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Aim2: DSEM with lagged affect, SI, low/high pleasant events;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        9370
+
+Number of dependent variables                                    2
+Number of independent variables                                 11
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   AFFECT      SI
+
+Observed independent variables
+   PLO         PHI         PLOSI       PHISI       SI_B        PLO_B
+   PHI_B       PLOSI_B     PHISI_B     AFFECT&1    SI&1
+
+Variables with special functions
+
+  Cluster variable      ID
+
+  Within variables
+   SI          PLO         PHI         PLOSI       PHISI       AFFECT&1
+   SI&1
+
+  Between variables
+   SI_B        PLO_B       PHI_B       PLOSI_B     PHISI_B
+
+
+Estimator                                                    BAYES
+Specifications for Bayesian Estimation
+  Point estimate                                            MEDIAN
+  Number of Markov chain Monte Carlo (MCMC) chains               4
+  Random seed for the first chain                                0
+  Starting value information                           UNPERTURBED
+  Algorithm used for Markov chain Monte Carlo           GIBBS(PX1)
+  Convergence criterion                                  0.500D-01
+  Maximum number of iterations                               50000
+  K-th iteration used for thinning                              50
+
+Input data file(s)
+  EMA_DSEM2.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of clusters                         59
+
+       Size (s)    Cluster ID with Size s
+
+         91        1090
+        110        1099
+        115        1032
+        139        1127
+        150        1089
+        152        1114
+        158        1080
+        159        1124
+        160        1074 1117 1128 1130
+        161        1006 1102 1132
+        162        1026 1028 1095 1096 1016 1033 1036 1058 1072 1126 1023
+                   1024 1082 1087
+        163        1019 1097 1065 1029 1107 1013 1115 1075 1010 1035 1018
+                   1045 1053 1054 1134
+        164        1039 1043 1118 1122 1123 1077 1125 1104 1105 1106 1004
+                   1131 1109 1133 1003
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+     Number of missing data patterns            12
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B           1.000
+ PLO_B          1.000         1.000
+ PHI_B          1.000         1.000         1.000
+ PLOSI_B        1.000         1.000         1.000         1.000
+ PHISI_B        1.000         1.000         1.000         1.000         1.000
+ AFFECT         0.344         0.344         0.344         0.344         0.344
+ SI             0.346         0.346         0.346         0.346         0.346
+ PLO            0.346         0.346         0.346         0.346         0.346
+ PHI            0.346         0.346         0.346         0.346         0.346
+ PLOSI          0.346         0.346         0.346         0.346         0.346
+ PHISI          0.346         0.346         0.346         0.346         0.346
+
+
+           Covariance Coverage
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT         0.344
+ SI             0.344         0.346
+ PLO            0.344         0.346         0.346
+ PHI            0.344         0.346         0.346         0.346
+ PLOSI          0.344         0.346         0.346         0.346         0.346
+ PHISI          0.344         0.346         0.346         0.346         0.346
+
+
+           Covariance Coverage
+              PHISI
+              ________
+ PHISI          0.346
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SI_B                  0.314       0.870       0.015    1.69%       0.034      0.098      0.130
+              59.000       0.103      -0.658       1.000    5.08%       0.241      0.691
+     PLO_B                 0.087       1.628       0.000   22.03%       0.000      0.044      0.061
+              59.000       0.010       2.151       0.446    1.69%       0.074      0.115
+     PHI_B                 0.369       0.652       0.000    1.69%       0.156      0.288      0.333
+              59.000       0.052      -0.028       1.000    1.69%       0.383      0.561
+     PLOSI_B               0.033       3.193       0.000   50.85%       0.000      0.000      0.000
+              59.000       0.004      11.444       0.321    1.69%       0.019      0.055
+     PHISI_B               0.106       1.533       0.000   28.81%       0.000      0.016      0.043
+              59.000       0.020       1.442       0.586    1.69%       0.062      0.182
+     AFFECT                0.368      -0.147      -3.000    5.21%      -1.000      0.000      0.000
+            3226.000       2.360      -0.272       3.000   10.79%       1.000      2.000
+     SI                    0.316       0.789       0.000   68.35%       0.000      0.000      0.000
+            3242.000       0.216      -1.377       1.000   31.65%       0.000      1.000
+     PLO                   0.086       2.945       0.000   91.36%       0.000      0.000      0.000
+            3242.000       0.079       6.673       1.000    8.64%       0.000      0.000
+     PHI                   0.378       0.504       0.000   62.21%       0.000      0.000      0.000
+            3242.000       0.235      -1.746       1.000   37.79%       0.000      1.000
+     PLOSI                 0.032       5.310       0.000   96.79%       0.000      0.000      0.000
+            3241.000       0.031      26.197       1.000    3.21%       0.000      0.000
+     PHISI                 0.109       2.506       0.000   89.08%       0.000      0.000      0.000
+            3241.000       0.097       4.278       1.000   10.92%       0.000      0.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     USE THE FBITERATIONS OPTION TO INCREASE THE NUMBER OF ITERATIONS BY A FACTOR
+     OF AT LEAST TWO TO CHECK CONVERGENCE AND THAT THE PSR VALUE DOES NOT INCREASE.
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                              52
+
+Information Criteria
+
+          Deviance (DIC)                        82094.802
+          Estimated Number of Parameters (pD)   36868.702
+
+
+
+MODEL RESULTS
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.192       0.025      0.000       0.142       0.241      *
+    SI&1              -0.497       0.085      0.000      -0.661      -0.332      *
+    PLO                0.245       0.114      0.016       0.024       0.465      *
+    PHI                0.829       0.067      0.000       0.698       0.959      *
+    PLOSI              0.096       0.180      0.294      -0.260       0.447
+    PHISI              0.008       0.110      0.471      -0.206       0.226
+
+ SI         ON
+    SI&1               0.700       0.012      0.000       0.676       0.724      *
+
+ SI       WITH
+    AFFECT            -0.107       0.011      0.000      -0.128      -0.085      *
+
+ PHI      WITH
+    PLO               -0.033       0.002      0.000      -0.037      -0.028      *
+
+ PLOSI    WITH
+    PLO                0.029       0.001      0.000       0.027       0.031      *
+    PHI               -0.012       0.002      0.000      -0.015      -0.009      *
+
+ PHISI    WITH
+    PLO               -0.009       0.002      0.000      -0.012      -0.006      *
+    PHI                0.068       0.003      0.000       0.062       0.074      *
+    PLOSI             -0.004       0.001      0.000      -0.005      -0.002      *
+
+ Means
+    PLO                0.086       0.005      0.000       0.077       0.096      *
+    PHI                0.378       0.008      0.000       0.361       0.394      *
+    PLOSI              0.032       0.003      0.000       0.026       0.038      *
+    PHISI              0.109       0.005      0.000       0.098       0.120      *
+
+ Intercepts
+    SI                 0.096       0.006      0.000       0.086       0.108      *
+
+ Variances
+    PLO                0.079       0.002      0.000       0.075       0.083      *
+    PHI                0.236       0.006      0.000       0.225       0.248      *
+    PLOSI              0.031       0.001      0.000       0.030       0.033      *
+    PHISI              0.098       0.002      0.000       0.093       0.102      *
+
+ Residual Variances
+    AFFECT             1.711       0.046      0.000       1.623       1.802      *
+    SI                 0.118       0.003      0.000       0.112       0.125      *
+
+Between Level
+
+ AFFECT     ON
+    SI_B               0.387       0.650      0.276      -0.910       1.618
+    PLO_B             -1.345       1.199      0.134      -3.675       1.046
+    PHI_B              0.026       0.488      0.480      -0.940       0.969
+    PLOSI_B            0.342       2.523      0.440      -4.638       5.281
+    PHISI_B           -0.255       1.366      0.419      -2.889       2.484
+
+ PLO_B    WITH
+    SI_B               0.005       0.006      0.201      -0.007       0.018
+
+ PHI_B    WITH
+    SI_B               0.006       0.014      0.306      -0.020       0.035
+    PLO_B             -0.002       0.004      0.287      -0.011       0.006
+
+ PLOSI_B  WITH
+    SI_B               0.014       0.004      0.000       0.007       0.024      *
+    PLO_B              0.005       0.001      0.000       0.003       0.008      *
+    PHI_B             -0.002       0.003      0.186      -0.008       0.003
+
+ PHISI_B  WITH
+    SI_B               0.046       0.011      0.000       0.030       0.074      *
+    PLO_B              0.000       0.003      0.437      -0.006       0.005
+    PHI_B              0.016       0.007      0.002       0.006       0.032      *
+    PLOSI_B            0.003       0.002      0.014       0.000       0.007      *
+
+ Means
+    SI_B               0.314       0.047      0.000       0.223       0.408      *
+    PLO_B              0.087       0.015      0.000       0.058       0.116      *
+    PHI_B              0.369       0.034      0.000       0.302       0.436      *
+    PLOSI_B            0.033       0.009      0.000       0.016       0.050      *
+    PHISI_B            0.106       0.021      0.000       0.065       0.147      *
+
+ Intercepts
+    AFFECT             0.108       0.231      0.319      -0.343       0.567
+
+ Variances
+    SI_B               0.130       0.028      0.000       0.089       0.199      *
+    PLO_B              0.013       0.003      0.000       0.009       0.020      *
+    PHI_B              0.065       0.014      0.000       0.045       0.100      *
+    PLOSI_B            0.005       0.001      0.000       0.003       0.007      *
+    PHISI_B            0.025       0.006      0.000       0.017       0.039      *
+
+ Residual Variances
+    AFFECT             0.404       0.094      0.000       0.267       0.628      *
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.192       0.025      0.000       0.142       0.241      *
+    SI&1              -0.168       0.028      0.000      -0.220      -0.113      *
+    PLO                0.048       0.022      0.016       0.005       0.092      *
+    PHI                0.282       0.023      0.000       0.236       0.327      *
+    PLOSI              0.012       0.022      0.294      -0.032       0.055
+    PHISI              0.002       0.024      0.471      -0.045       0.049
+
+ SI         ON
+    SI&1               0.700       0.012      0.000       0.676       0.724      *
+
+ SI       WITH
+    AFFECT            -0.237       0.023      0.000      -0.279      -0.192      *
+
+ PHI      WITH
+    PLO               -0.240       0.016      0.000      -0.271      -0.207      *
+
+ PLOSI    WITH
+    PLO                0.592       0.011      0.000       0.569       0.614      *
+    PHI               -0.142       0.017      0.000      -0.176      -0.108      *
+
+ PHISI    WITH
+    PLO               -0.108       0.017      0.000      -0.141      -0.074      *
+    PHI                0.449       0.014      0.000       0.421       0.476      *
+    PLOSI             -0.064       0.018      0.000      -0.098      -0.029      *
+
+ Means
+    PLO                0.307       0.018      0.000       0.271       0.342      *
+    PHI                0.778       0.020      0.000       0.738       0.817      *
+    PLOSI              0.181       0.018      0.000       0.147       0.217      *
+    PHISI              0.349       0.018      0.000       0.312       0.384      *
+
+ Intercepts
+    SI                 0.200       0.013      0.000       0.175       0.227      *
+
+ Variances
+    PLO                1.000       0.000      0.000       1.000       1.000
+    PHI                1.000       0.000      0.000       1.000       1.000
+    PLOSI              1.000       0.000      0.000       1.000       1.000
+    PHISI              1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.837       0.017      0.000       0.803       0.868      *
+    SI                 0.509       0.017      0.000       0.476       0.543      *
+
+Between Level
+
+ AFFECT     ON
+    SI_B               0.202       0.331      0.276      -0.471       0.819
+    PLO_B             -0.219       0.190      0.134      -0.578       0.168
+    PHI_B              0.010       0.177      0.480      -0.346       0.351
+    PLOSI_B            0.035       0.242      0.440      -0.444       0.502
+    PHISI_B           -0.059       0.309      0.419      -0.636       0.573
+
+ PLO_B    WITH
+    SI_B               0.121       0.142      0.201      -0.166       0.386
+
+ PHI_B    WITH
+    SI_B               0.070       0.140      0.306      -0.204       0.340
+    PLO_B             -0.081       0.141      0.287      -0.350       0.207
+
+ PLOSI_B  WITH
+    SI_B               0.581       0.098      0.000       0.357       0.741      *
+    PLO_B              0.630       0.090      0.000       0.425       0.772      *
+    PHI_B             -0.128       0.141      0.186      -0.394       0.155
+
+ PHISI_B  WITH
+    SI_B               0.816       0.050      0.000       0.695       0.891      *
+    PLO_B             -0.024       0.144      0.437      -0.308       0.256
+    PHI_B              0.410       0.119      0.002       0.153       0.617      *
+    PLOSI_B            0.318       0.130      0.014       0.038       0.550      *
+
+ Means
+    SI_B               0.873       0.157      0.000       0.574       1.187      *
+    PLO_B              0.772       0.155      0.000       0.474       1.084      *
+    PHI_B              1.444       0.197      0.000       1.068       1.844      *
+    PLOSI_B            0.491       0.138      0.000       0.223       0.767      *
+    PHISI_B            0.667       0.148      0.000       0.376       0.962      *
+
+ Intercepts
+    AFFECT             0.159       0.325      0.319      -0.470       0.788
+
+ Variances
+    SI_B               1.000       0.000      0.000       1.000       1.000
+    PLO_B              1.000       0.000      0.000       1.000       1.000
+    PHI_B              1.000       0.000      0.000       1.000       1.000
+    PLOSI_B            1.000       0.000      0.000       1.000       1.000
+    PHISI_B            1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.855       0.079      0.000       0.664       0.967      *
+
+
+STDY Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.134       0.018      0.000       0.100       0.169      *
+    SI&1              -0.348       0.057      0.000      -0.456      -0.236      *
+    PLO                0.048       0.022      0.016       0.005       0.092      *
+    PHI                0.282       0.023      0.000       0.236       0.327      *
+    PLOSI              0.012       0.022      0.294      -0.032       0.055
+    PHISI              0.002       0.024      0.471      -0.045       0.049
+
+ SI         ON
+    SI&1               1.453       0.021      0.000       1.411       1.493      *
+
+ SI       WITH
+    AFFECT            -0.237       0.023      0.000      -0.279      -0.192      *
+
+ PHI      WITH
+    PLO               -0.240       0.016      0.000      -0.271      -0.207      *
+
+ PLOSI    WITH
+    PLO                0.592       0.011      0.000       0.569       0.614      *
+    PHI               -0.142       0.017      0.000      -0.176      -0.108      *
+
+ PHISI    WITH
+    PLO               -0.108       0.017      0.000      -0.141      -0.074      *
+    PHI                0.449       0.014      0.000       0.421       0.476      *
+    PLOSI             -0.064       0.018      0.000      -0.098      -0.029      *
+
+ Means
+    PLO                0.307       0.018      0.000       0.271       0.342      *
+    PHI                0.778       0.020      0.000       0.738       0.817      *
+    PLOSI              0.181       0.018      0.000       0.147       0.217      *
+    PHISI              0.349       0.018      0.000       0.312       0.384      *
+
+ Intercepts
+    SI                 0.200       0.013      0.000       0.175       0.227      *
+
+ Variances
+    PLO                1.000       0.000      0.000       1.000       1.000
+    PHI                1.000       0.000      0.000       1.000       1.000
+    PLOSI              1.000       0.000      0.000       1.000       1.000
+    PHISI              1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.837       0.017      0.000       0.803       0.868      *
+    SI                 0.509       0.017      0.000       0.476       0.543      *
+
+Between Level
+
+ AFFECT     ON
+    SI_B               0.202       0.331      0.276      -0.471       0.819
+    PLO_B             -0.219       0.190      0.134      -0.578       0.168
+    PHI_B              0.010       0.177      0.480      -0.346       0.351
+    PLOSI_B            0.035       0.242      0.440      -0.444       0.502
+    PHISI_B           -0.059       0.309      0.419      -0.636       0.573
+
+ PLO_B    WITH
+    SI_B               0.121       0.142      0.201      -0.166       0.386
+
+ PHI_B    WITH
+    SI_B               0.070       0.140      0.306      -0.204       0.340
+    PLO_B             -0.081       0.141      0.287      -0.350       0.207
+
+ PLOSI_B  WITH
+    SI_B               0.581       0.098      0.000       0.357       0.741      *
+    PLO_B              0.630       0.090      0.000       0.425       0.772      *
+    PHI_B             -0.128       0.141      0.186      -0.394       0.155
+
+ PHISI_B  WITH
+    SI_B               0.816       0.050      0.000       0.695       0.891      *
+    PLO_B             -0.024       0.144      0.437      -0.308       0.256
+    PHI_B              0.410       0.119      0.002       0.153       0.617      *
+    PLOSI_B            0.318       0.130      0.014       0.038       0.550      *
+
+ Means
+    SI_B               0.873       0.157      0.000       0.574       1.187      *
+    PLO_B              0.772       0.155      0.000       0.474       1.084      *
+    PHI_B              1.444       0.197      0.000       1.068       1.844      *
+    PLOSI_B            0.491       0.138      0.000       0.223       0.767      *
+    PHISI_B            0.667       0.148      0.000       0.376       0.962      *
+
+ Intercepts
+    AFFECT             0.159       0.325      0.319      -0.470       0.788
+
+ Variances
+    SI_B               1.000       0.000      0.000       1.000       1.000
+    PLO_B              1.000       0.000      0.000       1.000       1.000
+    PHI_B              1.000       0.000      0.000       1.000       1.000
+    PLOSI_B            1.000       0.000      0.000       1.000       1.000
+    PHISI_B            1.000       0.000      0.000       1.000       1.000
+
+ Residual Variances
+    AFFECT             0.855       0.079      0.000       0.664       0.967      *
+
+
+STD Standardization
+
+                                Posterior  One-Tailed         95% C.I.
+                    Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%  Significance
+Within Level
+
+ AFFECT     ON
+    AFFECT&1           0.192       0.025      0.000       0.142       0.241      *
+    SI&1              -0.497       0.085      0.000      -0.661      -0.332      *
+    PLO                0.245       0.114      0.016       0.024       0.465      *
+    PHI                0.829       0.067      0.000       0.698       0.959      *
+    PLOSI              0.096       0.180      0.294      -0.260       0.447
+    PHISI              0.008       0.110      0.471      -0.206       0.226
+
+ SI         ON
+    SI&1               0.700       0.012      0.000       0.676       0.724      *
+
+ SI       WITH
+    AFFECT            -0.107       0.011      0.000      -0.128      -0.085      *
+
+ PHI      WITH
+    PLO               -0.033       0.002      0.000      -0.037      -0.028      *
+
+ PLOSI    WITH
+    PLO                0.029       0.001      0.000       0.027       0.031      *
+    PHI               -0.012       0.002      0.000      -0.015      -0.009      *
+
+ PHISI    WITH
+    PLO               -0.009       0.002      0.000      -0.012      -0.006      *
+    PHI                0.068       0.003      0.000       0.062       0.074      *
+    PLOSI             -0.004       0.001      0.000      -0.005      -0.002      *
+
+ Means
+    PLO                0.086       0.005      0.000       0.077       0.096      *
+    PHI                0.378       0.008      0.000       0.361       0.394      *
+    PLOSI              0.032       0.003      0.000       0.026       0.038      *
+    PHISI              0.109       0.005      0.000       0.098       0.120      *
+
+ Intercepts
+    SI                 0.096       0.006      0.000       0.086       0.108      *
+
+ Variances
+    PLO                0.079       0.002      0.000       0.075       0.083      *
+    PHI                0.236       0.006      0.000       0.225       0.248      *
+    PLOSI              0.031       0.001      0.000       0.030       0.033      *
+    PHISI              0.098       0.002      0.000       0.093       0.102      *
+
+ Residual Variances
+    AFFECT             1.711       0.046      0.000       1.623       1.802      *
+    SI                 0.118       0.003      0.000       0.112       0.125      *
+
+Between Level
+
+ AFFECT     ON
+    SI_B               0.387       0.650      0.276      -0.910       1.618
+    PLO_B             -1.345       1.199      0.134      -3.675       1.046
+    PHI_B              0.026       0.488      0.480      -0.940       0.969
+    PLOSI_B            0.342       2.523      0.440      -4.638       5.281
+    PHISI_B           -0.255       1.366      0.419      -2.889       2.484
+
+ PLO_B    WITH
+    SI_B               0.005       0.006      0.201      -0.007       0.018
+
+ PHI_B    WITH
+    SI_B               0.006       0.014      0.306      -0.020       0.035
+    PLO_B             -0.002       0.004      0.287      -0.011       0.006
+
+ PLOSI_B  WITH
+    SI_B               0.014       0.004      0.000       0.007       0.024      *
+    PLO_B              0.005       0.001      0.000       0.003       0.008      *
+    PHI_B             -0.002       0.003      0.186      -0.008       0.003
+
+ PHISI_B  WITH
+    SI_B               0.046       0.011      0.000       0.030       0.074      *
+    PLO_B              0.000       0.003      0.437      -0.006       0.005
+    PHI_B              0.016       0.007      0.002       0.006       0.032      *
+    PLOSI_B            0.003       0.002      0.014       0.000       0.007      *
+
+ Means
+    SI_B               0.314       0.047      0.000       0.223       0.408      *
+    PLO_B              0.087       0.015      0.000       0.058       0.116      *
+    PHI_B              0.369       0.034      0.000       0.302       0.436      *
+    PLOSI_B            0.033       0.009      0.000       0.016       0.050      *
+    PHISI_B            0.106       0.021      0.000       0.065       0.147      *
+
+ Intercepts
+    AFFECT             0.108       0.231      0.319      -0.343       0.567
+
+ Variances
+    SI_B               0.130       0.028      0.000       0.089       0.199      *
+    PLO_B              0.013       0.003      0.000       0.009       0.020      *
+    PHI_B              0.065       0.014      0.000       0.045       0.100      *
+    PLOSI_B            0.005       0.001      0.000       0.003       0.007      *
+    PHISI_B            0.025       0.006      0.000       0.017       0.039      *
+
+ Residual Variances
+    AFFECT             0.404       0.094      0.000       0.267       0.628      *
+
+
+R-SQUARE
+
+Within Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT             0.163       0.017      0.000       0.132       0.197
+    SI                 0.491       0.017      0.000       0.457       0.524
+
+Between Level
+
+                                Posterior  One-Tailed         95% C.I.
+    Variable        Estimate       S.D.      P-Value   Lower 2.5%  Upper 2.5%
+
+    AFFECT             0.145       0.079      0.000       0.033       0.335
+
+
+CREDIBILITY INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.125       0.142       0.150       0.192       0.234       0.241       0.258
+    SI&1            -0.721      -0.661      -0.636      -0.497      -0.356      -0.332      -0.276
+    PLO             -0.042       0.024       0.060       0.245       0.433       0.465       0.544
+    PHI              0.657       0.698       0.716       0.829       0.938       0.959       0.999
+    PLOSI           -0.377      -0.260      -0.203       0.096       0.390       0.447       0.560
+    PHISI           -0.269      -0.206      -0.173       0.008       0.190       0.226       0.295
+
+ SI       ON
+    SI&1             0.668       0.676       0.680       0.700       0.720       0.724       0.731
+
+ SI       WITH
+    AFFECT          -0.136      -0.128      -0.125      -0.107      -0.088      -0.085      -0.078
+
+ PHI      WITH
+    PLO             -0.039      -0.037      -0.037      -0.033      -0.029      -0.028      -0.026
+
+ PLOSI    WITH
+    PLO              0.027       0.027       0.028       0.029       0.031       0.031       0.032
+    PHI             -0.016      -0.015      -0.015      -0.012      -0.010      -0.009      -0.008
+
+ PHISI    WITH
+    PLO             -0.013      -0.012      -0.012      -0.009      -0.007      -0.006      -0.006
+    PHI              0.061       0.062       0.063       0.068       0.073       0.074       0.076
+    PLOSI           -0.006      -0.005      -0.005      -0.004      -0.002      -0.002      -0.001
+
+ Means
+    PLO              0.073       0.077       0.078       0.086       0.094       0.096       0.099
+    PHI              0.356       0.361       0.364       0.378       0.392       0.394       0.400
+    PLOSI            0.024       0.026       0.027       0.032       0.037       0.038       0.040
+    PHISI            0.095       0.098       0.100       0.109       0.118       0.120       0.123
+
+ Intercepts
+    SI               0.082       0.086       0.087       0.096       0.106       0.108       0.111
+
+ Variances
+    PLO              0.074       0.075       0.076       0.079       0.083       0.083       0.084
+    PHI              0.221       0.225       0.226       0.236       0.246       0.248       0.251
+    PLOSI            0.029       0.030       0.030       0.031       0.032       0.033       0.033
+    PHISI            0.092       0.093       0.094       0.098       0.102       0.102       0.104
+
+ Residual Variances
+    AFFECT           1.598       1.623       1.636       1.711       1.787       1.802       1.833
+    SI               0.110       0.112       0.113       0.118       0.124       0.125       0.127
+
+Between Level
+
+ AFFECT   ON
+    SI_B            -1.390      -0.910      -0.705       0.387       1.424       1.618       2.053
+    PLO_B           -4.376      -3.675      -3.274      -1.345       0.651       1.046       1.812
+    PHI_B           -1.305      -0.940      -0.785       0.026       0.830       0.969       1.240
+    PLOSI_B         -6.205      -4.638      -3.853       0.342       4.503       5.281       6.891
+    PHISI_B         -3.680      -2.889      -2.447      -0.255       2.017       2.484       3.575
+
+ PLO_B    WITH
+    SI_B            -0.012      -0.007      -0.005       0.005       0.016       0.018       0.023
+
+ PHI_B    WITH
+    SI_B            -0.030      -0.020      -0.016       0.006       0.030       0.035       0.048
+    PLO_B           -0.015      -0.011      -0.010      -0.002       0.005       0.006       0.010
+
+ PLOSI_B  WITH
+    SI_B             0.006       0.007       0.008       0.014       0.022       0.024       0.029
+    PLO_B            0.002       0.003       0.003       0.005       0.007       0.008       0.010
+    PHI_B           -0.011      -0.008      -0.007      -0.002       0.002       0.003       0.005
+
+ PHISI_B  WITH
+    SI_B             0.026       0.030       0.032       0.046       0.068       0.074       0.086
+    PLO_B           -0.009      -0.006      -0.005       0.000       0.004       0.005       0.007
+    PHI_B            0.002       0.006       0.007       0.016       0.029       0.032       0.040
+    PLOSI_B         -0.001       0.000       0.001       0.003       0.006       0.007       0.009
+
+ Means
+    SI_B             0.190       0.223       0.237       0.314       0.391       0.408       0.437
+    PLO_B            0.048       0.058       0.063       0.087       0.111       0.116       0.127
+    PHI_B            0.278       0.302       0.313       0.369       0.425       0.436       0.457
+    PLOSI_B          0.010       0.016       0.019       0.033       0.048       0.050       0.056
+    PHISI_B          0.050       0.065       0.072       0.106       0.141       0.147       0.164
+
+ Intercepts
+    AFFECT          -0.486      -0.343      -0.268       0.108       0.490       0.567       0.711
+
+ Variances
+    SI_B             0.079       0.089       0.094       0.130       0.184       0.199       0.226
+    PLO_B            0.008       0.009       0.009       0.013       0.018       0.020       0.023
+    PHI_B            0.040       0.045       0.047       0.065       0.093       0.100       0.116
+    PLOSI_B          0.003       0.003       0.003       0.005       0.007       0.007       0.008
+    PHISI_B          0.015       0.017       0.018       0.025       0.036       0.039       0.045
+
+ Residual Variances
+    AFFECT           0.239       0.267       0.285       0.404       0.586       0.628       0.746
+
+
+CREDIBILITY INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.125       0.142       0.150       0.192       0.234       0.241       0.258
+    SI&1            -0.239      -0.220      -0.212      -0.168      -0.121      -0.113      -0.095
+    PLO             -0.008       0.005       0.012       0.048       0.085       0.092       0.107
+    PHI              0.221       0.236       0.243       0.282       0.319       0.327       0.339
+    PLOSI           -0.047      -0.032      -0.025       0.012       0.048       0.055       0.069
+    PHISI           -0.059      -0.045      -0.038       0.002       0.041       0.049       0.063
+
+ SI       ON
+    SI&1             0.668       0.676       0.680       0.700       0.720       0.724       0.731
+
+ SI       WITH
+    AFFECT          -0.294      -0.279      -0.273      -0.237      -0.199      -0.192      -0.176
+
+ PHI      WITH
+    PLO             -0.283      -0.271      -0.266      -0.240      -0.212      -0.207      -0.196
+
+ PLOSI    WITH
+    PLO              0.561       0.569       0.573       0.592       0.611       0.614       0.621
+    PHI             -0.187      -0.176      -0.170      -0.142      -0.113      -0.108      -0.097
+
+ PHISI    WITH
+    PLO             -0.152      -0.141      -0.136      -0.108      -0.079      -0.074      -0.064
+    PHI              0.412       0.421       0.425       0.449       0.472       0.476       0.484
+    PLOSI           -0.110      -0.098      -0.093      -0.064      -0.034      -0.029      -0.019
+
+ Means
+    PLO              0.260       0.271       0.278       0.307       0.336       0.342       0.355
+    PHI              0.726       0.738       0.744       0.778       0.810       0.817       0.831
+    PLOSI            0.136       0.147       0.153       0.181       0.211       0.217       0.227
+    PHISI            0.303       0.312       0.319       0.349       0.379       0.384       0.394
+
+ Intercepts
+    SI               0.167       0.175       0.179       0.200       0.223       0.227       0.236
+
+ Variances
+    PLO              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHI              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PLOSI            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHISI            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.791       0.803       0.809       0.837       0.863       0.868       0.877
+    SI               0.465       0.476       0.481       0.509       0.538       0.543       0.554
+
+Between Level
+
+ AFFECT   ON
+    SI_B            -0.685      -0.471      -0.369       0.202       0.727       0.819       0.990
+    PLO_B           -0.675      -0.578      -0.521      -0.219       0.105       0.168       0.286
+    PHI_B           -0.446      -0.346      -0.282       0.010       0.299       0.351       0.455
+    PLOSI_B         -0.590      -0.444      -0.367       0.035       0.432       0.502       0.637
+    PHISI_B         -0.814      -0.636      -0.553      -0.059       0.460       0.573       0.774
+
+ PLO_B    WITH
+    SI_B            -0.265      -0.166      -0.120       0.121       0.347       0.386       0.462
+
+ PHI_B    WITH
+    SI_B            -0.288      -0.204      -0.163       0.070       0.300       0.340       0.419
+    PLO_B           -0.427      -0.350      -0.310      -0.081       0.160       0.207       0.290
+
+ PLOSI_B  WITH
+    SI_B             0.271       0.357       0.394       0.581       0.718       0.741       0.782
+    PLO_B            0.337       0.425       0.461       0.630       0.753       0.772       0.801
+    PHI_B           -0.469      -0.394      -0.350      -0.128       0.110       0.155       0.247
+
+ PHISI_B  WITH
+    SI_B             0.642       0.695       0.719       0.816       0.882       0.891       0.909
+    PLO_B           -0.389      -0.308      -0.260      -0.024       0.211       0.256       0.331
+    PHI_B            0.061       0.153       0.196       0.410       0.588       0.617       0.668
+    PLOSI_B         -0.054       0.038       0.087       0.318       0.517       0.550       0.609
+
+ Means
+    SI_B             0.487       0.574       0.620       0.873       1.135       1.187       1.291
+    PLO_B            0.386       0.474       0.518       0.772       1.028       1.084       1.181
+    PHI_B            0.944       1.068       1.128       1.444       1.780       1.844       1.963
+    PLOSI_B          0.139       0.223       0.267       0.491       0.722       0.767       0.852
+    PHISI_B          0.287       0.376       0.429       0.667       0.917       0.962       1.054
+
+ Intercepts
+    AFFECT          -0.644      -0.470      -0.369       0.159       0.692       0.788       0.992
+
+ Variances
+    SI_B             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PLO_B            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHI_B            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PLOSI_B          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHISI_B          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.600       0.664       0.698       0.855       0.955       0.967       0.983
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.087       0.100       0.105       0.134       0.163       0.169       0.179
+    SI&1            -0.493      -0.456      -0.440      -0.348      -0.251      -0.236      -0.196
+    PLO             -0.008       0.005       0.012       0.048       0.085       0.092       0.107
+    PHI              0.221       0.236       0.243       0.282       0.319       0.327       0.339
+    PLOSI           -0.047      -0.032      -0.025       0.012       0.048       0.055       0.069
+    PHISI           -0.059      -0.045      -0.038       0.002       0.041       0.049       0.063
+
+ SI       ON
+    SI&1             1.397       1.411       1.418       1.453       1.487       1.493       1.505
+
+ SI       WITH
+    AFFECT          -0.294      -0.279      -0.273      -0.237      -0.199      -0.192      -0.176
+
+ PHI      WITH
+    PLO             -0.283      -0.271      -0.266      -0.240      -0.212      -0.207      -0.196
+
+ PLOSI    WITH
+    PLO              0.561       0.569       0.573       0.592       0.611       0.614       0.621
+    PHI             -0.187      -0.176      -0.170      -0.142      -0.113      -0.108      -0.097
+
+ PHISI    WITH
+    PLO             -0.152      -0.141      -0.136      -0.108      -0.079      -0.074      -0.064
+    PHI              0.412       0.421       0.425       0.449       0.472       0.476       0.484
+    PLOSI           -0.110      -0.098      -0.093      -0.064      -0.034      -0.029      -0.019
+
+ Means
+    PLO              0.260       0.271       0.278       0.307       0.336       0.342       0.355
+    PHI              0.726       0.738       0.744       0.778       0.810       0.817       0.831
+    PLOSI            0.136       0.147       0.153       0.181       0.211       0.217       0.227
+    PHISI            0.303       0.312       0.319       0.349       0.379       0.384       0.394
+
+ Intercepts
+    SI               0.167       0.175       0.179       0.200       0.223       0.227       0.236
+
+ Variances
+    PLO              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHI              1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PLOSI            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHISI            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.791       0.803       0.809       0.837       0.863       0.868       0.877
+    SI               0.465       0.476       0.481       0.509       0.538       0.543       0.554
+
+Between Level
+
+ AFFECT   ON
+    SI_B            -0.685      -0.471      -0.369       0.202       0.727       0.819       0.990
+    PLO_B           -0.675      -0.578      -0.521      -0.219       0.105       0.168       0.286
+    PHI_B           -0.446      -0.346      -0.282       0.010       0.299       0.351       0.455
+    PLOSI_B         -0.590      -0.444      -0.367       0.035       0.432       0.502       0.637
+    PHISI_B         -0.814      -0.636      -0.553      -0.059       0.460       0.573       0.774
+
+ PLO_B    WITH
+    SI_B            -0.265      -0.166      -0.120       0.121       0.347       0.386       0.462
+
+ PHI_B    WITH
+    SI_B            -0.288      -0.204      -0.163       0.070       0.300       0.340       0.419
+    PLO_B           -0.427      -0.350      -0.310      -0.081       0.160       0.207       0.290
+
+ PLOSI_B  WITH
+    SI_B             0.271       0.357       0.394       0.581       0.718       0.741       0.782
+    PLO_B            0.337       0.425       0.461       0.630       0.753       0.772       0.801
+    PHI_B           -0.469      -0.394      -0.350      -0.128       0.110       0.155       0.247
+
+ PHISI_B  WITH
+    SI_B             0.642       0.695       0.719       0.816       0.882       0.891       0.909
+    PLO_B           -0.389      -0.308      -0.260      -0.024       0.211       0.256       0.331
+    PHI_B            0.061       0.153       0.196       0.410       0.588       0.617       0.668
+    PLOSI_B         -0.054       0.038       0.087       0.318       0.517       0.550       0.609
+
+ Means
+    SI_B             0.487       0.574       0.620       0.873       1.135       1.187       1.291
+    PLO_B            0.386       0.474       0.518       0.772       1.028       1.084       1.181
+    PHI_B            0.944       1.068       1.128       1.444       1.780       1.844       1.963
+    PLOSI_B          0.139       0.223       0.267       0.491       0.722       0.767       0.852
+    PHISI_B          0.287       0.376       0.429       0.667       0.917       0.962       1.054
+
+ Intercepts
+    AFFECT          -0.644      -0.470      -0.369       0.159       0.692       0.788       0.992
+
+ Variances
+    SI_B             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PLO_B            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHI_B            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PLOSI_B          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PHISI_B          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    AFFECT           0.600       0.664       0.698       0.855       0.955       0.967       0.983
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ AFFECT   ON
+    AFFECT&1         0.125       0.142       0.150       0.192       0.234       0.241       0.258
+    SI&1            -0.721      -0.661      -0.636      -0.497      -0.356      -0.332      -0.276
+    PLO             -0.042       0.024       0.060       0.245       0.433       0.465       0.544
+    PHI              0.657       0.698       0.716       0.829       0.938       0.959       0.999
+    PLOSI           -0.377      -0.260      -0.203       0.096       0.390       0.447       0.560
+    PHISI           -0.269      -0.206      -0.173       0.008       0.190       0.226       0.295
+
+ SI       ON
+    SI&1             0.668       0.676       0.680       0.700       0.720       0.724       0.731
+
+ SI       WITH
+    AFFECT          -0.136      -0.128      -0.125      -0.107      -0.088      -0.085      -0.078
+
+ PHI      WITH
+    PLO             -0.039      -0.037      -0.037      -0.033      -0.029      -0.028      -0.026
+
+ PLOSI    WITH
+    PLO              0.027       0.027       0.028       0.029       0.031       0.031       0.032
+    PHI             -0.016      -0.015      -0.015      -0.012      -0.010      -0.009      -0.008
+
+ PHISI    WITH
+    PLO             -0.013      -0.012      -0.012      -0.009      -0.007      -0.006      -0.006
+    PHI              0.061       0.062       0.063       0.068       0.073       0.074       0.076
+    PLOSI           -0.006      -0.005      -0.005      -0.004      -0.002      -0.002      -0.001
+
+ Means
+    PLO              0.073       0.077       0.078       0.086       0.094       0.096       0.099
+    PHI              0.356       0.361       0.364       0.378       0.392       0.394       0.400
+    PLOSI            0.024       0.026       0.027       0.032       0.037       0.038       0.040
+    PHISI            0.095       0.098       0.100       0.109       0.118       0.120       0.123
+
+ Intercepts
+    SI               0.082       0.086       0.087       0.096       0.106       0.108       0.111
+
+ Variances
+    PLO              0.074       0.075       0.076       0.079       0.083       0.083       0.084
+    PHI              0.221       0.225       0.226       0.236       0.246       0.248       0.251
+    PLOSI            0.029       0.030       0.030       0.031       0.032       0.033       0.033
+    PHISI            0.092       0.093       0.094       0.098       0.102       0.102       0.104
+
+ Residual Variances
+    AFFECT           1.598       1.623       1.636       1.711       1.787       1.802       1.833
+    SI               0.110       0.112       0.113       0.118       0.124       0.125       0.127
+
+Between Level
+
+ AFFECT   ON
+    SI_B            -1.390      -0.910      -0.705       0.387       1.424       1.618       2.053
+    PLO_B           -4.376      -3.675      -3.274      -1.345       0.651       1.046       1.812
+    PHI_B           -1.305      -0.940      -0.785       0.026       0.830       0.969       1.240
+    PLOSI_B         -6.205      -4.638      -3.853       0.342       4.503       5.281       6.891
+    PHISI_B         -3.680      -2.889      -2.447      -0.255       2.017       2.484       3.575
+
+ PLO_B    WITH
+    SI_B            -0.012      -0.007      -0.005       0.005       0.016       0.018       0.023
+
+ PHI_B    WITH
+    SI_B            -0.030      -0.020      -0.016       0.006       0.030       0.035       0.048
+    PLO_B           -0.015      -0.011      -0.010      -0.002       0.005       0.006       0.010
+
+ PLOSI_B  WITH
+    SI_B             0.006       0.007       0.008       0.014       0.022       0.024       0.029
+    PLO_B            0.002       0.003       0.003       0.005       0.007       0.008       0.010
+    PHI_B           -0.011      -0.008      -0.007      -0.002       0.002       0.003       0.005
+
+ PHISI_B  WITH
+    SI_B             0.026       0.030       0.032       0.046       0.068       0.074       0.086
+    PLO_B           -0.009      -0.006      -0.005       0.000       0.004       0.005       0.007
+    PHI_B            0.002       0.006       0.007       0.016       0.029       0.032       0.040
+    PLOSI_B         -0.001       0.000       0.001       0.003       0.006       0.007       0.009
+
+ Means
+    SI_B             0.190       0.223       0.237       0.314       0.391       0.408       0.437
+    PLO_B            0.048       0.058       0.063       0.087       0.111       0.116       0.127
+    PHI_B            0.278       0.302       0.313       0.369       0.425       0.436       0.457
+    PLOSI_B          0.010       0.016       0.019       0.033       0.048       0.050       0.056
+    PHISI_B          0.050       0.065       0.072       0.106       0.141       0.147       0.164
+
+ Intercepts
+    AFFECT          -0.486      -0.343      -0.268       0.108       0.490       0.567       0.711
+
+ Variances
+    SI_B             0.079       0.089       0.094       0.130       0.184       0.199       0.226
+    PLO_B            0.008       0.009       0.009       0.013       0.018       0.020       0.023
+    PHI_B            0.040       0.045       0.047       0.065       0.093       0.100       0.116
+    PLOSI_B          0.003       0.003       0.003       0.005       0.007       0.007       0.008
+    PHISI_B          0.015       0.017       0.018       0.025       0.036       0.039       0.045
+
+ Residual Variances
+    AFFECT           0.239       0.267       0.285       0.404       0.586       0.628       0.746
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR WITHIN
+
+
+           NU
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             0             0             0
+ SI                 0             0             0             0             0
+ PLO                0             0             0             0             0
+ PHI                0             0             0             0             0
+ PLOSI              0             0             0             0             0
+ PHISI              0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ SI&1               0             0             0             0             0
+
+
+           LAMBDA
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+ AFFECT             0             0             0
+ SI                 0             0             0
+ PLO                0             0             0
+ PHI                0             0             0
+ PLOSI              0             0             0
+ PHISI              0             0             0
+ AFFECT&1           0             0             0
+ SI&1               0             0             0
+
+
+           THETA
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT             0
+ SI                 0             0
+ PLO                0             0             0
+ PHI                0             0             0             0
+ PLOSI              0             0             0             0             0
+ PHISI              0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ SI&1               0             0             0             0             0
+
+
+           THETA
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+ PHISI              0
+ AFFECT&1           0             0
+ SI&1               0             0             0
+
+
+           ALPHA
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+                    0             1             2             3             4
+
+
+           ALPHA
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+                    5             0             0
+
+
+           BETA
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT             0             0             6             7             8
+ SI                 0             0             0             0             0
+ PLO                0             0             0             0             0
+ PHI                0             0             0             0             0
+ PLOSI              0             0             0             0             0
+ PHISI              0             0             0             0             0
+ AFFECT&1           0             0             0             0             0
+ SI&1               0             0             0             0             0
+
+
+           BETA
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+ AFFECT             9            10            11
+ SI                 0             0            12
+ PLO                0             0             0
+ PHI                0             0             0
+ PLOSI              0             0             0
+ PHISI              0             0             0
+ AFFECT&1           0             0             0
+ SI&1               0             0             0
+
+
+           PSI
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT            13
+ SI                14            15
+ PLO                0             0            16
+ PHI                0             0            17            18
+ PLOSI              0             0            19            20            21
+ PHISI              0             0            22            23            24
+ AFFECT&1           0             0             0             0             0
+ SI&1               0             0             0             0             0
+
+
+           PSI
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+ PHISI             25
+ AFFECT&1           0             0
+ SI&1               0             0             0
+
+
+     PARAMETER SPECIFICATION FOR BETWEEN
+
+
+           NU
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              AFFECT
+              ________
+                    0
+
+
+           LAMBDA
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B               0             0             0             0             0
+ PLO_B              0             0             0             0             0
+ PHI_B              0             0             0             0             0
+ PLOSI_B            0             0             0             0             0
+ PHISI_B            0             0             0             0             0
+ AFFECT             0             0             0             0             0
+
+
+           LAMBDA
+              AFFECT
+              ________
+ SI_B               0
+ PLO_B              0
+ PHI_B              0
+ PLOSI_B            0
+ PHISI_B            0
+ AFFECT             0
+
+
+           THETA
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B               0
+ PLO_B              0             0
+ PHI_B              0             0             0
+ PLOSI_B            0             0             0             0
+ PHISI_B            0             0             0             0             0
+ AFFECT             0             0             0             0             0
+
+
+           THETA
+              AFFECT
+              ________
+ AFFECT             0
+
+
+           ALPHA
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+                   26            27            28            29            30
+
+
+           ALPHA
+              AFFECT
+              ________
+                   31
+
+
+           BETA
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B               0             0             0             0             0
+ PLO_B              0             0             0             0             0
+ PHI_B              0             0             0             0             0
+ PLOSI_B            0             0             0             0             0
+ PHISI_B            0             0             0             0             0
+ AFFECT            32            33            34            35            36
+
+
+           BETA
+              AFFECT
+              ________
+ SI_B               0
+ PLO_B              0
+ PHI_B              0
+ PLOSI_B            0
+ PHISI_B            0
+ AFFECT             0
+
+
+           PSI
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B              37
+ PLO_B             38            39
+ PHI_B             40            41            42
+ PLOSI_B           43            44            45            46
+ PHISI_B           47            48            49            50            51
+ AFFECT             0             0             0             0             0
+
+
+           PSI
+              AFFECT
+              ________
+ AFFECT            52
+
+
+     STARTING VALUES FOR WITHIN
+
+
+           NU
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT         1.000         0.000         0.000         0.000         0.000
+ SI             0.000         1.000         0.000         0.000         0.000
+ PLO            0.000         0.000         1.000         0.000         0.000
+ PHI            0.000         0.000         0.000         1.000         0.000
+ PLOSI          0.000         0.000         0.000         0.000         1.000
+ PHISI          0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ SI&1           0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+ AFFECT         0.000         0.000         0.000
+ SI             0.000         0.000         0.000
+ PLO            0.000         0.000         0.000
+ PHI            0.000         0.000         0.000
+ PLOSI          0.000         0.000         0.000
+ PHISI          1.000         0.000         0.000
+ AFFECT&1       0.000         1.000         0.000
+ SI&1           0.000         0.000         1.000
+
+
+           THETA
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT         0.000
+ SI             0.000         0.000
+ PLO            0.000         0.000         0.000
+ PHI            0.000         0.000         0.000         0.000
+ PLOSI          0.000         0.000         0.000         0.000         0.000
+ PHISI          0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ SI&1           0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+ PHISI          0.000
+ AFFECT&1       0.000         0.000
+ SI&1           0.000         0.000         0.000
+
+
+           ALPHA
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+                0.000         0.316         0.086         0.378         0.032
+
+
+           ALPHA
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+                0.109         0.000         0.000
+
+
+           BETA
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+ SI             0.000         0.000         0.000         0.000         0.000
+ PLO            0.000         0.000         0.000         0.000         0.000
+ PHI            0.000         0.000         0.000         0.000         0.000
+ PLOSI          0.000         0.000         0.000         0.000         0.000
+ PHISI          0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ SI&1           0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+ AFFECT         0.000         0.000         0.000
+ SI             0.000         0.000         0.000
+ PLO            0.000         0.000         0.000
+ PHI            0.000         0.000         0.000
+ PLOSI          0.000         0.000         0.000
+ PHISI          0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000
+ SI&1           0.000         0.000         0.000
+
+
+           PSI
+              AFFECT        SI            PLO           PHI           PLOSI
+              ________      ________      ________      ________      ________
+ AFFECT         1.180
+ SI             0.000         0.108
+ PLO            0.000         0.000         0.039
+ PHI            0.000         0.000         0.000         0.118
+ PLOSI          0.000         0.000         0.000         0.000         0.016
+ PHISI          0.000         0.000         0.000         0.000         0.000
+ AFFECT&1       0.000         0.000         0.000         0.000         0.000
+ SI&1           0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              PHISI         AFFECT&1      SI&1
+              ________      ________      ________
+ PHISI          0.049
+ AFFECT&1       0.000         1.177
+ SI&1           0.000         0.000         0.108
+
+
+     STARTING VALUES FOR BETWEEN
+
+
+           NU
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              AFFECT
+              ________
+                0.000
+
+
+           LAMBDA
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B           1.000         0.000         0.000         0.000         0.000
+ PLO_B          0.000         1.000         0.000         0.000         0.000
+ PHI_B          0.000         0.000         1.000         0.000         0.000
+ PLOSI_B        0.000         0.000         0.000         1.000         0.000
+ PHISI_B        0.000         0.000         0.000         0.000         1.000
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              AFFECT
+              ________
+ SI_B           0.000
+ PLO_B          0.000
+ PHI_B          0.000
+ PLOSI_B        0.000
+ PHISI_B        0.000
+ AFFECT         1.000
+
+
+           THETA
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B           0.000
+ PLO_B          0.000         0.000
+ PHI_B          0.000         0.000         0.000
+ PLOSI_B        0.000         0.000         0.000         0.000
+ PHISI_B        0.000         0.000         0.000         0.000         0.000
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              AFFECT
+              ________
+ AFFECT         0.000
+
+
+           ALPHA
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+                0.318         0.088         0.368         0.034         0.108
+
+
+           ALPHA
+              AFFECT
+              ________
+                0.368
+
+
+           BETA
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B           0.000         0.000         0.000         0.000         0.000
+ PLO_B          0.000         0.000         0.000         0.000         0.000
+ PHI_B          0.000         0.000         0.000         0.000         0.000
+ PLOSI_B        0.000         0.000         0.000         0.000         0.000
+ PHISI_B        0.000         0.000         0.000         0.000         0.000
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              AFFECT
+              ________
+ SI_B           0.000
+ PLO_B          0.000
+ PHI_B          0.000
+ PLOSI_B        0.000
+ PHISI_B        0.000
+ AFFECT         0.000
+
+
+           PSI
+              SI_B          PLO_B         PHI_B         PLOSI_B       PHISI_B
+              ________      ________      ________      ________      ________
+ SI_B           0.052
+ PLO_B          0.000         0.005
+ PHI_B          0.000         0.000         0.027
+ PLOSI_B        0.000         0.000         0.000         0.002
+ PHISI_B        0.000         0.000         0.000         0.000         0.010
+ AFFECT         0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              AFFECT
+              ________
+ AFFECT         1.180
+
+
+
+     PRIORS FOR ALL PARAMETERS            PRIOR MEAN      PRIOR VARIANCE     PRIOR STD. DEV.
+
+     Parameter 1~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 2~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 3~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 4~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 5~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 6~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 7~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 8~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 9~N(0.000,infinity)           0.0000            infinity            infinity
+     Parameter 10~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 11~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 12~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 13~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 14~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 15~IW(0.000,-3)             infinity            infinity            infinity
+     Parameter 16~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 17~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 18~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 19~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 20~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 21~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 22~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 23~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 24~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 25~IW(0.000,-5)             infinity            infinity            infinity
+     Parameter 26~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 27~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 28~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 29~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 30~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 31~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 32~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 33~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 34~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 35~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 36~N(0.000,infinity)          0.0000            infinity            infinity
+     Parameter 37~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 38~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 39~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 40~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 41~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 42~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 43~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 44~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 45~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 46~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 47~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 48~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 49~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 50~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 51~IW(0.000,-6)             infinity            infinity            infinity
+     Parameter 52~IG(-1.000,0.000)         infinity            infinity            infinity
+
+
+TECHNICAL 8 OUTPUT
+
+
+   TECHNICAL 8 OUTPUT FOR BAYES ESTIMATION
+
+     PROCESSOR    BSEED
+     1            0
+     2            285380
+     3            253358
+     4            93468
+     5            608496
+     6            903420
+     7            195873
+     8            462953
+
+                     POTENTIAL       PARAMETER WITH
+     ITERATION    SCALE REDUCTION      HIGHEST PSR
+     100              1.009               9
+     200              1.007               32
+     300              1.011               7
+     400              1.005               9
+     500              1.002               11
+     600              1.001               10
+     700              1.002               28
+     800              1.002               52
+     900              1.003               12
+     1000             1.001               30
+     1100             1.001               12
+     1200             1.001               12
+     1300             1.001               11
+     1400             1.001               11
+     1500             1.001               8
+     1600             1.001               34
+     1700             1.001               34
+     1800             1.001               34
+     1900             1.001               34
+     2000             1.000               33
+     2100             1.000               14
+     2200             1.000               33
+     2300             1.000               52
+     2400             1.000               36
+     2500             1.000               14
+     2600             1.000               13
+     2700             1.001               35
+     2800             1.000               30
+     2900             1.000               30
+     3000             1.000               36
+     3100             1.000               36
+     3200             1.000               47
+     3300             1.000               10
+     3400             1.000               10
+     3500             1.000               32
+     3600             1.000               10
+     3700             1.000               10
+     3800             1.000               10
+     3900             1.000               52
+     4000             1.000               10
+
+
+     MCMC EFFECTIVE SAMPLE SIZE (ESS) IN ASCENDING ORDER
+        LOWEST 10 PARAMETERS
+        PARAMETER    ESS
+            11      7432
+            52      7459
+             9      7494
+            13      7612
+            15      7624
+             7      7657
+            41      7691
+            39      7733
+            17      7775
+            27      7778
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values)
+  Scatterplots (sample values)
+  Between-level histograms (sample values, sample means/variances)
+  Between-level scatterplots (sample values, sample means/variances)
+  Time series plots (sample values, ACF, PACF)
+  Histogram of subjects per time point
+  Time interval plots
+  Bayesian posterior parameter distributions
+  Bayesian posterior parameter trace plots
+  Bayesian autocorrelation plots
+
+DIAGRAM INFORMATION
+
+  Mplus diagrams are currently not available for multilevel analysis.
+  No diagram output was produced.
+
+
+     Beginning Time:  16:34:49
+        Ending Time:  17:49:58
+       Elapsed Time:  01:15:09
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2025 Muthen & Muthen
