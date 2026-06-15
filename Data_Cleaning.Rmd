@@ -28,6 +28,16 @@ EMA_excluded <- read_csv("DEETs_2_EMA_excluded.csv")
 EMA_select <- EMA_excluded %>%
   select(Survey.Submitted.Time, Survey.Submitted.Date, current_affect, thought_time, thought_time_text, passiveideation1, passiveideation2, sui_imagery, wish_to_die, activeideation2, stressor, stressor_time, stressor_impact, posevent, posevent_time, posevent_impact, ID, Group)
 glimpse(EMA_select)
+EMA_select %>%
+  group_by(ID) %>%
+  summarise(n_prompts = n(),
+            compliance = n_prompts/70) %>%
+  ungroup() %>%
+  summarise(min_com = min(compliance),
+            max_com = max(compliance))
+
+EMA_select %>%
+  summarise(n = n_distinct(ID))
 ```
 ## Filtering ppts who endorsed SI throughout EMA
 ```{r}
@@ -195,5 +205,40 @@ glimpse(EMA_SIonly)
 EMA_final <- EMA_SIonly %>%
   select(ID, Group, survey_dtime, current_affect, passiveSI, activeSI, SMI, SI_any, stress_any, stress_int, pos_any, pos_int, stressor_stamp, pos_stamp, post_stress_affect, post_pos_affect)
 saveRDS(EMA_final, "EMA_final.rds")
+```
+
+## Demographics Calc
+```{r}
+# Read data
+demo <- read.csv("DEETs2data_Baseline_cleaned 082425.csv")
+glimpse(demo)
+# Filtering N=59 used in main analysis
+IDs <- EMA_mplus %>%
+  distinct(ID) %>%
+  pull(ID)
+demo59 <- demo %>%
+  filter(BL_C_ID %in% IDs)
+# Gender
+demo59 %>%
+  count(BL_C_Sex)
+
+# Ethnicity
+ethnicity <- demo59 %>%
+  summarise(
+    white = sum(BL_C_Race_White, na.rm = TRUE),
+    asian = sum(BL_C_Race_Asian, na.rm = TRUE),
+    black = sum(BL_C_Race_Black, na.rm = TRUE),
+    other = sum(BL_C_Race_Other, na.rm = TRUE)
+  ) %>%
+  pivot_longer(everything(),
+               names_to = "ethnicity",
+               values_to = "n") %>%
+  mutate(
+    perc = n / nrow(demo59)
+  )
+#Age
+demo59 %>%
+  summarise(mean_age = mean(BL_C_Age),
+            sd_age = sd(BL_C_Age))
 ```
 

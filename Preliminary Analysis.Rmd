@@ -3,7 +3,7 @@ title: "Preliminary Analysis"
 output: html_document
 date: "2025-12-04"
 ---
-##Setups
+## Setups
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(warning = FALSE)
@@ -18,6 +18,9 @@ library("semPower")
 library("semPlot")
 library(lubridate)
 library(hms)
+library("MplusAutomation")
+library("BiocManager")
+library("rhdf5")
 EMA_final <- readRDS("EMA_final.rds")
 glimpse(EMA_final)
 ```
@@ -34,8 +37,11 @@ EMA_final %>%
 #Prompts completed by each ppt
 EMA_final %>%
   group_by(ID) %>%
-  summarise(n_prompts = n()) %>%
+  summarise(n_prompts = n(),
+            compliance = n_prompts/70) %>%
   ungroup()
+
+
 ```
 
 ## Descriptives of SI
@@ -115,14 +121,14 @@ EMA_final %>%
   ungroup()
 #Hmmm...even though we have collinearity, but ppts still seem more happy in positive events and less happy in negative events.
 ```
-##Check missingness
+## Check missingness
 ```{r}
 
 sapply(EMA_final, function(x) mean(is.na(x)))
 
 ```
 
-##Computing the (T-1) variables, disabling overnight lag.
+## Computing the (T-1) variables, disabling overnight lag.
 ```{r}
 #Mark every first prompt of a day
 EMA_mplus <- EMA_final %>%
@@ -141,7 +147,7 @@ EMA_mplus <- EMA_mplus %>%
   )
 ```
 
-##Computing post-event affect(T).
+## Computing post-event affect(T).
 ```{r}
 #Filtering out post-event affect. These will be outcome variables for each event type.
 EMA_mplus <- EMA_mplus %>%
@@ -156,7 +162,7 @@ EMA_mplus <- EMA_mplus %>%
 glimpse(EMA_mplus)
 ```
 
-##Counting valid post-event affects we have - valid pairs for DSEM per ppt
+## Counting valid post-event affects we have - valid pairs for DSEM per ppt
 ```{r}
 #Counting valid post-stress prompts
 EMA_mplus %>%
@@ -178,35 +184,7 @@ EMA_mplus %>%
 ```
 
 
-##Making a tibble ready to be put into Mplus for analysis of Aim 1 and 2.
-```{r}
-#Selecting variables I want to carry.
-EMA_mplus_aim12 <- EMA_mplus %>%
-  ungroup() %>%
-  select(ID, current_affect, passiveSI, activeSI, SMI, SI_any, stress_int, pos_any, stress_any, pos_int, affect_T_1, SI_T_1, affect_post_stress, affect_post_pos)
-glimpse(EMA_mplus_aim12)
-```
-
-
-```{r}
-#Calculating the interaction between SI and stress
-EMA_mplus_aim1 <- EMA_mplus_aim12 %>%
-  #making dummy variables
-  mutate(stress_low = as.integer(stress_int == 1L),
-         stress_high = as.integer(stress_int == 2L)) %>% 
-  mutate(LS_SI_int = stress_low * SI_T_1,
-         HS_SI_int = stress_high * SI_T_1) %>%
-  select(ID, affect_post_stress, affect_T_1, SI_T_1, stress_low, stress_high, LS_SI_int, HS_SI_int)
-
-write.table(
-  EMA_mplus_aim1,
-  "EMA_aim1.dat",
-  row.names = FALSE,
-  col.names = FALSE,
-  na = "-9999",
-  quote = FALSE
-)
-```
+## Making a tibble ready to be put into Mplus for analysis of Aim 1 
 
 ```{r}
 EMA_DSEM1 <- EMA_mplus %>%
@@ -219,21 +197,32 @@ EMA_DSEM1 <- EMA_mplus %>%
     ),
     .by = ID
   ) %>%
+  #Calculating interactions
   mutate(slo = as.integer(stress_int == 1L),
          shi = as.integer(stress_int == 2L)) %>% 
   mutate(sloSI = slo * SI_T_1,
          shiSI = shi * SI_T_1) %>%
-  select(
+    select(
     ID,
     affect = current_affect,
     si = SI_any, slo, shi, sloSI, shiSI, time = time_hr)
-
+#Calculating interactions (getting pass the NAs so mplus doesn't complain)
 EMA_DSEM1 <- EMA_DSEM1 %>%
   mutate(
     sloSI = slo * si,
     shiSI = shi * si
   )
+EMA_DSEM1 <- EMA_DSEM1 %>%
+  group_by(ID) %>%
+  mutate(
+    si_b = mean(si, na.rm = TRUE),
+    slo_b = mean(slo, na.rm = TRUE),
+    shi_b = mean(shi, na.rm = TRUE),
+    sloSI_b = mean(sloSI, na.rm = TRUE),
+    shiSI_b = mean(shiSI, na.rm = TRUE)
+  ) 
 
+#Making data table
 write.table(
   EMA_DSEM1,
   "EMA_DSEM1.dat",
@@ -243,5 +232,353 @@ write.table(
   quote = FALSE
 )
 glimpse(EMA_DSEM1)
+```
+## Now trying to make a copy for AIM2
+```{r}
+EMA_DSEM2 <- EMA_mplus %>%
+  arrange(ID, survey_dtime) %>%
+  mutate(
+# Time in hours since first prompt for each ID
+    time_hr = as.numeric(
+      difftime(survey_dtime, first(survey_dtime), units = "hours"),
+      units = "hours"
+    ),
+    .by = ID
+  ) %>%
+  mutate(plo = as.integer(pos_int == 1L),
+         phi = as.integer(pos_int == 2L)) %>% 
+  mutate(ploSI = plo * SI_T_1,
+         phiSI = phi * SI_T_1) %>%
+  select(
+    ID,
+    affect = current_affect,
+    si = SI_any, plo, phi, ploSI, phiSI, time = time_hr)
+#Calculating interactions
+EMA_DSEM2 <- EMA_DSEM2 %>%
+  mutate(
+    ploSI = plo * si,
+    phiSI = phi * si
+  )
+EMA_DSEM2 <- EMA_DSEM2 %>%
+  group_by(ID) %>%
+  mutate(
+    si_b = mean(si, na.rm = TRUE),
+    plo_b = mean(plo, na.rm = TRUE),
+    phi_b = mean(phi, na.rm = TRUE),
+    ploSI_b = mean(ploSI, na.rm = TRUE),
+    phiSI_b = mean(phiSI, na.rm = TRUE)
+  )
+#Making data table
+write.table(
+  EMA_DSEM2,
+  "EMA_DSEM2.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+glimpse(EMA_DSEM2)
+```
+## Building Aim3 dataset
+```{r}
+EMA_mplus <- EMA_mplus %>%
+  group_by(ID) %>%
+  mutate(
+    pSI_T_1 = lag(passiveSI),
+    aSI_T_1 = lag(activeSI),
+    smi_T_1 = lag(SMI)
+  ) %>%
+  ungroup()
+EMA_DSEM3 <- EMA_mplus %>%
+  arrange(ID, survey_dtime) %>%
+  mutate(
+# Time in hours since first prompt for each ID
+    time_hr = as.numeric(
+      difftime(survey_dtime, first(survey_dtime), units = "hours"),
+      units = "hours"
+    ),
+    .by = ID
+  ) %>%
+  mutate(
+    pos_pSI = pos_any * pSI_T_1,
+    str_pSI = stress_any * pSI_T_1,
+    pos_aSI = pos_any * aSI_T_1,
+    str_aSI = stress_any * aSI_T_1,
+    pos_smi = pos_any * smi_T_1,
+    str_smi = stress_any * smi_T_1
+  ) %>% #interaction built
+  select(
+    ID, 
+    affect = current_affect,
+    psi = passiveSI,
+    asi = activeSI,
+    smi = SMI,
+    time = time_hr,
+    pos = pos_any,
+    str = stress_any,
+    stint = stress_int,
+    point = pos_int,
+    ppsi = pos_pSI,
+    spsi = str_pSI,
+    pasi = pos_aSI,
+    sasi = str_aSI,
+    psmi = pos_smi,
+    ssmi = str_smi,
+    pSI_T_1,
+    aSI_T_1,
+    smi_T_1
+  ) # This is the master AIM3 tibble.
+
+# Breakdown into three SIs
+EMA_DSEM3_p <- EMA_DSEM3 %>%
+  group_by(ID) %>%
+  mutate(
+    psi_b = mean(psi, na.rm = TRUE),
+    pos_b = mean(pos, na.rm = TRUE),
+    str_b = mean(str, na.rm = TRUE),
+    posSI_b = mean(ppsi, na.rm = TRUE),
+    strSI_b = mean(spsi, na.rm = TRUE)
+  ) %>%
+  ungroup() %>% #Creating between variable
+  select(ID, psi_b, pos_b, str_b, posSI_b, strSI_b, affect, psi, ppsi, spsi, time, pos, str)
+write.table(
+  EMA_DSEM3_p,
+  "EMA_DSEM3_p.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+
+
+EMA_DSEM3_a <- EMA_DSEM3 %>%
+  group_by(ID) %>%
+  mutate(
+    asi_b = mean(asi, na.rm = TRUE),
+    pos_b = mean(pos, na.rm = TRUE),
+    str_b = mean(str, na.rm = TRUE),
+    posSI_b = mean(pasi, na.rm = TRUE),
+    strSI_b = mean(sasi, na.rm = TRUE)
+  ) %>%
+  ungroup() %>% #Creating between variable
+  select(ID, asi_b, pos_b, str_b, posSI_b, strSI_b, affect, asi, time, pos, str, pasi, sasi)
+
+write.table(
+  EMA_DSEM3_a,
+  "EMA_DSEM3_a.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+
+EMA_DSEM3_smi <- EMA_DSEM3 %>%
+  group_by(ID) %>%
+  mutate(
+    smi_b = mean(smi, na.rm = TRUE),
+    pos_b = mean(pos, na.rm = TRUE),
+    str_b = mean(str, na.rm = TRUE),
+    posSI_b = mean(psmi, na.rm = TRUE),
+    strSI_b = mean(ssmi, na.rm = TRUE)
+  ) %>%
+  ungroup() %>% #Creating between variable
+  select(ID, smi_b, pos_b, str_b, posSI_b, strSI_b, affect, smi, time, pos, str, psmi, ssmi)
+write.table(
+  EMA_DSEM3_smi,
+  "EMA_DSEM3_smi.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+```
+
+## Post-hoc starts here
+```{r}
+EMA_DSEM3_ps <- EMA_DSEM3 %>% # This shall be for passive
+  mutate(slo = as.integer(stint == 1L),
+         shi = as.integer(stint == 2L)) %>% 
+  mutate(slopSI = slo * pSI_T_1,
+         shipSI = shi * pSI_T_1) %>%
+  group_by(ID) %>%
+  mutate(
+    psi_b = mean(psi, na.rm = TRUE),
+    slo_b = mean(slo, na.rm = TRUE),
+    shi_b = mean(shi, na.rm = TRUE),
+    slopSI_b = mean(slopSI, na.rm = TRUE),
+    shipSI_b = mean(shipSI, na.rm = TRUE)
+  ) %>%
+  select(ID, affect, psi, slo, shi, slopSI, shipSI, time, psi_b, slo_b, shi_b, slopSI_b, shipSI_b)
+
+write.table(
+  EMA_DSEM3_ps,
+  "EMA_DSEM3_ps.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+ 
+EMA_DSEM3_pp <- EMA_DSEM3 %>% # This shall be for passive
+  mutate(plo = as.integer(point == 1L),
+         phi = as.integer(point == 2L)) %>% 
+  mutate(plopSI = plo * pSI_T_1,
+         phipSI = phi * pSI_T_1) %>%
+  group_by(ID) %>%
+  mutate(
+    psi_b = mean(psi, na.rm = TRUE),
+    plo_b = mean(plo, na.rm = TRUE),
+    phi_b = mean(phi, na.rm = TRUE),
+    plopSI_b = mean(plopSI, na.rm = TRUE),
+    phipSI_b = mean(phipSI, na.rm = TRUE)
+  ) %>%
+  select(ID, affect, psi, plo, phi, plopSI, phipSI, time, psi_b, plo_b, phi_b, plopSI_b, phipSI_b)
+
+write.table(
+  EMA_DSEM3_pp,
+  "EMA_DSEM3_pp.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+
+EMA_DSEM3_as <- EMA_DSEM3 %>% # This shall be for passive
+  mutate(slo = as.integer(stint == 1L),
+         shi = as.integer(stint == 2L)) %>% 
+  mutate(sloaSI = slo * aSI_T_1,
+         shiaSI = shi * aSI_T_1) %>%
+  group_by(ID) %>%
+  mutate(
+    asi_b = mean(asi, na.rm = TRUE),
+    slo_b = mean(slo, na.rm = TRUE),
+    shi_b = mean(shi, na.rm = TRUE),
+    sloaSI_b = mean(sloaSI, na.rm = TRUE),
+    shiaSI_b = mean(shiaSI, na.rm = TRUE)
+  ) %>%
+  select(ID, affect, asi, slo, shi, sloaSI, shiaSI, time, asi_b, slo_b, shi_b, sloaSI_b, shiaSI_b)
+
+write.table(
+  EMA_DSEM3_as,
+  "EMA_DSEM3_as.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+
+EMA_DSEM3_ap <- EMA_DSEM3 %>% # This shall be for passive
+  mutate(plo = as.integer(point == 1L),
+         phi = as.integer(point == 2L)) %>% 
+  mutate(ploaSI = plo * aSI_T_1,
+         phiaSI = phi * aSI_T_1) %>%
+  group_by(ID) %>%
+  mutate(
+    asi_b = mean(asi, na.rm = TRUE),
+    plo_b = mean(plo, na.rm = TRUE),
+    phi_b = mean(phi, na.rm = TRUE),
+    ploaSI_b = mean(ploaSI, na.rm = TRUE),
+    phiaSI_b = mean(phiaSI, na.rm = TRUE)
+  ) %>%
+  select(ID, affect, asi, plo, phi, ploaSI, phiaSI, time, asi_b, plo_b, phi_b, ploaSI_b, phiaSI_b)
+
+write.table(
+  EMA_DSEM3_ap,
+  "EMA_DSEM3_ap.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+
+EMA_DSEM3_smis <- EMA_DSEM3 %>% # This shall be for passive
+  mutate(slo = as.integer(stint == 1L),
+         shi = as.integer(stint == 2L)) %>% 
+  mutate(sloSI = slo * smi_T_1,
+         shiSI = shi * smi_T_1) %>%
+  group_by(ID) %>%
+  mutate(
+    smi_b = mean(smi, na.rm = TRUE),
+    slo_b = mean(slo, na.rm = TRUE),
+    shi_b = mean(shi, na.rm = TRUE),
+    slosmi_b = mean(sloSI, na.rm = TRUE),
+    shismi_b = mean(shiSI, na.rm = TRUE)
+  ) %>%
+  select(ID, affect, smi, slo, shi, sloSI, shiSI, time, smi_b, slo_b, shi_b, slosmi_b, shismi_b)
+
+write.table(
+  EMA_DSEM3_smis,
+  "EMA_DSEM3_smis.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+
+EMA_DSEM3_smip <- EMA_DSEM3 %>% # This shall be for passive
+  mutate(plo = as.integer(point == 1L),
+         phi = as.integer(point == 2L)) %>% 
+  mutate(plosmi = plo * smi_T_1,
+         phismi = phi * smi_T_1) %>%
+  group_by(ID) %>%
+  mutate(
+    smi_b = mean(smi, na.rm = TRUE),
+    plo_b = mean(plo, na.rm = TRUE),
+    phi_b = mean(phi, na.rm = TRUE),
+    plosmi_b = mean(plosmi, na.rm = TRUE),
+    phismi_b = mean(phismi, na.rm = TRUE)
+  ) %>%
+  select(ID, affect, smi, plo, phi, plosmi, phismi, time, smi_b, plo_b, phi_b, plosmi_b, phismi_b)
+
+write.table(
+  EMA_DSEM3_smip,
+  "EMA_DSEM3_smip.dat",
+  row.names = FALSE,
+  col.names = FALSE,
+  na = "-9999",
+  quote = FALSE
+)
+```
+
+
+```{r}
+Baseline <- read.csv("DEETs2data_Baseline_cleaned 082425.csv")
+Baseline %>%
+  summarise(m_age = mean(BL_C_Age),
+            sd_age = sd(BL_C_Age))
+```
+
+
+```{r}
+df_interval <- EMA_final %>%
+  mutate(
+    survey_dtime = ymd_hms(survey_dtime, tz = "America/New_York")
+  ) %>%
+  arrange(ID, survey_dtime) %>%
+  group_by(ID) %>%
+  mutate(
+    previous_prompt_time = lag(survey_dtime),
+    interval_hours = as.numeric(difftime(
+      survey_dtime,
+      previous_prompt_time,
+      units = "hours"
+    )),
+    prompt_date = as.Date(survey_dtime),
+    previous_prompt_date = as.Date(previous_prompt_time),
+    same_day_interval = prompt_date == previous_prompt_date
+  ) %>%
+  ungroup()
+
+overall_interval_descriptives <- df_interval %>%
+  summarise(
+    n_intervals = sum(!is.na(interval_hours)),
+    mean_interval_hours = mean(interval_hours, na.rm = TRUE),
+    sd_interval_hours = sd(interval_hours, na.rm = TRUE),
+    median_interval_hours = median(interval_hours, na.rm = TRUE),
+    min_interval_hours = min(interval_hours, na.rm = TRUE),
+    max_interval_hours = max(interval_hours, na.rm = TRUE)
+  )
+
+overall_interval_descriptives
 ```
 
